@@ -1,4 +1,4 @@
-package com.redagent.entitys;
+package com.secrethitler.entitys;
 
 import java.util.HashMap;
 

@@ -10,14 +10,15 @@ public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	
+	private static Main instance;
+	
+	
 	@Override
 	public void create () {
 		instance = this;
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}
-	
-	private static Main instance;
 	
 	public static Main getInstance() {
 		return instance;

@@ -1,4 +1,4 @@
-package com.redagent.entitys;
+package com.secrethitler.entitys;
 
 public class Factions{
 

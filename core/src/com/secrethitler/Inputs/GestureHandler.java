@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.jack5496.secrethitler.Main;
 
 public class GestureHandler implements GestureListener {
 

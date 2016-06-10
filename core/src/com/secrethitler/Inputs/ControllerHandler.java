@@ -6,6 +6,7 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.jack5496.secrethitler.Main;
+import com.secrethitler.entitys.LocalPlayer;
 
 public class ControllerHandler implements ControllerListener {
 
