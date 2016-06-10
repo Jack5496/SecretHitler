@@ -2,6 +2,8 @@ package com.redagent.entitys;
 
 import java.util.HashMap;
 
+import com.jack5496.secrethitler.Main;
+
 public class LocalPlayerHandler {
 
 	HashMap<String, LocalPlayer> localPlayers;
@@ -40,24 +42,10 @@ public class LocalPlayerHandler {
 			Main.log(getClass(), "New Player found");
 			LocalPlayer p = new LocalPlayer("Bob");
 			localPlayers.put(inputHandlerName, p);
-			updatePlayersViewPort();
 		}
 
 		return localPlayers.get(inputHandlerName);
 	}
-	
-	public void updatePlayersViewPort(){
-		for(LocalPlayer p : getPlayers()){
-			Rect port = SplitScreen.getViewPort(p);
-			p.cameraController.resize(port);
-		}
-	}
-	
-	
-	public void updatePlayers(){
-		for(LocalPlayer p : getPlayers()){
-			p.updateMyGameObjects();
-		}
-	}
+
 
 }

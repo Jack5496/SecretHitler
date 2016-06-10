@@ -1,151 +1,34 @@
 package com.redagent.entitys;
 
-import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.redagent.game.CameraController;
-import com.redagent.game.Main;
-import com.redagent.game.SplitScreen;
-import com.redagent.helper.VectorHelper;
-import com.redagent.materials.Water;
-import com.redagent.menu.MenuHandler;
-import com.redagent.physics.Direction;
-import com.redagent.physics.Speed;
-import com.redagent.world.MapTile;
-import com.redagent.world.TileWorld;
+public class LocalPlayer{
 
-public class LocalPlayer extends Entity {
-
-	public String name;
-
-	/**
-	 * InputVariables
-	 */
-	public Vector2 stickLeft;
-	public boolean stickLeftDown;
-
-	public Vector2 stickRight;
-
-	public CameraController cameraController;
-	public MenuHandler menuHandler;
-
-	private float speed;
+	String name;
+	String faction;
+	boolean alive;
 	
-	private boolean sneaking;
-
-	public int direction;
-
+	
 	public LocalPlayer(String name) {
-		speed = Speed.walkSpeed;
-		this.name = name;
-		menuHandler = new MenuHandler(this);
-		direction = Direction.SOUTH;
-		body = Main.getInstance().spawnPlayer();
-		this.lastPos = body.getPosition().cpy();
-		sneaking = false;
-		initCamera();
-		resetInputVariables();
-	}
-
-	public void sneak(boolean sneak){
-		sneaking = sneak;
-		if(sneak){
-			speed = Speed.sneakSpeed;
-		}
-	}
-
-	public void run(boolean run) {
-		// true : false
-		if (!sneaking) {
-			speed = run ? Speed.runSpeed : Speed.walkSpeed;
-		}
-		
-		speed = Speed.runSpeed;
-	}
-
-	public void initCamera() {
-		cameraController = new CameraController(SplitScreen.getViewPort(this));
-		cameraController.setTrack(this);
-	}
-
-	public void move(Vector2 dir) {
-		if (dir.len() != 0) {
-			this.direction = VectorHelper.getDirFromVector(dir);
-		}
-
-		dir.scl(speed);
-		body.setLinearVelocity(dir);
-
-	}
-
-	public void resetInputVariables() {
-		stickLeft = new Vector2();
-		stickRight = new Vector2();
-	}
-
-	@Override
-	public List<Sprite> getSprite() {
-		return PlayerSpriteCreator.getPlayerSprite(this);
+		this(name,Factions.NONE);
 	}
 	
-	@Override
-	public Sprite getGroundShaddow(){
-		return PlayerSpriteCreator.getGroundShaddow();
+	public LocalPlayer(String name, String faction) {
+		this.name = name;
+		this.faction = faction;
+		this.alive = true;
 	}
-
-	public void updateMyGameObjects() {
-		checkValidPosition();
-	}
-
-	private void checkValidPosition() {
-		Vector2 pos = body.getPosition().cpy();
-
-		if (!validPosition(pos)) {
-			Vector2 diff = pos.cpy();
-			diff = diff.sub(lastPos.cpy());
-
-			Vector2 dx = diff.cpy();
-			dx.x = 0;
-
-			Vector2 dy = diff.cpy();
-			dy.y = 0;
-
-			Vector2 op1 = lastPos.cpy().add(dx);
-			Vector2 op2 = lastPos.cpy().add(dy);
-
-			Vector2 move = lastPos.cpy();
-
-			if (validPosition(op1)) {
-				move = op1.cpy();
-			} else if (validPosition(op2)) {
-				move = op2.cpy();
-			}
-
-			body.setTransform(move, body.getAngle());
-		}
-
-//		this.lastPos = body.getPosition().cpy();
-		this.lastPos = body.getPosition();
-	}
-
-	private boolean validPosition(Vector2 pos) {
-		Vector2 v = pos.cpy();		
+	
+	public LocalPlayer(String name, boolean facist) {
+		this(name);
 		
-		try {
-			MapTile my = TileWorld.getInstance().getMapTileFromGlobalPos((int) v.x, (int) v.y);
-			if (my.material instanceof Water) {
-				return false;
-			}
-			if (my.isSolid()) {
-				return false;
-			}
-		} catch (NullPointerException e) {
-
+		if(facist){
+			this.faction = Factions.FACIST;
 		}
-
-		return true;
+		else{
+			this.faction = Factions.LIBERAL;
+		}
 	}
+
+
 
 }
