@@ -23,12 +23,9 @@ public class KeyboardHandler {
 		updateLeftStick();
 	}
 
-
 	public void updateLeftStick() {
 		Vector2 dir = new Vector2(0, 0);
 		LocalPlayer p = Main.getInstance().playerHandler.getPlayerByInput(inputHandlerName);
-
-		
 	}
 
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -75,11 +72,14 @@ public class KeyboardHandler {
 
 	public boolean keyUp(int keycode) {
 		keyboard.key(keycode).release();
+
 		return false;
 	}
 
 	public boolean keyDown(int keycode) {
 		keyboard.key(keycode).press();
+		Main.log(getClass(), "Keycode: "+keycode);
+		Main.getInstance().menuHandler.getActivMenu().keyTyped(keycode);
 		return false;
 	}
 
