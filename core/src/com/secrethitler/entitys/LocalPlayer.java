@@ -11,7 +11,6 @@ public class LocalPlayer{
 	boolean cancelor;
 	boolean president;
 	
-	
 	public LocalPlayer(String name) {
 		this.name = name;
 	}

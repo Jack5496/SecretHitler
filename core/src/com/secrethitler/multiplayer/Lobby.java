@@ -1,4 +1,4 @@
-package com.secrethitler.lobby;
+package com.secrethitler.multiplayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ public class Lobby {
 	public Lobby() {
 		initVariables();
 	}
-	
-	public void initVariables(){
+
+	public void initVariables() {
 		running = false;
 		players = new ArrayList<LocalPlayer>();
 	}
@@ -29,13 +29,16 @@ public class Lobby {
 	}
 
 	public void start() {
-		if(!running){
-			running = true;
+		if (!running) {
+
+			if (getPlayerAmount() >= minPlayers) {
+				running = true;
+			}
 		}
 	}
-	
+
 	public void end() {
-		
+
 	}
 
 	public boolean isPlayerInLobby(LocalPlayer player) {
