@@ -12,6 +12,12 @@ public class MainMenu implements MenuInterface{
 	public MainMenu(){
 		position = 0;
 	}
+	
+	@Override
+	public void render() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void enter() {
@@ -52,6 +58,8 @@ public class MainMenu implements MenuInterface{
 		case KeyBoard.ENTER : enter(); break;
 		}
 	}
+
+	
 	
 	
 	

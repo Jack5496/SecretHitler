@@ -2,6 +2,7 @@ package com.secrethitler.menu;
 
 public interface MenuInterface {
 
+	public void render();
 	public void enter();
 	public void up();
 	public void down();
