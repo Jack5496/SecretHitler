@@ -12,8 +12,15 @@ public class Main extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		instance = this;
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+	}
+	
+	private static Main instance;
+	
+	public static Main getInstance() {
+		return instance;
 	}
 
 	@Override
@@ -23,5 +30,9 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();
+	}
+	
+	public static void log(Class<?> c, String log) {
+		System.out.println(c.getSimpleName() + ": " + log);
 	}
 }
