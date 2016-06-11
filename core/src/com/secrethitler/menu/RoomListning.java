@@ -31,7 +31,7 @@ public class RoomListning implements MenuInterface{
 
 	@Override
 	public void enter() {
-		switch(position){
+		switch(position){fhbsxdfgdyxgsedrgxdfgrdxyrfg
 		case mainMenu : Main.log(getClass(), "Switching to MainMenu"); MenuHandler.setActivMenu(new MainMenu()); break;
 		}
 	}
