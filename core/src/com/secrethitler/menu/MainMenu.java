@@ -1,6 +1,8 @@
 package com.secrethitler.menu;
 
+import com.badlogic.gdx.Gdx;
 import com.jack5496.secrethitler.Main;
+import com.secrethitler.Inputs.InputListener;
 import com.secrethitler.Inputs.KeyBoard;
 
 public class MainMenu implements MenuInterface{
