@@ -1,5 +1,10 @@
 package com.secrethitler.multiplayer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import com.jack5496.secrethitler.Main;
 import com.shephertz.app42.gaming.multiplayer.client.events.AllRoomsEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.AllUsersEvent;
@@ -8,7 +13,15 @@ import com.shephertz.app42.gaming.multiplayer.client.events.MatchedRoomsEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.RoomEvent;
 import com.shephertz.app42.gaming.multiplayer.client.listener.ZoneRequestListener;
 
-public class RoomListener implements ZoneRequestListener {
+public class LobbyFinder implements ZoneRequestListener {
+	
+	List<String> roomIDs;
+	HashMap<String, Room> rooms;
+	
+	public LobbyFinder(){
+		roomIDs = new ArrayList<String>();
+		rooms = new HashMap<String,Room>();
+	}
 
 	@Override
 	public void onCreateRoomDone(RoomEvent arg0) {
@@ -30,8 +43,13 @@ public class RoomListener implements ZoneRequestListener {
 
 	@Override
 	public void onGetAllRoomsDone(AllRoomsEvent arg0) {
-		Main.log(getClass(), "Print all Room IDS: ");
 		String[] roomIds = arg0.getRoomIds();
+		roomIDs = Arrays.asList(roomIds);
+		
+		
+		
+		Main.log(getClass(), "Print all Room IDS: ");
+		
 		if(roomIds!=null){
 		for (String roomId : roomIds) {
 			Main.log(getClass(), roomId);

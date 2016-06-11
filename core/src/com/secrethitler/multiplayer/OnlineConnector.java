@@ -15,7 +15,7 @@ public class OnlineConnector {
 			e.printStackTrace();
 		}   
 		myGame.addConnectionRequestListener(new ConListener());   
-		myGame.addZoneRequestListener(new RoomListener());
+		myGame.addZoneRequestListener(new LobbyFinder());
 		
 	}
 	
