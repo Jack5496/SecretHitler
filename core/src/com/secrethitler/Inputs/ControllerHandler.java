@@ -52,7 +52,6 @@ public class ControllerHandler implements ControllerListener {
 //			float ldx = controller.getAxis(XBox360Pad.AXIS_LEFT_X);
 
 //			Vector3 vec = new Vector3(ldx, 0, ldy);
-			p.stickLeftDown = controller.getButton(XBox360Pad.BUTTON_L3);
 	}
 
 	public void updateLookDir(LocalPlayer p, Controller controller) {
@@ -100,12 +99,12 @@ public class ControllerHandler implements ControllerListener {
 		
 		LocalPlayer p = Main.getInstance().playerHandler.getPlayerByInput("controller:" + controller.hashCode());
 
-		if (value == XBox360Pad.BUTTON_DPAD_DOWN) {
-			p.cameraController.distanceIncrease();
-		}
-		if (value == XBox360Pad.BUTTON_DPAD_UP) {
-			p.cameraController.distanceDecrease();
-		}
+		// if (value == XBox360Pad.BUTTON_DPAD_DOWN) {
+		// p.cameraController.distanceIncrease();
+		// }
+		// if (value == XBox360Pad.BUTTON_DPAD_UP) {
+		// p.cameraController.distanceDecrease();
+		// }
 
 		return false;
 	}
