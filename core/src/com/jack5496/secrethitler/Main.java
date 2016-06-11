@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.secrethitler.Inputs.InputHandler;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.menu.MenuHandler;
-import com.secrethitler.multiplayer.OnlineConnector;
+import com.secrethitler.multiplayer.Multiplayer;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -21,7 +21,7 @@ public class Main extends ApplicationAdapter {
 	private static Main instance;
 
 	public InputHandler inputHandler;
-	public OnlineConnector onlineConnector;
+	public Multiplayer onlineConnector;
 	public LocalPlayerHandler playerHandler;
 	public MenuHandler menuHandler;
 
@@ -33,7 +33,7 @@ public class Main extends ApplicationAdapter {
 		font = new BitmapFont();
         font.setColor(Color.BLACK);
 
-		onlineConnector = new OnlineConnector();
+		onlineConnector = new Multiplayer();
 		menuHandler = new MenuHandler();
 		initPlayerHandler();
 		initInputHandler();

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.jack5496.secrethitler.Main;
+import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 import com.shephertz.app42.gaming.multiplayer.client.events.AllRoomsEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.AllUsersEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.LiveUserInfoEvent;
@@ -58,13 +59,11 @@ public class LobbyFinder implements ZoneRequestListener {
 		else{
 			Main.log(getClass(), "No Rooms Found");
 		}
-
 	}
 
 	@Override
 	public void onGetLiveUserInfoDone(LiveUserInfoEvent arg0) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
