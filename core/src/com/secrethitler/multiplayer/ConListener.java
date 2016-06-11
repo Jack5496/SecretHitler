@@ -1,6 +1,7 @@
 package com.secrethitler.multiplayer;
 
 import com.jack5496.secrethitler.Main;
+import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 import com.shephertz.app42.gaming.multiplayer.client.command.WarpResponseResultCode;
 import com.shephertz.app42.gaming.multiplayer.client.events.ConnectEvent;
 import com.shephertz.app42.gaming.multiplayer.client.listener.ConnectionRequestListener;
@@ -12,6 +13,12 @@ public class ConListener implements ConnectionRequestListener {
 		if (event.getResult() == WarpResponseResultCode.SUCCESS) {
 
 			Main.log(getClass(), "yipee I have connected");
+			 try {
+					WarpClient.getInstance().getAllRooms();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 		}
 		if (event.getResult() == WarpResponseResultCode.AUTH_ERROR) {
 
