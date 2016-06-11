@@ -8,16 +8,11 @@ import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 import com.shephertz.app42.gaming.multiplayer.client.listener.ChatRequestListener;
 
 public class ChatListener implements ChatRequestListener {
-	
+
 	ChatInput listener;
-	
-	public ChatListener(){
+
+	public ChatListener() {
 		listener = new ChatInput();
-		chat();
-	}
-	
-	public void chat(){
-		Gdx.input.getTextInput(listener, "Send Message", "", "Your Message");
 	}
 
 	@Override
@@ -32,19 +27,20 @@ public class ChatListener implements ChatRequestListener {
 		Main.log(getClass(), "onSendPricateChatDone");
 	}
 	
-	public class ChatInput implements TextInputListener {
-		   @Override
-		   public void input(String text) {
-			   Multiplayer.goOnline(text);
-Main.log(getClass(), "Joining as: "+text);
-			  
-		   }
+	public void chat() {
+		Gdx.input.getTextInput(listener, "Send Message", "", "Your Message");
+	}
 
-		   @Override
-		   public void canceled () {
-			   
-		   }
+	public class ChatInput implements TextInputListener {
+		@Override
+		public void input(String text) {
+			Multiplayer.warpClient.sendChat(text);
 		}
 
+		@Override
+		public void canceled() {
+
+		}
+	}
 
 }

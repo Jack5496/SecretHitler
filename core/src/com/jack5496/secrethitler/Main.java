@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.secrethitler.Inputs.InputHandler;
+import com.secrethitler.entitys.LocalPlayer;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.menu.MenuHandler;
 import com.secrethitler.multiplayer.Multiplayer;
@@ -21,6 +22,8 @@ public class Main extends ApplicationAdapter {
 	private static Main instance;
 	private int width;
 	private int height;
+	
+	public static LocalPlayer localPlayer;
 
 	public InputHandler inputHandler;
 	public Multiplayer onlineConnector;
@@ -39,10 +42,11 @@ public class Main extends ApplicationAdapter {
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 
+		initInputHandler();
 		onlineConnector = new Multiplayer();
 		menuHandler = new MenuHandler();
 		initPlayerHandler();
-		initInputHandler();
+		
 	}
 
 	private void initInputHandler() {
