@@ -1,17 +1,15 @@
 package com.secrethitler.menu;
 
-import com.badlogic.gdx.Gdx;
 import com.jack5496.secrethitler.Main;
-import com.secrethitler.Inputs.InputListener;
 import com.secrethitler.Inputs.KeyBoard;
 
-public class MainMenu implements MenuInterface{
+public class RoomListning implements MenuInterface{
 	
 	public int position;
 	
-	public final int roomListning = 0;
+	public final int mainMenu = 0;
 	
-	public MainMenu(){
+	public RoomListning(){
 		position = 0;
 	}
 	
@@ -24,7 +22,7 @@ public class MainMenu implements MenuInterface{
 	@Override
 	public void enter() {
 		switch(position){
-		case roomListning : Main.log(getClass(), "Switching to RoomListning"); MenuHandler.setActivMenu(new RoomListning()); break;
+		case mainMenu : Main.log(getClass(), "Switching to MainMenu"); MenuHandler.setActivMenu(new MainMenu()); break;
 		}
 	}
 

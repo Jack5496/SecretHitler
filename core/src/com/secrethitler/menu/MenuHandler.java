@@ -2,13 +2,17 @@ package com.secrethitler.menu;
 
 public class MenuHandler {
 
-	public MenuInterface activMenu;
+	public static MenuInterface activMenu;
 	
 	public MenuHandler(){
 		activMenu = new MainMenu();
 	}
 	
-	public MenuInterface getActivMenu(){
+	public static void setActivMenu(MenuInterface menu){
+		activMenu = menu;
+	}
+	
+	public static MenuInterface getActivMenu(){
 		return activMenu;
 	}
 	
