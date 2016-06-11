@@ -1,5 +1,7 @@
 package com.secrethitler.menu;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class MenuHandler {
 
 	public static MenuInterface activMenu;
@@ -14,6 +16,10 @@ public class MenuHandler {
 	
 	public static MenuInterface getActivMenu(){
 		return activMenu;
+	}
+	
+	public static void renderActivMenu(SpriteBatch batch){
+		activMenu.render(batch);
 	}
 	
 	

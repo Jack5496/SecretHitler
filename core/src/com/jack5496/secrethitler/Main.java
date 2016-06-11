@@ -69,9 +69,12 @@ public class Main extends ApplicationAdapter {
 		int width = Gdx.graphics.getWidth();
 		
 		batch.begin();
-//		batch.draw(img, 0, 0);
+		MenuHandler.renderActivMenu(batch);
+		
 		font.draw(batch, fps, width-fpsLength, height);
 		batch.end();
+		
+		
 	}
 
 	public static void log(Class<?> c, String log) {
