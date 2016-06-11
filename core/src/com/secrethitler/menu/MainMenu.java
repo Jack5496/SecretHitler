@@ -19,9 +19,9 @@ public class MainMenu implements MenuInterface {
 	public MainMenu() {
 		position = 0;
 		buttons = new ArrayList<GUIButton>();
-		buttons.add(new GUIButton("List all Rooms", 50, 100));
-		buttons.add(new GUIButton("Test", 50, 50));
-		buttons.add(new GUIButton("Options", 50, 20));
+		buttons.add(new GUIButton("List all Rooms","test", 50, 80));
+		buttons.add(new GUIButton("Test", "test",50, 50));
+		buttons.add(new GUIButton("Options", "test",50, 20));
 	}
 
 	@Override
@@ -84,6 +84,12 @@ public class MainMenu implements MenuInterface {
 			enter();
 			break;
 		}
+	}
+
+	@Override
+	public void clicked(int x, int y) {
+	
+		
 	}
 
 }
