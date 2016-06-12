@@ -9,27 +9,24 @@ import com.secrethitler.Inputs.KeyBoard;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.uiElements.GUIButton;
 
-public class MainMenu implements MenuInterface {
+public class OptionMenu implements MenuInterface {
 
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton listRooms = new GUIButton("List all Rooms", "test", 50, 80);
-	GUIButton test = new GUIButton("Test", "test", 50, 50);
-	GUIButton options = new GUIButton("Options", "test", 50, 20);
+	GUIButton changeName = new GUIButton("ChangeName", "test", 50, 80);
+	GUIButton back = new GUIButton("Back", "test", 50, 50);
 
-	public MainMenu() {
+	public OptionMenu() {
 		buttons = new ArrayList<GUIButton>();
 
-		buttons.add(listRooms);
-		buttons.add(test);
-		buttons.add(options);
+		buttons.add(changeName);
+		buttons.add(back);
 
-		listRooms.setNeighbors(listRooms, listRooms, options, test);
-		test.setNeighbors(test, test, listRooms, options);
-		options.setNeighbors(options, options, test, listRooms);
+		changeName.setNeighbors(changeName, changeName, back, back);
+		back.setNeighbors(back, back, changeName, changeName);
 
-		activButton = listRooms;
+		activButton = changeName;
 		activButton.setHovered(true);
 	}
 
@@ -48,18 +45,12 @@ public class MainMenu implements MenuInterface {
 
 	@Override
 	public void enter() {
-		if (activButton == listRooms) {
-			if (LocalPlayerHandler.playerLoggedIn()) {
-				Main.log(getClass(), "Switching to RoomListning");
-				MenuHandler.setActivMenu(new RoomListning());
-			}
-			else{
-				LocalPlayerHandler.openPlayerNameInput();
-			}
+		if (activButton == changeName) {
+			Main.log(getClass(), "Switching name soon");
 		}
-		if (activButton == options) {
-				Main.log(getClass(), "Switching to Options");
-				MenuHandler.setActivMenu(new OptionMenu());
+		if (activButton == back) {
+			Main.log(getClass(), "Switching to Main");
+			MenuHandler.setActivMenu(new MainMenu());
 		}
 	}
 

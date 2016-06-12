@@ -42,7 +42,6 @@ public class Main extends ApplicationAdapter {
 		initInputHandler();
 		onlineConnector = new Multiplayer();
 		menuHandler = new MenuHandler();
-		LocalPlayerHandler.openPlayerNameInput();
 	}
 
 	private void initInputHandler() {
