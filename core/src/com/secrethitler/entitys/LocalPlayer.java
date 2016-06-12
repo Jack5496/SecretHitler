@@ -3,7 +3,7 @@ package com.secrethitler.entitys;
 
 public class LocalPlayer{
 
-	String name;
+	public String name;
 	String faction;
 	boolean alive;
 	

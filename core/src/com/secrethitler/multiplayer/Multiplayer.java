@@ -1,6 +1,7 @@
 package com.secrethitler.multiplayer;
 
 import com.jack5496.secrethitler.Main;
+import com.secrethitler.entitys.LocalPlayerHandler;
 import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 
 public class Multiplayer {
@@ -73,7 +74,7 @@ public class Multiplayer {
 
 	public static void goOffline() {
 		warpClient.disconnect();
-		Main.localPlayer = null;
+		LocalPlayerHandler.localPlayer = null;
 	}
 
 	public void printAllRooms() {

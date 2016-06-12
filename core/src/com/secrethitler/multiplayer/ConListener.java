@@ -13,14 +13,14 @@ public class ConListener implements ConnectionRequestListener {
 	@Override
 	public void onConnectDone(ConnectEvent event) {
 		if (event.getResult() == WarpResponseResultCode.SUCCESS) {
-			Main.localPlayer = new LocalPlayer(LocalPlayerHandler.userNameWanted);
+			LocalPlayerHandler.localPlayer = new LocalPlayer(LocalPlayerHandler.userNameWanted);
 
 			Main.log(getClass(), "yipee I have connected");
 		}
 		if (event.getResult() == WarpResponseResultCode.AUTH_ERROR) {
 
 			Main.log(getClass(), "Auth Error");
-			Main.getInstance().playerHandler.openPlayerNameInput(WarpResponseResultCode.AUTH_ERROR);
+			LocalPlayerHandler.openPlayerNameInput(WarpResponseResultCode.AUTH_ERROR);
 		}
 		if (event.getResult() == WarpResponseResultCode.CONNECTION_ERROR) {
 
