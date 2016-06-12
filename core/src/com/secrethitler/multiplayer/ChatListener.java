@@ -18,7 +18,7 @@ public class ChatListener implements ChatRequestListener {
 	@Override
 	public void onSendChatDone(byte arg0) {
 		// TODO Auto-generated method stub
-		Main.log(getClass(), "onSendChatDone");
+//		Main.log(getClass(), "onSendChatDone");
 	}
 
 	@Override

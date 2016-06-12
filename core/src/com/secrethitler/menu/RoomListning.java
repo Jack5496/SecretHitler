@@ -3,10 +3,12 @@ package com.secrethitler.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.Inputs.KeyBoard;
 import com.secrethitler.multiplayer.Multiplayer;
+import com.secrethitler.multiplayer.Room;
 import com.secrethitler.multiplayer.ZoneListener;
 import com.secrethitler.uiElements.GUIButton;
 
@@ -58,19 +60,23 @@ public class RoomListning implements MenuInterface {
 
 	@Override
 	public void enter() {
-		if (activButton == back) {
-			Main.log(getClass(), "Switching to Main");
-			MenuHandler.setActivMenu(new MainMenu());
-		}
-		if (activButton == loadRooms) {
-			Main.log(getClass(), "Load Rooms");
-			resetLoadedRooms();
-			Multiplayer.getAllRooms();
-		}
-		if (roomButtons.contains(activButton)) {
-			Main.log(getClass(), "Enter Room");
-			String roomID = activButton.label;
-			Multiplayer.updateRoomInformations(roomID);
+		if (activButton != null) {
+			if (activButton == back) {
+				Main.log(getClass(), "Switching to Main");
+				MenuHandler.setActivMenu(new MainMenu());
+			}
+			if (activButton == loadRooms) {
+				Main.log(getClass(), "Load Rooms");
+				resetLoadedRooms();
+				Multiplayer.getAllRooms();
+			}
+			if (roomButtons.contains(activButton)) {
+				Main.log(getClass(), "Enter Room");
+				String roomID = activButton.label;
+				// Multiplayer.updateRoomInformations(roomID);
+				Multiplayer.joinRoom(new Room(roomID));
+				MenuHandler.setActivMenu(new RoomMenu());
+			}
 		}
 	}
 
@@ -126,40 +132,48 @@ public class RoomListning implements MenuInterface {
 
 	@Override
 	public void up() {
-		changeActivButton(activButton.abouve);
+		if (activButton != null) {
+			changeActivButton(activButton.abouve);
+		}
 	}
 
 	@Override
 	public void down() {
-		changeActivButton(activButton.down);
+		if (activButton != null) {
+			changeActivButton(activButton.down);
+		}
 	}
 
 	@Override
 	public void left() {
-		changeActivButton(activButton.left);
+		if (activButton != null) {
+			changeActivButton(activButton.left);
+		}
 	}
 
 	@Override
 	public void right() {
-		changeActivButton(activButton.right);
+		if (activButton != null) {
+			changeActivButton(activButton.right);
+		}
 	}
 
 	@Override
 	public void keyTyped(final int keycode) {
 		switch (keycode) {
-		case KeyBoard.UP:
+		case Keys.UP:
 			up();
 			break;
-		case KeyBoard.DOWN:
+		case Keys.DOWN:
 			down();
 			break;
-		case KeyBoard.LEFT:
+		case Keys.LEFT:
 			left();
 			break;
-		case KeyBoard.RIGHT:
+		case Keys.RIGHT:
 			right();
 			break;
-		case KeyBoard.ENTER:
+		case Keys.ENTER:
 			enter();
 			break;
 		}

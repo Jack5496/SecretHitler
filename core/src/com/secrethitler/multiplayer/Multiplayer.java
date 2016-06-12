@@ -1,6 +1,5 @@
 package com.secrethitler.multiplayer;
 
-import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 
@@ -61,6 +60,14 @@ public class Multiplayer {
 	
 	public static void updateRoomInformations(String roomID){
 		warpClient.getLiveRoomInfo(roomID);
+	}
+	
+	/**
+	 * Nur nutzen in besonderen fällen! Leaven von Räumen
+	 * @param message
+	 */
+	public static void sendMessage(String message){
+		warpClient.sendChat(message);
 	}
 	
 	public static void chat(){

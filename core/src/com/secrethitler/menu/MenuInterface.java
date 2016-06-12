@@ -1,6 +1,7 @@
 package com.secrethitler.menu;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.secrethitler.uiElements.GUIButton;
 
 public interface MenuInterface {
 

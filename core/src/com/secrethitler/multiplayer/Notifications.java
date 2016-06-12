@@ -1,8 +1,11 @@
 package com.secrethitler.multiplayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.jack5496.secrethitler.Main;
+import com.secrethitler.menu.RoomMenu;
 import com.shephertz.app42.gaming.multiplayer.client.events.ChatEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.LobbyData;
 import com.shephertz.app42.gaming.multiplayer.client.events.MoveEvent;
@@ -12,10 +15,31 @@ import com.shephertz.app42.gaming.multiplayer.client.listener.NotifyListener;
 
 public class Notifications implements NotifyListener {
 
+	static List<String> messages;
+	int maxMessagesHolding = RoomMenu.maxMessagesToShow;
+	
+	public Notifications(){
+		resetMessages();
+	}
+	
+	public static void resetMessages(){
+		messages = new ArrayList<String>();
+	}
+	
+	public static List<String> getMessages(){
+		return messages;
+	}
+	
 	@Override
 	public void onChatReceived(ChatEvent arg0) {
 		// TODO Auto-generated method stub
-		Main.log(getClass(), "onChatReceived");
+//		Main.log(getClass(), "onChatReceived");
+		if(messages.size()>=maxMessagesHolding){
+			messages.remove(0);
+//			Main.log(getClass(), "MaxHolding Messages Reached: deleting oldest Message");
+		}
+		messages.add("sender: "+arg0.getSender()+" | LocationID: "+arg0.getLocationId()+" | Message: "+arg0.getMessage());
+//		Main.log(getClass(), ("sender: "+arg0.getSender()+" | LocationID: "+arg0.getLocationId()+" | Message: "+arg0.getMessage()));
 	}
 
 	@Override
