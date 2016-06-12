@@ -12,4 +12,5 @@ public interface MenuInterface {
 	public void right();
 	public void keyTyped(final int keycode);
 	public void clicked(int x, int y);
+	public void mouseMoved(int x, int y);
 }

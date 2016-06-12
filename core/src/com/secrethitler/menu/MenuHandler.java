@@ -33,50 +33,40 @@ public class MenuHandler {
 		} else {
 			user.label = "Offline";
 		}
-		
+
 		user.render(batch);
 	}
 
 	public static void enter() {
-		if (LocalPlayerHandler.playerLoggedIn()) {
-			activMenu.enter();
-		}
+		activMenu.enter();
 	}
 
 	public static void up() {
-		if (LocalPlayerHandler.playerLoggedIn()) {
-			activMenu.up();
-		}
+		activMenu.up();
 	}
 
 	public static void down() {
-		if (LocalPlayerHandler.playerLoggedIn()) {
-			activMenu.down();
-		}
+		activMenu.down();
 	}
 
 	public static void left() {
-		if (LocalPlayerHandler.playerLoggedIn()) {
-			activMenu.left();
-		}
+		activMenu.left();
 	}
 
 	public static void right() {
-		if (LocalPlayerHandler.playerLoggedIn()) {
-			activMenu.right();
-		}
+		activMenu.right();
 	}
 
 	public static void keyTyped(int keycode) {
-		if (LocalPlayerHandler.playerLoggedIn()) {
-			activMenu.keyTyped(keycode);
-		}
+		activMenu.keyTyped(keycode);
+	}
+
+	public static void mouseMoved(int x, int y) {
+		activMenu.mouseMoved(x, y);
 	}
 
 	public static void clicked(int x, int y) {
-		if (LocalPlayerHandler.playerLoggedIn()) {
-			activMenu.clicked(x, y);
-		}
+		activMenu.clicked(x, y);
 	}
 
 }

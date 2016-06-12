@@ -27,6 +27,21 @@ public class GUIButton extends Button {
 		this.buttonName = buttonName;
 		this.hoverd = false;
 	}
+	
+	int width = 50;	//ersetzen durch genaue größen
+	int height = 50;
+	
+	public void pressAt(int x ,int y){
+		int xpos = Main.getInstance().getWidth() * xper / 100;
+		int ypos = Main.getInstance().getHeight() * yper / 100;
+		
+		this.release();		
+		if(xpos-width < x && x < xpos+width){
+			if(ypos-height < y && y < ypos+height){
+				this.press();
+			}
+		}
+	}
 
 	public void setHovered(boolean hoverd) {
 		this.hoverd = hoverd;

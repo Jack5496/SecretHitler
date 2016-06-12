@@ -39,15 +39,23 @@ public class KeyboardHandler {
 	}
 
 	public boolean mouseMoved(int screenX, int screenY) {
+		int maxY = Main.getInstance().getHeight();
+		screenY = maxY - screenY;		//Maus wird invertiert angegeben -.-
+		
 		mouse.updatePosition(screenX, screenY);
+		MenuHandler.mouseMoved(screenX, screenY);
 
 		return true;
 	}
 
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		int maxY = Main.getInstance().getHeight();
+		screenY = maxY - screenY;		//Maus wird invertiert angegeben -.-
+		
 		if (button == Input.Buttons.LEFT) {
 			mouse.left.press();
-			Main.log(getClass(), "Mouse Left");
+//			Main.log(getClass(), "Mouse Left");
+			MenuHandler.clicked(screenX, screenY);
 		}
 		if (button == Input.Buttons.RIGHT) {
 			mouse.right.press();

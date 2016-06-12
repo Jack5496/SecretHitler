@@ -2,6 +2,7 @@ package com.jack5496.secrethitler;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,14 +27,14 @@ public class Main extends ApplicationAdapter {
 	public InputHandler inputHandler;
 	public Multiplayer onlineConnector;
 	public MenuHandler menuHandler;
-	
+
 	ResourceLoader loader;
 
 	@Override
 	public void create() {
 		instance = this;
 		loader = new ResourceLoader();
-		
+
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		font = new BitmapFont();
@@ -42,7 +43,6 @@ public class Main extends ApplicationAdapter {
 		initInputHandler();
 		onlineConnector = new Multiplayer();
 		menuHandler = new MenuHandler();
-		LocalPlayerHandler.openPlayerNameInput();
 	}
 
 	private void initInputHandler() {
@@ -77,7 +77,7 @@ public class Main extends ApplicationAdapter {
 	public int getHeight() {
 		return height;
 	}
-	
+
 	boolean first = true;
 
 	@Override
