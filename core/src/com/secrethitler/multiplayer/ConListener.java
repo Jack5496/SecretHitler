@@ -14,14 +14,8 @@ public class ConListener implements ConnectionRequestListener {
 	public void onConnectDone(ConnectEvent event) {
 		if (event.getResult() == WarpResponseResultCode.SUCCESS) {
 			Main.localPlayer = new LocalPlayer(LocalPlayerHandler.userNameWanted);
-			
+
 			Main.log(getClass(), "yipee I have connected");
-			try {
-				WarpClient.getInstance().getAllRooms();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		}
 		if (event.getResult() == WarpResponseResultCode.AUTH_ERROR) {
 

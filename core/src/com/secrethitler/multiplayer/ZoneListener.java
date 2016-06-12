@@ -2,6 +2,7 @@ package com.secrethitler.multiplayer;
 
 import java.util.HashMap;
 import com.jack5496.secrethitler.Main;
+import com.secrethitler.menu.RoomListning;
 import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 import com.shephertz.app42.gaming.multiplayer.client.events.AllRoomsEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.AllUsersEvent;
@@ -11,9 +12,12 @@ import com.shephertz.app42.gaming.multiplayer.client.events.RoomEvent;
 import com.shephertz.app42.gaming.multiplayer.client.listener.ZoneRequestListener;
 
 public class ZoneListener implements ZoneRequestListener {
-	HashMap<String, Room> rooms;
+	public HashMap<String, Room> rooms;
+	
+	public static ZoneListener instance;
 
 	public ZoneListener() {
+		instance = this;
 		rooms = new HashMap<String, Room>();
 	}
 
@@ -45,17 +49,13 @@ public class ZoneListener implements ZoneRequestListener {
 			Main.log(getClass(), "Rooms Found");
 			for (String roomID : roomIDs) {
 				rooms.put(roomID, null);
-				Main.log(getClass(), "-- "+roomID);
-			}
-			try {
-				WarpClient.getInstance().joinAndSubscribeRoom("1334756533");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+//				Main.log(getClass(), "-- "+roomID);
 			}
 		} else {
 			Main.log(getClass(), "No Rooms Found");
 		}
+		
+		RoomListning.instance.allRoomsLoaded();
 	}
 
 	@Override
