@@ -22,12 +22,9 @@ public class Main extends ApplicationAdapter {
 	private static Main instance;
 	private int width;
 	private int height;
-	
-	public static LocalPlayer localPlayer;
 
 	public InputHandler inputHandler;
 	public Multiplayer onlineConnector;
-	public LocalPlayerHandler playerHandler;
 	public MenuHandler menuHandler;
 	
 	ResourceLoader loader;
@@ -45,16 +42,11 @@ public class Main extends ApplicationAdapter {
 		initInputHandler();
 		onlineConnector = new Multiplayer();
 		menuHandler = new MenuHandler();
-		initPlayerHandler();
-		
+		LocalPlayerHandler.openPlayerNameInput();
 	}
 
 	private void initInputHandler() {
 		inputHandler = new InputHandler();
-	}
-
-	private void initPlayerHandler() {
-		playerHandler = new LocalPlayerHandler();
 	}
 
 	public static Main getInstance() {
@@ -68,20 +60,8 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		String fps = Gdx.graphics.getFramesPerSecond() + "";
-
-		int lineHeight = (int) font.getLineHeight();
-		int height = Gdx.graphics.getHeight();
-
-		layout.setText(font, fps);
-		int fpsLength = (int) layout.width;
-
-		int width = Gdx.graphics.getWidth();
-
 		batch.begin();
-		MenuHandler.renderActivMenu(batch);
-
-		font.draw(batch, fps, width - fpsLength, height);
+		MenuHandler.render(batch);
 		batch.end();
 
 	}

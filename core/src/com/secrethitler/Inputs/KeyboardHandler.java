@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.menu.MenuHandler;
 
 public class KeyboardHandler {
 
@@ -25,7 +26,6 @@ public class KeyboardHandler {
 
 	public void updateLeftStick() {
 		Vector2 dir = new Vector2(0, 0);
-		LocalPlayer p = Main.getInstance().playerHandler.getPlayerByInput(inputHandlerName);
 	}
 
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -47,9 +47,11 @@ public class KeyboardHandler {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (button == Input.Buttons.LEFT) {
 			mouse.left.press();
+			Main.log(getClass(), "Mouse Left");
 		}
 		if (button == Input.Buttons.RIGHT) {
 			mouse.right.press();
+			Main.log(getClass(), "Mouse Right");
 		}
 
 		return true;
@@ -61,8 +63,6 @@ public class KeyboardHandler {
 	}
 
 	public boolean scrolled(int amount) {
-		LocalPlayer p = Main.getInstance().playerHandler.getPlayerByInput(inputHandlerName);
-
 		return true;
 	}
 
@@ -79,7 +79,7 @@ public class KeyboardHandler {
 	public boolean keyDown(int keycode) {
 		keyboard.key(keycode).press();
 		Main.log(getClass(), "Keycode: "+keycode);
-		Main.getInstance().menuHandler.getActivMenu().keyTyped(keycode);
+		MenuHandler.keyTyped(keycode);
 		return false;
 	}
 

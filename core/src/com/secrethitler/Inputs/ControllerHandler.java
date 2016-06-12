@@ -7,6 +7,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.entitys.LocalPlayerHandler;
 
 public class ControllerHandler implements ControllerListener {
 
@@ -17,7 +18,7 @@ public class ControllerHandler implements ControllerListener {
 	public void updateInputLogic() {
 		
 		for (Controller controller : Controllers.getControllers()) {
-			LocalPlayer p = Main.getInstance().playerHandler.getPlayerByInput("controller:" + controller.hashCode());
+			LocalPlayer p = LocalPlayerHandler.localPlayer;
 			updateWalkDir(p,controller);
 			updateLookDir(p,controller);
 			updateABXY(p,controller);
@@ -97,7 +98,7 @@ public class ControllerHandler implements ControllerListener {
 		// TODO Auto-generated method stub
 		Main.log(getClass(), "pov: " + povCode + " with " + value);
 		
-		LocalPlayer p = Main.getInstance().playerHandler.getPlayerByInput("controller:" + controller.hashCode());
+		LocalPlayer p = LocalPlayerHandler.localPlayer;
 
 		// if (value == XBox360Pad.BUTTON_DPAD_DOWN) {
 		// p.cameraController.distanceIncrease();
