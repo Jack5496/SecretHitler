@@ -33,36 +33,40 @@ public class MenuHandler {
 		} else {
 			user.label = "Offline";
 		}
-		
+
 		user.render(batch);
 	}
 
 	public static void enter() {
-			activMenu.enter();
+		activMenu.enter();
 	}
 
 	public static void up() {
-			activMenu.up();
+		activMenu.up();
 	}
 
 	public static void down() {
-			activMenu.down();
+		activMenu.down();
 	}
 
 	public static void left() {
-			activMenu.left();
+		activMenu.left();
 	}
 
 	public static void right() {
-			activMenu.right();
+		activMenu.right();
 	}
 
 	public static void keyTyped(int keycode) {
-			activMenu.keyTyped(keycode);
+		activMenu.keyTyped(keycode);
+	}
+
+	public static void mouseMoved(int x, int y) {
+		activMenu.mouseMoved(x, y);
 	}
 
 	public static void clicked(int x, int y) {
-			activMenu.clicked(x, y);
+		activMenu.clicked(x, y);
 	}
 
 }

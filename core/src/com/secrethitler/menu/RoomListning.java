@@ -167,7 +167,23 @@ public class RoomListning implements MenuInterface {
 
 	@Override
 	public void clicked(int x, int y) {
+		mouseMoved(x, y);
+		enter();
+	}
 
+	@Override
+	public void mouseMoved(int x, int y) {
+		if (activButton != null) {
+			activButton.setHovered(false);
+		}
+		activButton = null;
+		for (GUIButton button : buttons) {
+			button.pressAt(x, y);
+			if (button.isPressed()) {
+				activButton = button;
+				activButton.setHovered(true);
+			}
+		}
 	}
 
 }

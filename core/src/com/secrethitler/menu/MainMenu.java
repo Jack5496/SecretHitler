@@ -52,47 +52,54 @@ public class MainMenu implements MenuInterface {
 			if (LocalPlayerHandler.playerLoggedIn()) {
 				Main.log(getClass(), "Switching to RoomListning");
 				MenuHandler.setActivMenu(new RoomListning());
-			}
-			else{
+			} else {
 				LocalPlayerHandler.openPlayerNameInput();
 			}
 		}
 		if (activButton == options) {
-				Main.log(getClass(), "Switching to Options");
-				MenuHandler.setActivMenu(new OptionMenu());
+			Main.log(getClass(), "Switching to Options");
+			MenuHandler.setActivMenu(new OptionMenu());
 		}
 	}
 
 	@Override
 	public void up() {
-		activButton.setHovered(false);
-		activButton = activButton.abouve;
-		activButton.setHovered(true);
+		if (activButton != null) {
+			activButton.setHovered(false);
+			activButton = activButton.abouve;
+			activButton.setHovered(true);
+		}
 		// Main.log(getClass(), "" + position);
 	}
 
 	@Override
 	public void down() {
-		activButton.setHovered(false);
-		activButton = activButton.down;
-		activButton.setHovered(true);
-		// Main.log(getClass(), "" + position);
+		if (activButton != null) {
+			activButton.setHovered(false);
+			activButton = activButton.down;
+			activButton.setHovered(true);
+			// Main.log(getClass(), "" + position);
+		}
 	}
 
 	@Override
 	public void left() {
-		// TODO Auto-generated method stub
-		activButton.setHovered(false);
-		activButton = activButton.left;
-		activButton.setHovered(true);
+		if (activButton != null) {
+			// TODO Auto-generated method stub
+			activButton.setHovered(false);
+			activButton = activButton.left;
+			activButton.setHovered(true);
+		}
 	}
 
 	@Override
 	public void right() {
-		// TODO Auto-generated method stub
-		activButton.setHovered(false);
-		activButton = activButton.right;
-		activButton.setHovered(true);
+		if (activButton != null) {
+			// TODO Auto-generated method stub
+			activButton.setHovered(false);
+			activButton = activButton.right;
+			activButton.setHovered(true);
+		}
 	}
 
 	@Override
@@ -112,7 +119,23 @@ public class MainMenu implements MenuInterface {
 
 	@Override
 	public void clicked(int x, int y) {
+		mouseMoved(x, y);
+		enter();
+	}
 
+	@Override
+	public void mouseMoved(int x, int y) {
+		if (activButton != null) {
+			activButton.setHovered(false);
+		}
+		activButton = null;
+		for (GUIButton button : buttons) {
+			button.pressAt(x, y);
+			if (button.isPressed()) {
+				activButton = button;
+				activButton.setHovered(true);
+			}
+		}
 	}
 
 }
