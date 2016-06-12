@@ -10,18 +10,26 @@ import com.secrethitler.uiElements.GUIButton;
 
 public class MainMenu implements MenuInterface {
 
-	public int position;
-
-	public final int roomListning = 0;
-
 	List<GUIButton> buttons;
+	GUIButton activButton;
+	
+	GUIButton listRooms = new GUIButton("List all Rooms", "test", 50, 80);
+	GUIButton test = new GUIButton("Test", "test", 50, 50);
+	GUIButton options = new GUIButton("Options", "test", 50, 20);
 
 	public MainMenu() {
-		position = 0;
 		buttons = new ArrayList<GUIButton>();
-		buttons.add(new GUIButton("List all Rooms","test", 50, 80));
-		buttons.add(new GUIButton("Test", "test",50, 50));
-		buttons.add(new GUIButton("Options", "test",50, 20));
+		
+		buttons.add(listRooms);
+		buttons.add(test);
+		buttons.add(options);
+
+		listRooms.setNeighbors(listRooms, listRooms, options, test);
+		test.setNeighbors(test, test, listRooms, options);
+		options.setNeighbors(options, options, test, listRooms);
+		
+		activButton = listRooms;
+		activButton.setHovered(true);
 	}
 
 	@Override
@@ -33,42 +41,48 @@ public class MainMenu implements MenuInterface {
 
 	}
 
+	public GUIButton getActivButton() {
+		return activButton;
+	}
+
 	@Override
 	public void enter() {
-		switch (position) {
-		case roomListning:
+		if(activButton==listRooms){
 			Main.log(getClass(), "Switching to RoomListning");
 			MenuHandler.setActivMenu(new RoomListning());
-			break;
 		}
 	}
 
 	@Override
 	public void up() {
-		if (position > 0) {
-			position--;
-		}
-		Main.log(getClass(), "" + position);
+		activButton.setHovered(false);
+		activButton = activButton.abouve;
+		activButton.setHovered(true);
+		// Main.log(getClass(), "" + position);
 	}
 
 	@Override
 	public void down() {
-		if (buttons.size() > position + 1) {
-			position++;
-		}
-		Main.log(getClass(), "" + position);
+		activButton.setHovered(false);
+		activButton = activButton.down;
+		activButton.setHovered(true);
+		// Main.log(getClass(), "" + position);
 	}
 
 	@Override
 	public void left() {
 		// TODO Auto-generated method stub
-
+		activButton.setHovered(false);
+		activButton = activButton.left;
+		activButton.setHovered(true);
 	}
 
 	@Override
 	public void right() {
 		// TODO Auto-generated method stub
-
+		activButton.setHovered(false);
+		activButton = activButton.right;
+		activButton.setHovered(true);
 	}
 
 	@Override
@@ -88,8 +102,7 @@ public class MainMenu implements MenuInterface {
 
 	@Override
 	public void clicked(int x, int y) {
-	
-		
+
 	}
 
 }

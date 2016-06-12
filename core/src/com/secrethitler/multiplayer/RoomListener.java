@@ -12,6 +12,16 @@ public class RoomListener implements RoomRequestListener {
 	public void onGetLiveRoomInfoDone(LiveRoomInfoEvent arg0) {
 		// TODO Auto-generated method stub
 		Main.log(getClass(), "onGetLiveRoomInfoDone");
+
+		Room room = ZoneListener.instance.rooms.get(arg0.getData().getId());
+
+		if (room == null) {
+			room = new Room(arg0.getData());
+			ZoneListener.instance.rooms.put(room.id, room);
+		}
+		else{
+			room.roomInformationsFound(arg0.getData());
+		}
 	}
 
 	@Override
@@ -30,7 +40,7 @@ public class RoomListener implements RoomRequestListener {
 	public void onJoinRoomDone(RoomEvent arg0) {
 		// TODO Auto-generated method stub
 		Main.log(getClass(), "onJoinRoomDone");
-		
+
 	}
 
 	@Override
@@ -80,6 +90,5 @@ public class RoomListener implements RoomRequestListener {
 		// TODO Auto-generated method stub
 		Main.log(getClass(), "onUpdatePropertyDone");
 	}
-	
 
 }

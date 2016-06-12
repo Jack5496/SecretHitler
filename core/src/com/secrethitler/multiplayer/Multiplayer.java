@@ -54,6 +54,14 @@ public class Multiplayer {
 		}
 	}
 	
+	public static void getAllRooms(){
+		warpClient.getAllRooms();
+	}
+	
+	public static void updateRoomInformations(String roomID){
+		warpClient.getLiveRoomInfo(roomID);
+	}
+	
 	public static void chat(){
 		chatListener.chat();
 	}
