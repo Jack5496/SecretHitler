@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.Inputs.KeyBoard;
 import com.secrethitler.entitys.LocalPlayerHandler;
+import com.secrethitler.multiplayer.Multiplayer;
 import com.secrethitler.uiElements.GUIButton;
 
 public class OptionMenu implements MenuInterface {
@@ -47,6 +48,8 @@ public class OptionMenu implements MenuInterface {
 	public void enter() {
 		if (activButton == changeName) {
 			Main.log(getClass(), "Switching name soon");
+			Multiplayer.goOffline();
+			LocalPlayerHandler.openPlayerNameInput();
 		}
 		if (activButton == back) {
 			Main.log(getClass(), "Switching to Main");
