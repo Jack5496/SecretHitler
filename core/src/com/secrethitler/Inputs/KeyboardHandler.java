@@ -86,7 +86,6 @@ public class KeyboardHandler {
 
 	public boolean keyDown(int keycode) {
 		keyboard.key(keycode).press();
-		Main.log(getClass(), "Keycode: "+keycode);
 		MenuHandler.keyTyped(keycode);
 		return false;
 	}

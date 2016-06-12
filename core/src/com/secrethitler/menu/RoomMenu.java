@@ -8,31 +8,34 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.Inputs.KeyBoard;
 import com.secrethitler.entitys.LocalPlayerHandler;
+import com.secrethitler.multiplayer.Multiplayer;
+import com.secrethitler.multiplayer.Notifications;
 import com.secrethitler.uiElements.GUIButton;
 
-public class MainMenu implements MenuInterface {
+public class RoomMenu implements MenuInterface {
 
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton listRooms = new GUIButton("List all Rooms", "test", 50, 80);
-	GUIButton test = new GUIButton("Test", "test", 50, 50);
-	GUIButton options = new GUIButton("Options", "test", 50, 20);
+	GUIButton roomID = new GUIButton("RoomID", null, 10, 80);
 
-	public MainMenu() {
+	GUIButton chat = new GUIButton("Chat", "test", 50, 80);
+	GUIButton back = new GUIButton("Back", "test", 50, 50);
+
+	public RoomMenu() {
 		buttons = new ArrayList<GUIButton>();
 
-		buttons.add(listRooms);
-		buttons.add(test);
-		buttons.add(options);
+		buttons.add(chat);
+		buttons.add(back);
 
-		listRooms.setNeighbors(listRooms, listRooms, options, test);
-		test.setNeighbors(test, test, listRooms, options);
-		options.setNeighbors(options, options, test, listRooms);
+		chat.setNeighbors(chat, chat, back, back);
+		back.setNeighbors(back, back, chat, chat);
 
-		activButton = listRooms;
+		activButton = chat;
 		activButton.setHovered(true);
 	}
+	
+	public static int maxMessagesToShow = 8;
 
 	@Override
 	public void render(SpriteBatch batch) {
@@ -41,6 +44,23 @@ public class MainMenu implements MenuInterface {
 			button.render(batch);
 		}
 
+		roomID.render(batch);
+
+		List<String> messages = Notifications.getMessages();
+		
+		int countUpTo = maxMessagesToShow;
+		if(messages.size()<countUpTo){
+			countUpTo = messages.size();
+		}
+		
+		int start = messages.size()-countUpTo;
+		int end = messages.size();
+		
+		int ypos = 0;
+		for(int i =start; i<end; i++, ypos++){
+			GUIButton guiMessage = new GUIButton(messages.get(i), null, 10, 50-ypos*5);
+			guiMessage.render(batch);
+		}
 	}
 
 	public GUIButton getActivButton() {
@@ -50,17 +70,14 @@ public class MainMenu implements MenuInterface {
 	@Override
 	public void enter() {
 		if (activButton != null) {
-			if (activButton == listRooms) {
-				if (LocalPlayerHandler.playerLoggedIn()) {
-					Main.log(getClass(), "Switching to RoomListning");
-					MenuHandler.setActivMenu(new RoomListning());
-				} else {
-					LocalPlayerHandler.openPlayerNameInput();
-				}
+			if (activButton == chat) {
+				Multiplayer.chat();
 			}
-			if (activButton == options) {
-				Main.log(getClass(), "Switching to Options");
-				MenuHandler.setActivMenu(new OptionMenu());
+			if (activButton == back) {
+				Main.log(getClass(), "Switching to Room Listning");
+				Multiplayer.sendMessage("See ya Niggas!");
+				MenuHandler.setActivMenu(new RoomListning());
+				Multiplayer.leaveRoom();
 			}
 		}
 	}
@@ -71,8 +88,8 @@ public class MainMenu implements MenuInterface {
 			activButton.setHovered(false);
 			activButton = activButton.abouve;
 			activButton.setHovered(true);
+			// Main.log(getClass(), "" + position);
 		}
-		// Main.log(getClass(), "" + position);
 	}
 
 	@Override

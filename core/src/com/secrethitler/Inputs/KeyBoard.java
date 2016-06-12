@@ -5,12 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 public class KeyBoard {
 
 	private Button[] keys;
-	
-	public static final int UP = 19;
-	public static final int DOWN = 20;
-	public static final int ENTER = 66;
-	public static final int LEFT = 21;
-	public static final int RIGHT = 22;
 
 	public KeyBoard() {
 		keys = new Button[256];

@@ -3,6 +3,7 @@ package com.secrethitler.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.Inputs.KeyBoard;
@@ -46,59 +47,69 @@ public class OptionMenu implements MenuInterface {
 
 	@Override
 	public void enter() {
-		if (activButton == changeName) {
-			Main.log(getClass(), "Switching name soon");
-			Multiplayer.goOffline();
-			LocalPlayerHandler.openPlayerNameInput();
-		}
-		if (activButton == back) {
-			Main.log(getClass(), "Switching to Main");
-			MenuHandler.setActivMenu(new MainMenu());
+		if (activButton != null) {
+			if (activButton == changeName) {
+				Main.log(getClass(), "Switching name soon");
+				Multiplayer.goOffline();
+				LocalPlayerHandler.openPlayerNameInput();
+			}
+			if (activButton == back) {
+				Main.log(getClass(), "Switching to Main");
+				MenuHandler.setActivMenu(new MainMenu());
+			}
 		}
 	}
 
 	@Override
 	public void up() {
-		activButton.setHovered(false);
-		activButton = activButton.abouve;
-		activButton.setHovered(true);
-		// Main.log(getClass(), "" + position);
+		if (activButton != null) {
+			activButton.setHovered(false);
+			activButton = activButton.abouve;
+			activButton.setHovered(true);
+			// Main.log(getClass(), "" + position);
+		}
 	}
 
 	@Override
 	public void down() {
-		activButton.setHovered(false);
-		activButton = activButton.down;
-		activButton.setHovered(true);
-		// Main.log(getClass(), "" + position);
+		if (activButton != null) {
+			activButton.setHovered(false);
+			activButton = activButton.down;
+			activButton.setHovered(true);
+			// Main.log(getClass(), "" + position);
+		}
 	}
 
 	@Override
 	public void left() {
-		// TODO Auto-generated method stub
-		activButton.setHovered(false);
-		activButton = activButton.left;
-		activButton.setHovered(true);
+		if (activButton != null) {
+			// TODO Auto-generated method stub
+			activButton.setHovered(false);
+			activButton = activButton.left;
+			activButton.setHovered(true);
+		}
 	}
 
 	@Override
 	public void right() {
-		// TODO Auto-generated method stub
-		activButton.setHovered(false);
-		activButton = activButton.right;
-		activButton.setHovered(true);
+		if (activButton != null) {
+			// TODO Auto-generated method stub
+			activButton.setHovered(false);
+			activButton = activButton.right;
+			activButton.setHovered(true);
+		}
 	}
 
 	@Override
 	public void keyTyped(final int keycode) {
 		switch (keycode) {
-		case KeyBoard.UP:
+		case Keys.UP:
 			up();
 			break;
-		case KeyBoard.DOWN:
+		case Keys.DOWN:
 			down();
 			break;
-		case KeyBoard.ENTER:
+		case Keys.ENTER:
 			enter();
 			break;
 		}
