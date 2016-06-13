@@ -36,7 +36,7 @@ public class ChatListener implements ChatRequestListener {
 	
 	public void privateChat(LocalPlayer p){
 		privateListener = new PrivateChatInput(p);
-		Gdx.input.getTextInput(privateListener, "Private Message", "", "@"+p.name+" Message");
+		Gdx.input.getTextInput(privateListener, "Private Message", "", "Message to "+p.name);
 	}
 
 	public class ChatInput implements TextInputListener {

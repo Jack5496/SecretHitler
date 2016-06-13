@@ -51,37 +51,39 @@ public class Multiplayer {
 			warpClient.joinAndSubscribeRoom(activRoom.id);
 		}
 	}
-	
-	public static void getAllRooms(){
+
+	public static void getAllRooms() {
 		warpClient.getAllRooms();
 	}
-	
-	public static void updateRoomInformations(String roomID){
+
+	public static void updateRoomInformations(String roomID) {
 		warpClient.getLiveRoomInfo(roomID);
 	}
-	
+
 	/**
-	 * Nur nutzen in besonderen fällen!
-	 * Nutze vorher lieber chatInRoom() oder sendPrivateMessage() 
+	 * Nur nutzen in besonderen fällen! Nutze vorher lieber chatInRoom() oder
+	 * sendPrivateMessage()
+	 * 
 	 * @param message
 	 */
-	public static void sendMessage(String message){
+	public static void sendMessage(String message) {
 		warpClient.sendChat(message);
 	}
-	
+
 	/**
-	 * Nur nutzen in besonderen fällen! 
+	 * Nur nutzen in besonderen fällen!
+	 * 
 	 * @param message
 	 */
-	public static void sendPrivateMessage(String message, LocalPlayer p){
-		warpClient.sendPrivateChat(p.name,message);
+	public static void sendPrivateMessage(String message, LocalPlayer p) {
+		warpClient.sendPrivateChat(p.name, "PRIVAT: " + message);
 	}
-		
-	public static void chatInRoom(){
+
+	public static void chatInRoom() {
 		chatListener.chat();
 	}
-	
-	public static void chatToPlayer(LocalPlayer p){
+
+	public static void chatToPlayer(LocalPlayer p) {
 		chatListener.privateChat(p);
 	}
 

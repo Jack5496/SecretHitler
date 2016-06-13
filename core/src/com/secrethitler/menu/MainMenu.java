@@ -15,9 +15,9 @@ public class MainMenu implements MenuInterface {
 	GUIButton activButton;
 
 	
-	GUIButton listRooms = new GUIButton("Browse", "test", 50, 80);
-	GUIButton create = new GUIButton("Create", "test", 50, 50);
-	GUIButton options = new GUIButton("Options", "test", 50, 20);
+	GUIButton listRooms = new GUIButton("Browse", "test", 50, 80,0.2f);
+	GUIButton create = new GUIButton("Create", "test", 50, 50,0.2f);
+	GUIButton options = new GUIButton("Options", "test", 50, 20,0.2f);
 
 	public MainMenu() {
 		buttons = new ArrayList<GUIButton>();

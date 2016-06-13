@@ -31,14 +31,37 @@ public class Room implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton roomID = new GUIButton("RoomID", null, 10, 80);
+	GUIButton roomID = new GUIButton("RoomID", null, 10, 80, 0.2f);
 
-	GUIButton chat = new GUIButton("Chat", "test", 50, 80);
-	GUIButton back = new GUIButton("Back", "test", 50, 50);
-
+	GUIButton chat = new GUIButton("Chat", "test", 60, 15, 0.2f);
+	GUIButton back = new GUIButton("Back", "test", 40, 15, 0.2f);
+	
+	static GUIButton faschist = new GUIButton("", "spielfeldFaschist5-6", 50, 80, 0.5f);
+	static GUIButton liberal = new GUIButton("", "spielfeldLiberal", 50, 50, 0.5f);
+	
+	static float fasPlatz = 6.9f;
+	static int fasStart = 33;
+	
+	static GUIButton fasictGesetzt1 = new GUIButton("", "gesetztFaschist", fasStart, 80, 0.06f);
+	static GUIButton fasictGesetzt2 = new GUIButton("", "gesetztFaschist", fasStart+1*fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt3 = new GUIButton("", "gesetztFaschist", fasStart+2*fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt4 = new GUIButton("", "gesetztFaschist", fasStart+3*fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt5 = new GUIButton("", "gesetztFaschist", fasStart+4*fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt6 = new GUIButton("", "gesetztFaschist", fasStart+5*fasPlatz, 80, 0.06f);
+	
+	
+	static int libPlatz = 7;
+	static int libStart = 50;
+	
+	static GUIButton liberalGesetzt1 = new GUIButton("", "gesetztLiberal", libStart-2*libPlatz, 50, 0.06f);
+	static GUIButton liberalGesetzt2 = new GUIButton("", "gesetztLiberal", libStart-1*libPlatz, 50, 0.06f);
+	static GUIButton liberalGesetzt3 = new GUIButton("", "gesetztLiberal", libStart, 50, 0.06f);
+	static GUIButton liberalGesetzt4 = new GUIButton("", "gesetztLiberal", libStart+1*libPlatz, 50, 0.06f);
+	static GUIButton liberalGesetzt5 = new GUIButton("", "gesetztLiberal", libStart+2*libPlatz, 50, 0.06f);
+	
 	HashMap<GUIButton, LocalPlayer> players;
 
-	public Room(RoomData data) {
+	public Room(RoomData data) {		
 		roomInformationsFound(data);
 
 		buttons = new ArrayList<GUIButton>();
@@ -46,9 +69,24 @@ public class Room implements MenuInterface {
 
 		buttons.add(chat);
 		buttons.add(back);
+		buttons.add(liberal);
+		buttons.add(faschist);
+		
+		buttons.add(liberalGesetzt1);
+		buttons.add(liberalGesetzt2);
+		buttons.add(liberalGesetzt3);
+		buttons.add(liberalGesetzt4);
+		buttons.add(liberalGesetzt5);
+		
+		buttons.add(fasictGesetzt1);
+		buttons.add(fasictGesetzt2);
+		buttons.add(fasictGesetzt3);
+		buttons.add(fasictGesetzt4);
+		buttons.add(fasictGesetzt5);
+		buttons.add(fasictGesetzt6);
 
-		chat.setNeighbors(chat, chat, back, back);
-		back.setNeighbors(back, back, chat, chat);
+		chat.setNeighbors(back, chat, chat, chat);
+		back.setNeighbors(back, chat, back, back);
 
 		activButton = chat;
 		activButton.setHovered(true);
@@ -96,13 +134,12 @@ public class Room implements MenuInterface {
 	GUIButton lastAdded = null;
 
 	public void playerJoined(LocalPlayer p) {
-		GUIButton playerButton = new GUIButton(p.name, null, 80, 80);
+		GUIButton playerButton = new GUIButton(p.name, null, 80, 80, 0.2f);
 
 		if (lastAdded == null) {
 			playerButton.setNeighbors(chat, playerButton, playerButton, playerButton);
-			for (GUIButton button : buttons) {
-				button.setNeighbors(button.left, playerButton, button.abouve, button.down);
-			}
+			chat.setNeighbors(chat.left, playerButton, chat, chat);
+
 		} else {
 			playerButton.setNeighbors(chat, playerButton, lastAdded, playerButton);
 			lastAdded.setNeighbors(lastAdded.left, lastAdded.right, lastAdded.abouve, playerButton);
@@ -162,7 +199,7 @@ public class Room implements MenuInterface {
 
 			String label = m.getTime().getTimeInHoursMinutesFormat() + " | " + m.getSender() + ": " + m.getMessage();
 
-			GUIButton guiMessage = new GUIButton(label, null, 10, 50 - ypos * 5);
+			GUIButton guiMessage = new GUIButton(label, null, 10, 50 - ypos * 5, 0.2f);
 			guiMessage.render(batch);
 		}
 	}
