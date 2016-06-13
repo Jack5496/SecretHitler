@@ -6,7 +6,6 @@ import java.util.List;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
-import com.secrethitler.Inputs.KeyBoard;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.uiElements.GUIButton;
 
