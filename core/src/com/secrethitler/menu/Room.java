@@ -59,6 +59,16 @@ public class Room implements MenuInterface {
 	static GUIButton liberalGesetzt4 = new GUIButton("", "gesetztLiberal", libStart+1*libPlatz, 50, 0.06f);
 	static GUIButton liberalGesetzt5 = new GUIButton("", "gesetztLiberal", libStart+2*libPlatz, 50, 0.06f);
 	
+	
+	static int coinStart = 43;
+	static float coinPlatz = 4.5f;
+	static int coindHeight = 39;
+	
+	static GUIButton coin1 = new GUIButton("", "coin", coinStart, coindHeight, 0.025f);
+	static GUIButton coin2 = new GUIButton("", "coin", coinStart+1*coinPlatz, coindHeight, 0.025f);
+	static GUIButton coin3 = new GUIButton("", "coin", coinStart+2*coinPlatz, coindHeight, 0.025f);
+	static GUIButton coin4 = new GUIButton("", "coin", coinStart+3*coinPlatz, coindHeight, 0.025f);
+	
 	HashMap<GUIButton, LocalPlayer> players;
 
 	public Room(RoomData data) {		
@@ -84,6 +94,11 @@ public class Room implements MenuInterface {
 		buttons.add(fasictGesetzt4);
 		buttons.add(fasictGesetzt5);
 		buttons.add(fasictGesetzt6);
+		
+		buttons.add(coin1);
+		buttons.add(coin2);
+		buttons.add(coin3);
+		buttons.add(coin4);
 
 		chat.setNeighbors(back, chat, chat, chat);
 		back.setNeighbors(back, chat, back, back);
