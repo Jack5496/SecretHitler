@@ -15,20 +15,21 @@ public class MainMenu implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton listRooms = new GUIButton("List all Rooms", "test", 50, 80);
-	GUIButton test = new GUIButton("Test", "test", 50, 50);
+	
+	GUIButton listRooms = new GUIButton("Browse", "test", 50, 80);
+	GUIButton create = new GUIButton("Create", "test", 50, 50);
 	GUIButton options = new GUIButton("Options", "test", 50, 20);
 
 	public MainMenu() {
 		buttons = new ArrayList<GUIButton>();
 
 		buttons.add(listRooms);
-		buttons.add(test);
+		buttons.add(create);
 		buttons.add(options);
 
-		listRooms.setNeighbors(listRooms, listRooms, options, test);
-		test.setNeighbors(test, test, listRooms, options);
-		options.setNeighbors(options, options, test, listRooms);
+		listRooms.setNeighbors(listRooms, listRooms, options, create);
+		create.setNeighbors(create, create, listRooms, options);
+		options.setNeighbors(options, options, create, listRooms);
 
 		activButton = listRooms;
 		activButton.setHovered(true);
