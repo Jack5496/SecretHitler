@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.Inputs.KeyBoard;
 import com.secrethitler.multiplayer.Multiplayer;
-import com.secrethitler.multiplayer.Room;
 import com.secrethitler.multiplayer.ZoneListener;
 import com.secrethitler.uiElements.GUIButton;
 
@@ -75,12 +74,9 @@ public class RoomListning implements MenuInterface {
 			if (roomsListed.containsKey(activButton)) {
 				Main.log(getClass(), "Enter Room");
 				
-				Room room = roomsListed.get(activButton);
-				RoomMenu roomMenu = new RoomMenu();
-				room.setRoomMenu(roomMenu);
-				
+				Room room = roomsListed.get(activButton);				
 				Multiplayer.joinRoom(room);
-				MenuHandler.setActivMenu(roomMenu);
+				MenuHandler.setActivMenu(room);
 			}
 		}
 	}

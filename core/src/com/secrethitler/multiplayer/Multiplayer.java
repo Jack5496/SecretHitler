@@ -1,11 +1,13 @@
 package com.secrethitler.multiplayer;
 
+import com.secrethitler.entitys.LocalPlayer;
 import com.secrethitler.entitys.LocalPlayerHandler;
+import com.secrethitler.menu.Room;
 import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 
 public class Multiplayer {
 
-	static WarpClient warpClient = null;
+	private static WarpClient warpClient = null;
 
 	private static ChatListener chatListener;
 
@@ -25,10 +27,6 @@ public class Multiplayer {
 
 		addListeners();
 	}
-	
-	public static WarpClient getClient(){
-		return warpClient;
-	}
 
 	public void addListeners() {
 		chatListener = new ChatListener();
@@ -46,10 +44,6 @@ public class Multiplayer {
 	public static void goOnline(String name) {
 		warpClient.connectWithUserName(name);
 	}
-	
-//	public static void getUsersInRoom(Room room){
-//		warpClient.g
-//	}
 
 	public static void joinRoom(Room room) {
 		if (activRoom == null) {
@@ -67,15 +61,28 @@ public class Multiplayer {
 	}
 	
 	/**
-	 * Nur nutzen in besonderen fällen! Leaven von Räumen
+	 * Nur nutzen in besonderen fällen!
+	 * Nutze vorher lieber chatInRoom() oder sendPrivateMessage() 
 	 * @param message
 	 */
 	public static void sendMessage(String message){
 		warpClient.sendChat(message);
 	}
 	
-	public static void chat(){
+	/**
+	 * Nur nutzen in besonderen fällen! 
+	 * @param message
+	 */
+	public static void sendPrivateMessage(String message, LocalPlayer p){
+		warpClient.sendPrivateChat(p.name,message);
+	}
+		
+	public static void chatInRoom(){
 		chatListener.chat();
+	}
+	
+	public static void chatToPlayer(LocalPlayer p){
+		chatListener.privateChat(p);
 	}
 
 	public static void leaveRoom() {

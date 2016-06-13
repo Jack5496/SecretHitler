@@ -15,25 +15,25 @@ public class TurnListener implements TurnBasedRoomListener {
 	@Override
 	public void onSendMoveDone(byte arg0) {
 		// TODO Auto-generated method stub
-		Main.log(getClass(), "onSendMoveDone");
+		Main.log(getClass(), "onSendMoveDone: "+arg0);
 	}
 
 	@Override
 	public void onSetNextTurnDone(byte arg0) {
 		// TODO Auto-generated method stub
-		Main.log(getClass(), "onSetNextTurnDone");
+		Main.log(getClass(), "onSetNextTurnDone: "+arg0);
 	}
 
 	@Override
 	public void onStartGameDone(byte arg0) {
 		// TODO Auto-generated method stub
-		Main.log(getClass(), "onStartGameDone");
+		Main.log(getClass(), "onStartGameDone: "+arg0);
 	}
 
 	@Override
 	public void onStopGameDone(byte arg0) {
 		// TODO Auto-generated method stub
-		Main.log(getClass(), "onStopGameDone");
+		Main.log(getClass(), "onStopGameDone: "+arg0);
 	}
 	
 
