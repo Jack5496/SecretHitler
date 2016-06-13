@@ -28,12 +28,6 @@ public class RoomListener implements RoomRequestListener {
 	public void onJoinAndSubscribeRoomDone(RoomEvent arg0) {
 		// TODO Auto-generated method stub
 		Main.log(getClass(), "onJoinAndSubscribeRoomDone");
-		try {
-			WarpClient.getInstance().sendChat("Ive joined");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
