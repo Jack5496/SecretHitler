@@ -7,7 +7,7 @@ import java.util.List;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
 import com.secrethitler.helper.Message;
-import com.secrethitler.menu.RoomMenu;
+import com.secrethitler.menu.Room;
 import com.shephertz.app42.gaming.multiplayer.client.events.ChatEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.LobbyData;
 import com.shephertz.app42.gaming.multiplayer.client.events.MoveEvent;
@@ -18,7 +18,7 @@ import com.shephertz.app42.gaming.multiplayer.client.listener.NotifyListener;
 public class Notifications implements NotifyListener {
 
 	static List<Message> messages;
-	int maxMessagesHolding = RoomMenu.maxMessagesToShow;
+	int maxMessagesHolding = Room.maxMessagesToShow;
 
 	public Notifications() {
 		resetMessages();
@@ -31,20 +31,18 @@ public class Notifications implements NotifyListener {
 	public static List<Message> getMessages() {
 		return messages;
 	}
+	
+	public void addMessage(Message m){
+		if (messages.size() >= maxMessagesHolding) {
+			messages.remove(0);
+		}
+		messages.add(m);
+	}
 
 	@Override
 	public void onChatReceived(ChatEvent arg0) {
 		Message m = new Message(arg0);
-		
-		// Main.log(getClass(), "onChatReceived");
-		if (messages.size() >= maxMessagesHolding) {
-			messages.remove(0);
-			// Main.log(getClass(), "MaxHolding Messages Reached: deleting
-			// oldest Message");
-		}
-		messages.add(m);
-		// Main.log(getClass(), ("sender: "+arg0.getSender()+" | LocationID:
-		// "+arg0.getLocationId()+" | Message: "+arg0.getMessage()));
+		addMessage(m);
 	}
 
 	@Override
@@ -73,8 +71,8 @@ public class Notifications implements NotifyListener {
 
 	@Override
 	public void onPrivateChatReceived(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		Main.log(getClass(), "onPrivateChatReceived");
+		Message m = new Message(arg0, null, arg1);
+		addMessage(m);
 	}
 
 	@Override
@@ -121,10 +119,10 @@ public class Notifications implements NotifyListener {
 
 		// sicher selber raum, einfach extra prüfung
 		if (Multiplayer.activRoom.id.equals(arg0.getId())) {
-			Multiplayer.activRoom.join(new LocalPlayer(userName));
+			Multiplayer.activRoom.playerJoined(new LocalPlayer(userName));
 			
 			Message m = new Message("System",arg0.getId(),userName+" joined");
-			messages.add(m);
+			addMessage(m);
 		}
 	}
 
@@ -139,9 +137,9 @@ public class Notifications implements NotifyListener {
 		// TODO Auto-generated method stub
 		Main.log(getClass(), "onUserLeftRoom");
 		if (Multiplayer.activRoom.id.equals(arg0.getId())) {
-			Multiplayer.activRoom.leave(new LocalPlayer(userName));
+			Multiplayer.activRoom.playerLeft(new LocalPlayer(userName));
 			Message m = new Message("System",arg0.getId(),userName+" left");
-			messages.add(m);
+			addMessage(m);
 		}
 	}
 

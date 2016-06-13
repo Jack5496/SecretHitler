@@ -9,6 +9,7 @@ public class Message {
 	private String roomID;
 	private String message;
 	
+	
 	public Message(ChatEvent event){
 		this(event.getSender(),event.getLocationId(),event.getMessage());
 	}

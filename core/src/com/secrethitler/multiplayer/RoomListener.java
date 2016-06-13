@@ -1,6 +1,7 @@
 package com.secrethitler.multiplayer;
 
 import com.jack5496.secrethitler.Main;
+import com.secrethitler.menu.Room;
 import com.secrethitler.menu.RoomListning;
 import com.shephertz.app42.gaming.multiplayer.client.events.LiveRoomInfoEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.RoomEvent;
