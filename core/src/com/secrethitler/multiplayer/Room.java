@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.menu.RoomMenu;
 import com.shephertz.app42.gaming.multiplayer.client.events.RoomData;
 
 public class Room {
@@ -20,10 +21,7 @@ public class Room {
 
 	List<LocalPlayer> players;
 
-	public Room(String id) {
-		initVariables();
-		this.id = id;
-	}
+	RoomMenu roomMenu;
 
 	public Room(RoomData data) {
 		initVariables();
@@ -35,10 +33,25 @@ public class Room {
 		players = new ArrayList<LocalPlayer>();
 	}
 
-	
+	public List<LocalPlayer> getPlayers() {
+		return players;
+	}
+
+	public void setRoomMenu(RoomMenu menu) {
+		this.roomMenu = menu;
+		for (LocalPlayer p : players) {
+			roomMenu.playerJoined(p);
+		}
+	}
 
 	public void updateRoomInformations() {
 
+	}
+
+	public void setJoinedUsers(String[] users) {
+		for (String user : users) {
+			players.add(new LocalPlayer(user));
+		}
 	}
 
 	public void roomInformationsFound(RoomData data) {
@@ -46,7 +59,8 @@ public class Room {
 		this.name = data.getName();
 		this.ownerName = data.getRoomOwner();
 		this.maxUser = data.getMaxUsers();
-		Main.log(getClass(), "ID: " + id + " | Name: " + name + " | owner: " + ownerName + " | maxUser: " + maxUser);
+		// Main.log(getClass(), "ID: " + id + " | Name: " + name + " | owner: "
+		// + ownerName + " | maxUser: " + maxUser);
 	}
 
 	public int getPlayerAmount() {
@@ -72,26 +86,24 @@ public class Room {
 
 	public void join(LocalPlayer player) {
 		if (!running) {
-			if (getPlayerAmount() < maxPlayers) { // nur wenn du der 10. bist
-				if (!isPlayerInLobby(player)) {
-//					Main.log(getClass(), "Spieler tritt Lobby bei");
+			if (!isPlayerInLobby(player)) {
+				// Main.log(getClass(), "Spieler tritt Lobby bei");
 
-					players.add(player);
+				players.add(player);
+				roomMenu.playerJoined(player);
 
-				} else {
-					Main.log(getClass(), "Spieler bereits in Lobby");
-				}
 			} else {
-				Main.log(getClass(), "Hier muss noch ausgabe an joinenden Spieler gehen dass er nicht beitreten darf");
+				Main.log(getClass(), "Spieler bereits in Lobby");
 			}
 		} else {
 			Main.log(getClass(), "Spiel läuft bereits");
 		}
 	}
-	
+
 	public void leave(LocalPlayer p) {
-		if(players.contains(p)){
+		if (players.contains(p)) {
 			players.remove(p);
+			roomMenu.playerLeft(p);
 		}
 	}
 

@@ -117,7 +117,7 @@ public class Notifications implements NotifyListener {
 	@Override
 	public void onUserJoinedRoom(RoomData arg0, String userName) {
 		// TODO Auto-generated method stub
-		Main.log(getClass(), "onUserJoinedRoom");
+//		Main.log(getClass(), "onUserJoinedRoom");
 
 		// sicher selber raum, einfach extra prüfung
 		if (Multiplayer.activRoom.id.equals(arg0.getId())) {

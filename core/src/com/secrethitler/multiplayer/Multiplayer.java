@@ -46,6 +46,10 @@ public class Multiplayer {
 	public static void goOnline(String name) {
 		warpClient.connectWithUserName(name);
 	}
+	
+//	public static void getUsersInRoom(Room room){
+//		warpClient.g
+//	}
 
 	public static void joinRoom(Room room) {
 		if (activRoom == null) {
