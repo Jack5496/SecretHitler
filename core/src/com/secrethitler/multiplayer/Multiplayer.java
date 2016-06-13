@@ -9,7 +9,7 @@ public class Multiplayer {
 
 	private static ChatListener chatListener;
 
-	private static Room activRoom;
+	public static Room activRoom;
 
 	public Multiplayer() {
 

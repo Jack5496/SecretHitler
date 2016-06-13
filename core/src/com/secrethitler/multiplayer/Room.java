@@ -24,8 +24,8 @@ public class Room {
 		initVariables();
 		this.id = id;
 	}
-	
-	public Room(RoomData data){
+
+	public Room(RoomData data) {
 		initVariables();
 		roomInformationsFound(data);
 	}
@@ -34,17 +34,19 @@ public class Room {
 		running = false;
 		players = new ArrayList<LocalPlayer>();
 	}
+
 	
-	public void updateRoomInformations(){
-		
+
+	public void updateRoomInformations() {
+
 	}
-	
-	public void roomInformationsFound(RoomData data){
+
+	public void roomInformationsFound(RoomData data) {
 		this.id = data.getId();
 		this.name = data.getName();
 		this.ownerName = data.getRoomOwner();
 		this.maxUser = data.getMaxUsers();
-		Main.log(getClass(), "ID: "+id+" | Name: "+name+" | owner: "+ownerName+" | maxUser: "+maxUser);
+		Main.log(getClass(), "ID: " + id + " | Name: " + name + " | owner: " + ownerName + " | maxUser: " + maxUser);
 	}
 
 	public int getPlayerAmount() {
@@ -72,7 +74,7 @@ public class Room {
 		if (!running) {
 			if (getPlayerAmount() < maxPlayers) { // nur wenn du der 10. bist
 				if (!isPlayerInLobby(player)) {
-					Main.log(getClass(), "Spieler tritt Lobby bei");
+//					Main.log(getClass(), "Spieler tritt Lobby bei");
 
 					players.add(player);
 
@@ -84,6 +86,12 @@ public class Room {
 			}
 		} else {
 			Main.log(getClass(), "Spiel läuft bereits");
+		}
+	}
+	
+	public void leave(LocalPlayer p) {
+		if(players.contains(p)){
+			players.remove(p);
 		}
 	}
 

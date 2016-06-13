@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.Inputs.KeyBoard;
 import com.secrethitler.entitys.LocalPlayerHandler;
+import com.secrethitler.helper.Message;
 import com.secrethitler.multiplayer.Multiplayer;
 import com.secrethitler.multiplayer.Notifications;
 import com.secrethitler.uiElements.GUIButton;
@@ -46,7 +47,7 @@ public class RoomMenu implements MenuInterface {
 
 		roomID.render(batch);
 
-		List<String> messages = Notifications.getMessages();
+		List<Message> messages = Notifications.getMessages();
 		
 		int countUpTo = maxMessagesToShow;
 		if(messages.size()<countUpTo){
@@ -58,7 +59,11 @@ public class RoomMenu implements MenuInterface {
 		
 		int ypos = 0;
 		for(int i =start; i<end; i++, ypos++){
-			GUIButton guiMessage = new GUIButton(messages.get(i), null, 10, 50-ypos*5);
+			Message m = messages.get(i);
+			
+			String label = m.getTime().getTimeInHoursMinutesFormat()+" | "+m.getSender()+": "+m.getMessage();
+			
+			GUIButton guiMessage = new GUIButton(label, null, 10, 50-ypos*5);
 			guiMessage.render(batch);
 		}
 	}
@@ -75,7 +80,6 @@ public class RoomMenu implements MenuInterface {
 			}
 			if (activButton == back) {
 				Main.log(getClass(), "Switching to Room Listning");
-				Multiplayer.sendMessage("See ya Niggas!");
 				MenuHandler.setActivMenu(new RoomListning());
 				Multiplayer.leaveRoom();
 			}
