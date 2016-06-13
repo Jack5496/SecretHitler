@@ -19,7 +19,7 @@ public class MenuHandler {
 	}
 
 	static GUIButton fps = new GUIButton("", null, 90, 90,0.2f);
-	static GUIButton user = new GUIButton("", "player", 10, 90,0.1f);
+	static GUIButton user = new GUIButton("", null, 10, 90,0.1f);
 
 	public static void render(SpriteBatch batch) {
 		activMenu.render(batch);

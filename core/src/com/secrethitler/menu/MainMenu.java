@@ -58,6 +58,9 @@ public class MainMenu implements MenuInterface {
 					LocalPlayerHandler.openPlayerNameInput();
 				}
 			}
+			if (activButton == create) {
+				MenuHandler.setActivMenu(new ChooseCards("gesetztFaschist","gesetztFaschist","gesetztLiberal"));
+			}
 			if (activButton == options) {
 				Main.log(getClass(), "Switching to Options");
 				MenuHandler.setActivMenu(new OptionMenu());

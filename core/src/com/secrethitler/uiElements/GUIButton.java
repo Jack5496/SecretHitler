@@ -26,7 +26,7 @@ public class GUIButton extends Button {
 	private int heightSRC;
 
 	public String text;
-	String buttonName;
+	public String texture;
 
 	public float scale;
 
@@ -34,7 +34,7 @@ public class GUIButton extends Button {
 		this.text = label;
 		this.xper = xpos;
 		this.yper = ypos;
-		this.buttonName = buttonName;
+		this.texture = buttonName;
 		this.scale = scale;
 		if (buttonName != null) {
 			Texture button = ResourceLoader.getInstance().getButton(buttonName);
@@ -62,22 +62,27 @@ public class GUIButton extends Button {
 	}
 
 	public void render(SpriteBatch batch) {
+		float drawScale = this.scale;
+		
+		if (this.hoverd) {
+			drawScale+=0.025f;
+			font.setColor(Color.RED);
+		}
+		
 		int xpos = (int) (Main.getInstance().getWidth() * xper / 100);
 		int ypos = (int) (Main.getInstance().getHeight() * yper / 100);
 
-		if (buttonName != null) {
-			Texture button = ResourceLoader.getInstance().getButton(buttonName);
+		if (texture != null) {
+			Texture button = ResourceLoader.getInstance().getButton(texture);
 
-			width = (int) (Main.getInstance().getWidth() * this.scale);
+			width = (int) (Main.getInstance().getWidth() * drawScale);
 			float xscale = (float) width / (float) button.getWidth();
 			height = (int) (button.getHeight() * xscale);
 
 			batch.draw(button, xpos - (width / 2), ypos - (height / 2), width, height);
 		}
 
-		if (this.hoverd) {
-			font.setColor(Color.RED);
-		}
+		
 
 		GlyphLayout layout = new GlyphLayout(); // dont do this every frame!
 												// Store it as member
