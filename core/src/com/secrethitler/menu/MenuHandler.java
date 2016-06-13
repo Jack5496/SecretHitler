@@ -25,13 +25,13 @@ public class MenuHandler {
 	public static void render(SpriteBatch batch) {
 		activMenu.render(batch);
 
-		fps.label = Gdx.graphics.getFramesPerSecond() + "";
+		fps.text = Gdx.graphics.getFramesPerSecond() + "";
 		fps.render(batch);
 
 		if (LocalPlayerHandler.playerLoggedIn()) {
-			user.label = LocalPlayerHandler.localPlayer.name;
+			user.text = LocalPlayerHandler.localPlayer.name;
 		} else {
-			user.label = "Offline";
+			user.text = "Offline";
 		}
 
 		user.render(batch);

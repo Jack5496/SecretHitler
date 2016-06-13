@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.Inputs.KeyBoard;
+import com.secrethitler.entitys.LocalPlayer;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.helper.Message;
 import com.secrethitler.multiplayer.Multiplayer;
@@ -23,8 +24,11 @@ public class RoomMenu implements MenuInterface {
 	GUIButton chat = new GUIButton("Chat", "test", 50, 80);
 	GUIButton back = new GUIButton("Back", "test", 50, 50);
 
+	List<GUIButton> playerButtons;
+
 	public RoomMenu() {
 		buttons = new ArrayList<GUIButton>();
+		playerButtons = new ArrayList<GUIButton>();
 
 		buttons.add(chat);
 		buttons.add(back);
@@ -35,7 +39,7 @@ public class RoomMenu implements MenuInterface {
 		activButton = chat;
 		activButton.setHovered(true);
 	}
-	
+
 	public static int maxMessagesToShow = 8;
 
 	@Override
@@ -46,24 +50,49 @@ public class RoomMenu implements MenuInterface {
 		}
 
 		roomID.render(batch);
+		renderMessages(batch);
 
+		int ypos = 0;
+		for (GUIButton playerButton : new ArrayList<GUIButton>(playerButtons)) {
+				playerButton.yper = 80-ypos*5;
+				playerButton.render(batch);
+				ypos++;
+		}
+	}
+
+	public void playerJoined(LocalPlayer p) {
+		GUIButton playerButton = new GUIButton(p.name,null,80,80);
+		playerButtons.add(playerButton);
+	}
+
+	public void playerLeft(LocalPlayer p) {
+		Main.log(getClass(), "Player left, search for Button");
+		for (GUIButton playerButton : new ArrayList<GUIButton>(playerButtons)) {
+			if (playerButton.text.equals(p.name)) {
+				Main.log(getClass(), "remove Player name");
+				playerButtons.remove(playerButton);
+			}
+		}
+	}
+
+	public void renderMessages(SpriteBatch batch) {
 		List<Message> messages = Notifications.getMessages();
-		
+
 		int countUpTo = maxMessagesToShow;
-		if(messages.size()<countUpTo){
+		if (messages.size() < countUpTo) {
 			countUpTo = messages.size();
 		}
-		
-		int start = messages.size()-countUpTo;
+
+		int start = messages.size() - countUpTo;
 		int end = messages.size();
-		
+
 		int ypos = 0;
-		for(int i =start; i<end; i++, ypos++){
+		for (int i = start; i < end; i++, ypos++) {
 			Message m = messages.get(i);
-			
-			String label = m.getTime().getTimeInHoursMinutesFormat()+" | "+m.getSender()+": "+m.getMessage();
-			
-			GUIButton guiMessage = new GUIButton(label, null, 10, 50-ypos*5);
+
+			String label = m.getTime().getTimeInHoursMinutesFormat() + " | " + m.getSender() + ": " + m.getMessage();
+
+			GUIButton guiMessage = new GUIButton(label, null, 10, 50 - ypos * 5);
 			guiMessage.render(batch);
 		}
 	}

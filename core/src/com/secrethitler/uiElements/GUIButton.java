@@ -15,13 +15,13 @@ public class GUIButton extends Button {
 	}
 
 	boolean hoverd;
-	int xper;
-	int yper;
-	public String label;
+	public int xper;
+	public int yper;
+	public String text;
 	String buttonName;
 
 	public GUIButton(String label, String buttonName, int xpos, int ypos) {
-		this.label = label;
+		this.text = label;
 		this.xper = xpos;
 		this.yper = ypos;
 		this.buttonName = buttonName;
@@ -58,7 +58,7 @@ public class GUIButton extends Button {
 		if (this.hoverd) {
 			font.setColor(Color.RED);
 		}
-		font.draw(batch, label, xpos, ypos);
+		font.draw(batch, text, xpos, ypos);
 		font.setColor(Color.BLACK);
 	}
 	

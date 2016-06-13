@@ -1,7 +1,7 @@
 package com.secrethitler.multiplayer;
 
 import com.jack5496.secrethitler.Main;
-import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
+import com.secrethitler.menu.RoomListning;
 import com.shephertz.app42.gaming.multiplayer.client.events.LiveRoomInfoEvent;
 import com.shephertz.app42.gaming.multiplayer.client.events.RoomEvent;
 import com.shephertz.app42.gaming.multiplayer.client.listener.RoomRequestListener;
@@ -13,15 +13,18 @@ public class RoomListener implements RoomRequestListener {
 		// TODO Auto-generated method stub
 		Main.log(getClass(), "onGetLiveRoomInfoDone");
 
-		Room room = ZoneListener.instance.rooms.get(arg0.getData().getId());
+		Room room = null;
 
 		if (room == null) {
 			room = new Room(arg0.getData());
-			ZoneListener.instance.rooms.put(room.id, room);
+			if (arg0.getJoinedUsers() != null) {
+				room.setJoinedUsers(arg0.getJoinedUsers());
+			}
+			RoomListning.instance.addLoadedRoom(room);
 		}
-		else{
-			room.roomInformationsFound(arg0.getData());
-		}
+		// else{
+		// room.roomInformationsFound(arg0.getData());
+		// }
 	}
 
 	@Override

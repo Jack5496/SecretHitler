@@ -1,6 +1,7 @@
 package com.secrethitler.menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.Input.Keys;
@@ -22,15 +23,15 @@ public class RoomListning implements MenuInterface {
 	GUIButton back = new GUIButton("Back", "test", 25, 80);
 	GUIButton loadRooms = new GUIButton("Load Rooms", "test", 25, 20);
 
-	List<GUIButton> roomButtons;
+	HashMap<GUIButton,Room> roomsListed;
+	GUIButton lastAdded;
 
 	public static RoomListning instance;
 
 	public RoomListning() {
 		instance = this;
-
 		buttons = new ArrayList<GUIButton>();
-		roomButtons = new ArrayList<GUIButton>();
+		resetLoadedRooms();
 
 		buttons.add(back);
 		buttons.add(loadRooms);
@@ -48,7 +49,8 @@ public class RoomListning implements MenuInterface {
 		for (GUIButton button : buttons) {
 			button.render(batch);
 		}
-		for (GUIButton button : roomButtons) {
+		
+		for (GUIButton button : roomsListed.keySet()) {
 			button.render(batch);
 		}
 
@@ -70,51 +72,54 @@ public class RoomListning implements MenuInterface {
 				resetLoadedRooms();
 				Multiplayer.getAllRooms();
 			}
-			if (roomButtons.contains(activButton)) {
+			if (roomsListed.containsKey(activButton)) {
 				Main.log(getClass(), "Enter Room");
-				String roomID = activButton.label;
-				// Multiplayer.updateRoomInformations(roomID);
-				Multiplayer.joinRoom(new Room(roomID));
-				MenuHandler.setActivMenu(new RoomMenu());
+				
+				Room room = roomsListed.get(activButton);
+				RoomMenu roomMenu = new RoomMenu();
+				room.setRoomMenu(roomMenu);
+				
+				Multiplayer.joinRoom(room);
+				MenuHandler.setActivMenu(roomMenu);
 			}
 		}
 	}
 
 	public void resetLoadedRooms() {
-		roomButtons = new ArrayList<GUIButton>();
+		roomsListed = new HashMap<GUIButton,Room>();
 	}
 
 	public void allRoomsLoaded() {
 		resetLoadedRooms();
 
-		List<String> roomIDs = new ArrayList<String>();
-		roomIDs.addAll(ZoneListener.instance.rooms.keySet());
+		List<String> roomIDs = new ArrayList<String>(ZoneListener.instance.rooms);
 
 		updateMenuButtonsToRight();
 
-		int ypos = 90;
-		for (String roomID : roomIDs) {
-			GUIButton room = new GUIButton(roomID, null, 75, ypos);
-
-			roomButtons.add(room);
-			ypos -= 10;
+		Main.log(getClass(), "Updating room Informations of all");
+		for(String roomID : roomIDs){
+			Multiplayer.updateRoomInformations(roomID);
 		}
-
-		for (int i = 0; i < roomButtons.size(); i++) {
-			GUIButton button = roomButtons.get(i);
-			if (i == 0) { // falls erster
-				button.setNeighbors(loadRooms, button, button, roomButtons.get(i + 1));
-			} else if (i == roomButtons.size() - 1) { // falls letzter
-				button.setNeighbors(loadRooms, button, roomButtons.get(i - 1), button);
-			} else {
-				button.setNeighbors(loadRooms, button, roomButtons.get(i - 1), roomButtons.get(i + 1));
-			}
-		}
-
-		if (!roomButtons.isEmpty()) {
+	}
+	
+	public void addLoadedRoom(Room room){
+		
+		String text = room.name+" ["+room.getPlayerAmount()+"/"+room.maxUser+"]";
+		int ypos = roomsListed.size()*-10;
+		GUIButton roomButton = new GUIButton(text,null,80,80+ypos);
+		roomsListed.put(roomButton, room);
+		
+		if(lastAdded==null){
 			for (GUIButton button : buttons) {
-				button.right = roomButtons.get(0);
+				button.right = roomButton;
 			}
+			roomButton.setNeighbors(loadRooms, roomButton, roomButton, roomButton);
+			lastAdded = roomButton;
+		}
+		else{
+			roomButton.setNeighbors(loadRooms, roomButton, lastAdded, roomButton);
+			lastAdded.setNeighbors(loadRooms, lastAdded, lastAdded.abouve, roomButton);
+			lastAdded = roomButton;
 		}
 	}
 
