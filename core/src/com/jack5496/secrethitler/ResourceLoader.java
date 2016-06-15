@@ -23,6 +23,9 @@ public class ResourceLoader{
 	
 	public static String buttons = data+"buttons/";
 	
+	public static String fasictCard = "gesetztFaschist";
+	public static String liberalCard ="gesetztLiberal";
+	
 	public void addToLoad(String name) {
 		assets.load(Gdx.files.internal(name).path(), Texture.class);
 	}

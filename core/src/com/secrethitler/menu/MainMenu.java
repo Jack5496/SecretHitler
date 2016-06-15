@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
+import com.jack5496.secrethitler.ResourceLoader;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.uiElements.GUIButton;
 
@@ -14,10 +15,9 @@ public class MainMenu implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	
-	GUIButton listRooms = new GUIButton("Browse", "test", 50, 80,0.2f);
-	GUIButton create = new GUIButton("Create", "test", 50, 50,0.2f);
-	GUIButton options = new GUIButton("Options", "test", 50, 20,0.2f);
+	GUIButton listRooms = new GUIButton("Browse", "test", 50, 80, 0.2f).setOnHoverBigger(true);
+	GUIButton create = new GUIButton("Create", "test", 50, 50, 0.2f).setOnHoverBigger(true);
+	GUIButton options = new GUIButton("Options", "test", 50, 20, 0.2f).setOnHoverBigger(true);
 
 	public MainMenu() {
 		buttons = new ArrayList<GUIButton>();
@@ -59,7 +59,8 @@ public class MainMenu implements MenuInterface {
 				}
 			}
 			if (activButton == create) {
-				MenuHandler.setActivMenu(new ChooseCards("gesetztFaschist","gesetztFaschist","gesetztLiberal"));
+				MenuHandler.setActivMenu(new ChooseCards(ResourceLoader.fasictCard, ResourceLoader.fasictCard,
+						ResourceLoader.liberalCard));
 			}
 			if (activButton == options) {
 				Main.log(getClass(), "Switching to Options");

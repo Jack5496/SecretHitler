@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.game.Game;
 import com.secrethitler.helper.Message;
 import com.secrethitler.multiplayer.Multiplayer;
 import com.secrethitler.multiplayer.Notifications;
@@ -21,72 +22,59 @@ public class ChooseCards implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton ok = new GUIButton("OK", "test", 90, 25, 0.2f);
-	GUIButton back = new GUIButton("Exit", "test", 90, 75, 0.2f);
+	GUIButton ok = new GUIButton("OK", "test", 90, 25, 0.2f).setOnHoverBigger(true);
+	GUIButton back = new GUIButton("Exit", "test", 90, 75, 0.2f).setOnHoverBigger(true);
 
 	static float fasPlatz = 20;
 	static int cardHeight = 50;
 	static int fasStart = 10;
 	static float cardSize = 0.18f;
-	
-	static List<GUIButton> cards;
+
+	static HashMap<GUIButton, GUIButton> cards; // Card,Discard button
+	static HashMap<GUIButton, String> cardTypes; // Card,Discard button
 	static List<GUIButton> choosed;
-	static List<GUIButton> discard;
 
-	static GUIButton fasictGesetzt1;
-	static GUIButton fasictGesetzt2;
-	static GUIButton fasictGesetzt3;
-	
-	public ChooseCards(String first, String second) {
+	static GUIButton gesetzt1;
+	static GUIButton gesetzt2;
+	static GUIButton gesetzt3;
 
-		initLists();
-
-		
-		buttons.add(ok);
-		buttons.add(back);
-
-		fasictGesetzt1 = new GUIButton(first, first, fasStart, cardHeight, cardSize);
-		fasictGesetzt2 = new GUIButton(second, second, fasStart + 1 * fasPlatz, cardHeight, cardSize);
-		
-		cards.add(fasictGesetzt1);
-		cards.add(fasictGesetzt2);
-		
-		choosed.add(fasictGesetzt1);
-		choosed.add(fasictGesetzt2);
-
-		ok.setNeighbors(back, ok, ok, ok);
-		back.setNeighbors(back, ok, back, back);
-
-		activButton = ok;
-		activButton.setHovered(true);
+	public ChooseCards(String first, String second) {		
+		this(first,second,null);
 	}
-	
-	private void initLists(){
+
+	private void initLists() {
 		buttons = new ArrayList<GUIButton>();
-		cards = new ArrayList<GUIButton>();
+		
+		cards = new HashMap<GUIButton, GUIButton>();
+		cardTypes = new HashMap<GUIButton, String>();
 		choosed = new ArrayList<GUIButton>();
-		discard = new ArrayList<GUIButton>();
 	}
 
 	public ChooseCards(String first, String second, String third) {
 
 		initLists();
 
-		
 		buttons.add(ok);
 		buttons.add(back);
 
-		fasictGesetzt1 = new GUIButton(first, first, fasStart, cardHeight, cardSize);
-		fasictGesetzt2 = new GUIButton(second, second, fasStart + 1 * fasPlatz, cardHeight, cardSize);
-		fasictGesetzt3 = new GUIButton(third, third, fasStart + 2 * fasPlatz, cardHeight, cardSize);
+		gesetzt1 = new GUIButton("", first, fasStart, cardHeight, cardSize).setOnHoverBigger(true);
+		gesetzt2 = new GUIButton("", second, fasStart + 1 * fasPlatz, cardHeight, cardSize).setOnHoverBigger(true);
+
+		cards.put(gesetzt1, null);
+		cards.put(gesetzt2, null);
 		
-		cards.add(fasictGesetzt1);
-		cards.add(fasictGesetzt2);
-		cards.add(fasictGesetzt3);
-		
-		choosed.add(fasictGesetzt1);
-		choosed.add(fasictGesetzt2);
-		choosed.add(fasictGesetzt3);
+		cardTypes.put(gesetzt1, first);
+		cardTypes.put(gesetzt2, second);
+
+		choosed.add(gesetzt1);
+		choosed.add(gesetzt2);
+
+		if (third != null) {
+			gesetzt3 = new GUIButton("", third, fasStart + 2 * fasPlatz, cardHeight, cardSize).setOnHoverBigger(true);
+			cards.put(gesetzt3, null);
+			choosed.add(gesetzt3);
+			cardTypes.put(gesetzt3, third);
+		}
 
 		ok.setNeighbors(back, ok, ok, ok);
 		back.setNeighbors(back, ok, back, back);
@@ -101,23 +89,41 @@ public class ChooseCards implements MenuInterface {
 		for (GUIButton button : buttons) {
 			button.render(batch);
 		}
-		for (GUIButton button : cards) {
-			button.render(batch);
+		for (Entry<GUIButton, GUIButton> button : cards.entrySet()) {
+			button.getKey().render(batch);
+
+			GUIButton discard = button.getValue();
+			if (discard != null) {
+				discard.render(batch);
+			}
 		}
-		for (GUIButton button : discard) {
-			button.render(batch);
+	}
+	
+	public void cardsChoosed(){
+		String choosing = "";
+		
+		Main.log(getClass(), "CardsChoosed(): "+choosed.size());
+		for(GUIButton card : choosed){
+	
+			String type = cardTypes.get(card);
+			Main.log(getClass(), "take: "+type);
+			choosing+=type+Game.chooseRegex;
+			
 		}
+		choosing = choosing.substring(0, choosing.length()-1);
+		
+		Multiplayer.activRoom.activGame.cardsChoosed(choosing);
 	}
 
 	@Override
 	public void enter() {
 		if (activButton != null) {
 			if (activButton == ok) {
-				if(choosed.size()==cards.size()-1){
-				MenuHandler.setActivMenu(Multiplayer.activRoom);
-				Multiplayer.sendMessage("");
-				}else{
-					Main.log(getClass(), "Choose "+(cards.size()-1)+" Cards");
+				if (choosed.size() == cards.size() - 1) {
+					MenuHandler.setActivMenu(Multiplayer.activRoom);
+					cardsChoosed();
+				} else {
+					Main.log(getClass(), "Choose " + (cards.size() - 1) + " Cards");
 				}
 			}
 			if (activButton == back) {
@@ -125,16 +131,16 @@ public class ChooseCards implements MenuInterface {
 				MenuHandler.setActivMenu(new RoomListning());
 				Multiplayer.leaveRoom();
 			}
-			if(cards.contains(activButton)){
-				if(choosed.contains(activButton)){
+			if (cards.containsKey(activButton)) {
+				if (choosed.contains(activButton)) {
 					choosed.remove(activButton);
-					discard.add(new GUIButton("", "gesetztVerdeckt", activButton.xper, activButton.yper, cardSize));
-				}
-				else{
+					cards.put(activButton,
+							new GUIButton("", "gesetztVerdeckt", activButton.xper, activButton.yper, cardSize));
+				} else {
 					choosed.add(activButton);
-					discard.remove(0);
+					cards.put(activButton, null);
 				}
-				Main.log(getClass(), "Choosed: "+choosed.size()+" Cards");
+//				Main.log(getClass(), "Choosed: " + choosed.size() + " Cards");
 			}
 
 		}
@@ -220,7 +226,7 @@ public class ChooseCards implements MenuInterface {
 				activButton.setHovered(true);
 			}
 		}
-		for (GUIButton button : cards) {
+		for (GUIButton button : cards.keySet()) {
 			button.pressAt(x, y);
 			if (button.isPressed()) {
 				activButton = button;

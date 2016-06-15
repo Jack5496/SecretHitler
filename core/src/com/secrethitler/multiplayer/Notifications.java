@@ -31,8 +31,8 @@ public class Notifications implements NotifyListener {
 	public static List<Message> getMessages() {
 		return messages;
 	}
-	
-	public void addMessage(Message m){
+
+	public void addMessage(Message m) {
 		if (messages.size() >= maxMessagesHolding) {
 			messages.remove(0);
 		}
@@ -42,7 +42,12 @@ public class Notifications implements NotifyListener {
 	@Override
 	public void onChatReceived(ChatEvent arg0) {
 		Message m = new Message(arg0);
-		addMessage(m);
+		Main.log(getClass(), m.getMessage());
+		if (m.getMessage().equals("president")) {
+			Multiplayer.activRoom.activGame.startAsPresident();
+		} else {
+			addMessage(m);
+		}
 	}
 
 	@Override
@@ -115,13 +120,13 @@ public class Notifications implements NotifyListener {
 	@Override
 	public void onUserJoinedRoom(RoomData arg0, String userName) {
 		// TODO Auto-generated method stub
-//		Main.log(getClass(), "onUserJoinedRoom");
+		// Main.log(getClass(), "onUserJoinedRoom");
 
 		// sicher selber raum, einfach extra prüfung
 		if (Multiplayer.activRoom.id.equals(arg0.getId())) {
 			Multiplayer.activRoom.playerJoined(new LocalPlayer(userName));
-			
-			Message m = new Message("System",arg0.getId(),userName+" joined");
+
+			Message m = new Message("System", arg0.getId(), userName + " joined");
 			addMessage(m);
 		}
 	}
@@ -138,7 +143,7 @@ public class Notifications implements NotifyListener {
 		Main.log(getClass(), "onUserLeftRoom");
 		if (Multiplayer.activRoom.id.equals(arg0.getId())) {
 			Multiplayer.activRoom.playerLeft(new LocalPlayer(userName));
-			Message m = new Message("System",arg0.getId(),userName+" left");
+			Message m = new Message("System", arg0.getId(), userName + " left");
 			addMessage(m);
 		}
 	}

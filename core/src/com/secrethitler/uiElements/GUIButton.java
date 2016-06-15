@@ -30,6 +30,8 @@ public class GUIButton extends Button {
 
 	public float scale;
 
+	public boolean onHoverBigger = false;
+
 	public GUIButton(String label, String buttonName, float xpos, float ypos, float scale) {
 		this.text = label;
 		this.xper = xpos;
@@ -44,14 +46,19 @@ public class GUIButton extends Button {
 
 		this.hoverd = false;
 	}
+	
+	public GUIButton setOnHoverBigger(boolean bigger){
+		this.onHoverBigger = bigger;
+		return this;
+	}
 
 	public void pressAt(int x, int y) {
 		int xpos = (int) (Main.getInstance().getWidth() * xper / 100);
 		int ypos = (int) (Main.getInstance().getHeight() * yper / 100);
 
 		this.release();
-		if (xpos - width/2 < x && x < xpos + width/2) {
-			if (ypos - height/2 < y && y < ypos + height/2) {
+		if (xpos - width / 2 < x && x < xpos + width / 2) {
+			if (ypos - height / 2 < y && y < ypos + height / 2) {
 				this.press();
 			}
 		}
@@ -63,12 +70,14 @@ public class GUIButton extends Button {
 
 	public void render(SpriteBatch batch) {
 		float drawScale = this.scale;
-		
+
 		if (this.hoverd) {
-			drawScale+=0.025f;
+			if (onHoverBigger) {
+				drawScale += 0.025f;
+			}
 			font.setColor(Color.RED);
 		}
-		
+
 		int xpos = (int) (Main.getInstance().getWidth() * xper / 100);
 		int ypos = (int) (Main.getInstance().getHeight() * yper / 100);
 
@@ -81,8 +90,6 @@ public class GUIButton extends Button {
 
 			batch.draw(button, xpos - (width / 2), ypos - (height / 2), width, height);
 		}
-
-		
 
 		GlyphLayout layout = new GlyphLayout(); // dont do this every frame!
 												// Store it as member

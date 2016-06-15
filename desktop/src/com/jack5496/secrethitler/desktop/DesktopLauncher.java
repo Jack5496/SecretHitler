@@ -15,7 +15,7 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "SecretPeter";
-		String model = iphone5;
+		String model = ipad;
 
 		if (model.equals(iphone5)) {
 			config.width = 1163;

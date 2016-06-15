@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.game.Game;
 import com.secrethitler.helper.Message;
 import com.secrethitler.multiplayer.Multiplayer;
 import com.secrethitler.multiplayer.Notifications;
@@ -26,6 +27,8 @@ public class Room implements MenuInterface {
 	public static final int minPlayers = 5;
 	public static final int maxPlayers = 10;
 
+	public boolean spectate = false;
+
 	public boolean running;
 
 	List<GUIButton> buttons;
@@ -33,45 +36,51 @@ public class Room implements MenuInterface {
 
 	GUIButton roomID = new GUIButton("RoomID", null, 10, 80, 0.2f);
 
-	GUIButton chat = new GUIButton("Chat", "test", 60, 15, 0.2f);
-	GUIButton back = new GUIButton("Back", "test", 40, 15, 0.2f);
-	
-	static GUIButton faschist = new GUIButton("", "spielfeldFaschist5-6", 50, 80, 0.5f);
-	static GUIButton liberal = new GUIButton("", "spielfeldLiberal", 50, 50, 0.5f);
-	
+	GUIButton chat = new GUIButton("Chat", "test", 60, 15, 0.2f).setOnHoverBigger(true);
+	GUIButton back = new GUIButton("Back", "test", 40, 15, 0.2f).setOnHoverBigger(true);
+
+	static GUIButton faschistBoard = new GUIButton("", "spielfeldFaschist5-6", 50, 80, 0.5f);
+	static GUIButton liberalBoard = new GUIButton("", "spielfeldLiberal", 50, 50, 0.5f);
+
 	static float fasPlatz = 6.9f;
 	static int fasStart = 33;
-	
+
+	public int fasictCards = 0;
+	List<GUIButton> fasictCardsList;
+
 	static GUIButton fasictGesetzt1 = new GUIButton("", "gesetztFaschist", fasStart, 80, 0.06f);
-	static GUIButton fasictGesetzt2 = new GUIButton("", "gesetztFaschist", fasStart+1*fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt3 = new GUIButton("", "gesetztFaschist", fasStart+2*fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt4 = new GUIButton("", "gesetztFaschist", fasStart+3*fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt5 = new GUIButton("", "gesetztFaschist", fasStart+4*fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt6 = new GUIButton("", "gesetztFaschist", fasStart+5*fasPlatz, 80, 0.06f);
-	
-	
+	static GUIButton fasictGesetzt2 = new GUIButton("", "gesetztFaschist", fasStart + 1 * fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt3 = new GUIButton("", "gesetztFaschist", fasStart + 2 * fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt4 = new GUIButton("", "gesetztFaschist", fasStart + 3 * fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt5 = new GUIButton("", "gesetztFaschist", fasStart + 4 * fasPlatz, 80, 0.06f);
+	static GUIButton fasictGesetzt6 = new GUIButton("", "gesetztFaschist", fasStart + 5 * fasPlatz, 80, 0.06f);
+
 	static int libPlatz = 7;
 	static int libStart = 50;
-	
-	static GUIButton liberalGesetzt1 = new GUIButton("", "gesetztLiberal", libStart-2*libPlatz, 50, 0.06f);
-	static GUIButton liberalGesetzt2 = new GUIButton("", "gesetztLiberal", libStart-1*libPlatz, 50, 0.06f);
+
+	public int liberalCards = 0;
+	List<GUIButton> liberalCardsList;
+
+	static GUIButton liberalGesetzt1 = new GUIButton("", "gesetztLiberal", libStart - 2 * libPlatz, 50, 0.06f);
+	static GUIButton liberalGesetzt2 = new GUIButton("", "gesetztLiberal", libStart - 1 * libPlatz, 50, 0.06f);
 	static GUIButton liberalGesetzt3 = new GUIButton("", "gesetztLiberal", libStart, 50, 0.06f);
-	static GUIButton liberalGesetzt4 = new GUIButton("", "gesetztLiberal", libStart+1*libPlatz, 50, 0.06f);
-	static GUIButton liberalGesetzt5 = new GUIButton("", "gesetztLiberal", libStart+2*libPlatz, 50, 0.06f);
-	
-	
+	static GUIButton liberalGesetzt4 = new GUIButton("", "gesetztLiberal", libStart + 1 * libPlatz, 50, 0.06f);
+	static GUIButton liberalGesetzt5 = new GUIButton("", "gesetztLiberal", libStart + 2 * libPlatz, 50, 0.06f);
+
 	static int coinStart = 43;
 	static float coinPlatz = 4.5f;
 	static int coindHeight = 39;
-	
+
 	static GUIButton coin1 = new GUIButton("", "coin", coinStart, coindHeight, 0.025f);
-	static GUIButton coin2 = new GUIButton("", "coin", coinStart+1*coinPlatz, coindHeight, 0.025f);
-	static GUIButton coin3 = new GUIButton("", "coin", coinStart+2*coinPlatz, coindHeight, 0.025f);
-	static GUIButton coin4 = new GUIButton("", "coin", coinStart+3*coinPlatz, coindHeight, 0.025f);
-	
+	static GUIButton coin2 = new GUIButton("", "coin", coinStart + 1 * coinPlatz, coindHeight, 0.025f);
+	static GUIButton coin3 = new GUIButton("", "coin", coinStart + 2 * coinPlatz, coindHeight, 0.025f);
+	static GUIButton coin4 = new GUIButton("", "coin", coinStart + 3 * coinPlatz, coindHeight, 0.025f);
+
 	HashMap<GUIButton, LocalPlayer> players;
 
-	public Room(RoomData data) {		
+	public Game activGame;
+	
+	public Room(RoomData data) {
 		roomInformationsFound(data);
 
 		buttons = new ArrayList<GUIButton>();
@@ -79,32 +88,34 @@ public class Room implements MenuInterface {
 
 		buttons.add(chat);
 		buttons.add(back);
-		buttons.add(liberal);
-		buttons.add(faschist);
-		
-		buttons.add(liberalGesetzt1);
-		buttons.add(liberalGesetzt2);
-		buttons.add(liberalGesetzt3);
-		buttons.add(liberalGesetzt4);
-		buttons.add(liberalGesetzt5);
-		
-		buttons.add(fasictGesetzt1);
-		buttons.add(fasictGesetzt2);
-		buttons.add(fasictGesetzt3);
-		buttons.add(fasictGesetzt4);
-		buttons.add(fasictGesetzt5);
-		buttons.add(fasictGesetzt6);
-		
-		buttons.add(coin1);
-		buttons.add(coin2);
-		buttons.add(coin3);
-		buttons.add(coin4);
+
+		liberalCardsList = new ArrayList<GUIButton>();
+		liberalCardsList.add(liberalGesetzt1);
+		liberalCardsList.add(liberalGesetzt2);
+		liberalCardsList.add(liberalGesetzt3);
+		liberalCardsList.add(liberalGesetzt4);
+		liberalCardsList.add(liberalGesetzt5);
+
+		fasictCardsList = new ArrayList<GUIButton>();
+		fasictCardsList.add(fasictGesetzt1);
+		fasictCardsList.add(fasictGesetzt2);
+		fasictCardsList.add(fasictGesetzt3);
+		fasictCardsList.add(fasictGesetzt4);
+		fasictCardsList.add(fasictGesetzt5);
+		fasictCardsList.add(fasictGesetzt6);
+
+		// buttons.add(coin1);
+		// buttons.add(coin2);
+		// buttons.add(coin3);
+		// buttons.add(coin4);
 
 		chat.setNeighbors(back, chat, chat, chat);
 		back.setNeighbors(back, chat, back, back);
 
 		activButton = chat;
 		activButton.setHovered(true);
+		
+		activGame = new Game();
 	}
 
 	public int getPlayerAmount() {
@@ -126,10 +137,19 @@ public class Room implements MenuInterface {
 	public void render(SpriteBatch batch) {
 
 		for (GUIButton button : buttons) {
-			button.render(batch);
+			if (spectate) {
+				if (button != chat) {
+					button.render(batch);
+				}
+			} else {
+				button.render(batch);
+			}
 		}
 
+		renderGameBoard(batch);
+
 		roomID.render(batch);
+
 		renderMessages(batch);
 
 		int ypos = 0;
@@ -137,6 +157,18 @@ public class Room implements MenuInterface {
 			playerButton.yper = 80 - ypos * 5;
 			playerButton.render(batch);
 			ypos++;
+		}
+	}
+
+	private void renderGameBoard(SpriteBatch batch) {
+		faschistBoard.render(batch);
+		for (int i = 0; i < fasictCards; i++) {
+			fasictCardsList.get(i).render(batch);
+		}
+
+		liberalBoard.render(batch);
+		for (int i = 0; i < liberalCards; i++) {
+			liberalCardsList.get(i).render(batch);
 		}
 	}
 
@@ -226,8 +258,10 @@ public class Room implements MenuInterface {
 	@Override
 	public void enter() {
 		if (activButton != null) {
-			if (activButton == chat) {
-				Multiplayer.chatInRoom();
+			if (spectate == false) {
+				if (activButton == chat) {
+					Multiplayer.chatInRoom();
+				}
 			}
 			if (activButton == back) {
 				Main.log(getClass(), "Switching to Room Listning");

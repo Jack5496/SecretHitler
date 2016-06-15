@@ -16,8 +16,8 @@ public class OptionMenu implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton changeName = new GUIButton("ChangeName", "test", 50, 80,0.2f);
-	GUIButton back = new GUIButton("Back", "test", 50, 50,0.2f);
+	GUIButton changeName = new GUIButton("ChangeName", "test", 50, 80,0.2f).setOnHoverBigger(true);
+	GUIButton back = new GUIButton("Back", "test", 50, 50,0.2f).setOnHoverBigger(true);
 
 	public OptionMenu() {
 		buttons = new ArrayList<GUIButton>();
