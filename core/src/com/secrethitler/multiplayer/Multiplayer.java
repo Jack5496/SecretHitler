@@ -1,5 +1,8 @@
 package com.secrethitler.multiplayer;
 
+import java.util.List;
+
+import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
 import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.menu.Room;
@@ -77,6 +80,47 @@ public class Multiplayer {
 	 */
 	public static void sendPrivateMessage(String message, LocalPlayer p) {
 		warpClient.sendPrivateChat(p.name, "PRIVAT: " + message);
+	}
+
+	public static void updateCards(int liberalBoard, int fasictBoard, int liberalCards, int fasictCards,
+			int liberalDiscards, int fasictDiscards) {
+		warpClient.sendChat(Notifications.SYSTEM + Notifications.REGEX + Notifications.UPDATECARDS + Notifications.REGEX
+				+ liberalBoard + Notifications.REGEX + fasictBoard + Notifications.REGEX + liberalCards
+				+ Notifications.REGEX + fasictCards + Notifications.REGEX + liberalDiscards + Notifications.REGEX
+				+ fasictDiscards);
+	}
+
+	public static void startPresident(LocalPlayer p) {
+		warpClient.sendPrivateChat(p.name,
+				Notifications.SYSTEM + Notifications.REGEX + Notifications.PRESIDENT + Notifications.REGEX + p.name);
+	}
+
+	public static void sendRoles(LocalPlayer hitler, List<LocalPlayer> liberals, List<LocalPlayer> fasicts) {
+		String message = "";
+		message += Notifications.SYSTEM + Notifications.REGEX;
+		message += Notifications.ROLES + Notifications.REGEX;
+		message += hitler.name + Notifications.REGEX;
+		message += liberals.size() + Notifications.REGEX;
+		Main.log(Multiplayer.class,"Hitler ist:"+ hitler.name);
+		for (LocalPlayer liberal : liberals) {
+			Main.log(Multiplayer.class,"Liberale sind :"+ liberal.name);
+			message += liberal.name + Notifications.REGEX;
+		}
+		message += fasicts.size() + Notifications.REGEX;
+		for (LocalPlayer fasict : fasicts) {
+			Main.log(Multiplayer.class,"Fasict sind:"+ fasict.name);
+			message += fasict.name + Notifications.REGEX;
+		}
+		message = message.substring(0, message.length()-Notifications.REGEX.length());
+
+		Main.log(Multiplayer.class, message);
+		warpClient.sendChat(message);
+
+	}
+
+	public static void startCancelor(LocalPlayer p, String card1, String card2) {
+		warpClient.sendPrivateChat(p.name, Notifications.SYSTEM + Notifications.REGEX + Notifications.CANCELOR
+				+ Notifications.REGEX + card1 + Notifications.REGEX + card2);
 	}
 
 	public static void chatInRoom() {

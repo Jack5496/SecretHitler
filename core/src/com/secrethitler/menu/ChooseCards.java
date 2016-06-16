@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.game.Game;
 import com.secrethitler.helper.Message;
 import com.secrethitler.multiplayer.Multiplayer;
@@ -23,7 +24,7 @@ public class ChooseCards implements MenuInterface {
 	GUIButton activButton;
 
 	GUIButton ok = new GUIButton("OK", "test", 90, 25, 0.2f).setOnHoverBigger(true);
-	GUIButton back = new GUIButton("Exit", "test", 90, 75, 0.2f).setOnHoverBigger(true);
+	GUIButton back = new GUIButton("Back", "test", 90, 75, 0.2f).setOnHoverBigger(true);
 
 	static float fasPlatz = 20;
 	static int cardHeight = 50;
@@ -38,13 +39,13 @@ public class ChooseCards implements MenuInterface {
 	static GUIButton gesetzt2;
 	static GUIButton gesetzt3;
 
-	public ChooseCards(String first, String second) {		
-		this(first,second,null);
+	public ChooseCards(String first, String second) {
+		this(first, second, null);
 	}
 
 	private void initLists() {
 		buttons = new ArrayList<GUIButton>();
-		
+
 		cards = new HashMap<GUIButton, GUIButton>();
 		cardTypes = new HashMap<GUIButton, String>();
 		choosed = new ArrayList<GUIButton>();
@@ -62,7 +63,7 @@ public class ChooseCards implements MenuInterface {
 
 		cards.put(gesetzt1, null);
 		cards.put(gesetzt2, null);
-		
+
 		cardTypes.put(gesetzt1, first);
 		cardTypes.put(gesetzt2, second);
 
@@ -98,21 +99,28 @@ public class ChooseCards implements MenuInterface {
 			}
 		}
 	}
-	
-	public void cardsChoosed(){
-		String choosing = "";
-		
-		Main.log(getClass(), "CardsChoosed(): "+choosed.size());
-		for(GUIButton card : choosed){
-	
-			String type = cardTypes.get(card);
-			Main.log(getClass(), "take: "+type);
-			choosing+=type+Game.chooseRegex;
-			
+
+	public void cardsChoosed() {
+		List<GUIButton> discards = new ArrayList<GUIButton>(cardTypes.keySet());
+
+		if (choosed.size() == 2) {
+			discards.remove(choosed.get(0));
+			String card1 = cardTypes.get(choosed.get(0));
+
+			discards.remove(choosed.get(1));
+			String card2 = cardTypes.get(choosed.get(1));
+
+			Multiplayer.activRoom.activGame.resetDrawCards();
+			Multiplayer.activRoom.disablePresidentButton();
+			Multiplayer.startCancelor(Multiplayer.activRoom.activGame.cancelor, card1, card2);
+		} else if (choosed.size() == 1) {
+			discards.remove(choosed.get(0));
+			String card1 = cardTypes.get(choosed.get(0));
+
+			Multiplayer.activRoom.activGame.resetDrawCards();
+			Multiplayer.activRoom.disableCancelorButton();
+			Multiplayer.activRoom.activGame.playCard(card1);
 		}
-		choosing = choosing.substring(0, choosing.length()-1);
-		
-		Multiplayer.activRoom.activGame.cardsChoosed(choosing);
 	}
 
 	@Override
@@ -127,20 +135,20 @@ public class ChooseCards implements MenuInterface {
 				}
 			}
 			if (activButton == back) {
-				Main.log(getClass(), "Switching to Room Listning");
-				MenuHandler.setActivMenu(new RoomListning());
-				Multiplayer.leaveRoom();
+				MenuHandler.setActivMenu(Multiplayer.activRoom);
 			}
 			if (cards.containsKey(activButton)) {
-				if (choosed.contains(activButton)) {
-					choosed.remove(activButton);
-					cards.put(activButton,
-							new GUIButton("", "gesetztVerdeckt", activButton.xper, activButton.yper, cardSize));
-				} else {
-					choosed.add(activButton);
-					cards.put(activButton, null);
+				//Zurück in den Ursprungszustand
+				choosed = new ArrayList<GUIButton>();
+				for (GUIButton card : cardTypes.keySet()) {
+					choosed.add(card);
+					cards.put(card, null);
 				}
-//				Main.log(getClass(), "Choosed: " + choosed.size() + " Cards");
+				
+				//Verdecke das ausgewählte Element
+				choosed.remove(activButton);
+				cards.put(activButton,
+						new GUIButton("", "gesetztVerdeckt", activButton.xper, activButton.yper, cardSize));
 			}
 
 		}
@@ -152,7 +160,6 @@ public class ChooseCards implements MenuInterface {
 			activButton.setHovered(false);
 			activButton = activButton.abouve;
 			activButton.setHovered(true);
-			// Main.log(getClass(), "" + position);
 		}
 	}
 
@@ -162,7 +169,6 @@ public class ChooseCards implements MenuInterface {
 			activButton.setHovered(false);
 			activButton = activButton.down;
 			activButton.setHovered(true);
-			// Main.log(getClass(), "" + position);
 		}
 	}
 

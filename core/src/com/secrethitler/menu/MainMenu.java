@@ -59,8 +59,7 @@ public class MainMenu implements MenuInterface {
 				}
 			}
 			if (activButton == create) {
-				MenuHandler.setActivMenu(new ChooseCards(ResourceLoader.fasictCard, ResourceLoader.fasictCard,
-						ResourceLoader.liberalCard));
+				
 			}
 			if (activButton == options) {
 				Main.log(getClass(), "Switching to Options");

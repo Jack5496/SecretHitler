@@ -9,7 +9,9 @@ import java.util.Map.Entry;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jack5496.secrethitler.Main;
+import com.jack5496.secrethitler.ResourceLoader;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.game.Game;
 import com.secrethitler.helper.Message;
 import com.secrethitler.multiplayer.Multiplayer;
@@ -29,18 +31,22 @@ public class Room implements MenuInterface {
 
 	public boolean spectate = false;
 
-	public boolean running;
-
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton roomID = new GUIButton("RoomID", null, 10, 80, 0.2f);
-
-	GUIButton chat = new GUIButton("Chat", "test", 60, 15, 0.2f).setOnHoverBigger(true);
-	GUIButton back = new GUIButton("Back", "test", 40, 15, 0.2f).setOnHoverBigger(true);
+	public GUIButton role = new GUIButton("ROLE", "test", 10, 80, 0.2f);
 
 	static GUIButton faschistBoard = new GUIButton("", "spielfeldFaschist5-6", 50, 80, 0.5f);
 	static GUIButton liberalBoard = new GUIButton("", "spielfeldLiberal", 50, 50, 0.5f);
+
+	GUIButton start = new GUIButton("START", "test", 50, 50, 0.4f).setOnHoverBigger(true);
+
+	GUIButton chat = new GUIButton("Chat", "test", 70, 15, 0.2f).setOnHoverBigger(true);
+	GUIButton president = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
+			.setOnHoverBigger(true);
+	GUIButton cancelor = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
+			.setOnHoverBigger(true);
+	GUIButton back = new GUIButton("Back", "test", 30, 15, 0.2f).setOnHoverBigger(true);
 
 	static float fasPlatz = 6.9f;
 	static int fasStart = 33;
@@ -76,10 +82,10 @@ public class Room implements MenuInterface {
 	static GUIButton coin3 = new GUIButton("", "coin", coinStart + 2 * coinPlatz, coindHeight, 0.025f);
 	static GUIButton coin4 = new GUIButton("", "coin", coinStart + 3 * coinPlatz, coindHeight, 0.025f);
 
-	HashMap<GUIButton, LocalPlayer> players;
+	public HashMap<GUIButton, LocalPlayer> players;
 
 	public Game activGame;
-	
+
 	public Room(RoomData data) {
 		roomInformationsFound(data);
 
@@ -114,8 +120,24 @@ public class Room implements MenuInterface {
 
 		activButton = chat;
 		activButton.setHovered(true);
-		
+
 		activGame = new Game();
+	}
+
+	public void enablePresidentButton() {
+		buttons.add(president);
+	}
+
+	public void disablePresidentButton() {
+		buttons.remove(president);
+	}
+
+	public void enableCancelorButton() {
+		buttons.add(cancelor);
+	}
+
+	public void disableCancelorButton() {
+		buttons.remove(cancelor);
 	}
 
 	public int getPlayerAmount() {
@@ -135,6 +157,7 @@ public class Room implements MenuInterface {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		renderGameBoard(batch);
 
 		for (GUIButton button : buttons) {
 			if (spectate) {
@@ -146,9 +169,7 @@ public class Room implements MenuInterface {
 			}
 		}
 
-		renderGameBoard(batch);
-
-		roomID.render(batch);
+		role.render(batch);
 
 		renderMessages(batch);
 
@@ -161,14 +182,19 @@ public class Room implements MenuInterface {
 	}
 
 	private void renderGameBoard(SpriteBatch batch) {
-		faschistBoard.render(batch);
-		for (int i = 0; i < fasictCards; i++) {
-			fasictCardsList.get(i).render(batch);
-		}
+		if (activGame.running) {
+			faschistBoard.render(batch);
+			for (int i = 0; i < fasictCards; i++) {
+				fasictCardsList.get(i).render(batch);
+			}
 
-		liberalBoard.render(batch);
-		for (int i = 0; i < liberalCards; i++) {
-			liberalCardsList.get(i).render(batch);
+			liberalBoard.render(batch);
+			for (int i = 0; i < liberalCards; i++) {
+				liberalCardsList.get(i).render(batch);
+			}
+		}
+		else{
+			start.render(batch);
 		}
 	}
 
@@ -262,16 +288,29 @@ public class Room implements MenuInterface {
 				if (activButton == chat) {
 					Multiplayer.chatInRoom();
 				}
+				if(!activGame.running){
+					if(activButton==start){
+						Main.log(getClass(), "Starte Spiel");
+						activGame.startGame();
+					}
+				}
 			}
 			if (activButton == back) {
 				Main.log(getClass(), "Switching to Room Listning");
 				MenuHandler.setActivMenu(new RoomListning());
 				Multiplayer.leaveRoom();
 			}
+			if (activButton == president) {
+				activGame.startAsPresident();
+			}
+			if (activButton == cancelor) {
+				activGame.startAsCancelor();
+			}
 			if (players.keySet().contains(activButton)) {
 				Main.log(getClass(), "Send private Message");
 				Multiplayer.chatToPlayer(players.get(activButton));
 			}
+
 		}
 	}
 
@@ -359,6 +398,13 @@ public class Room implements MenuInterface {
 			button.pressAt(x, y);
 			if (button.isPressed()) {
 				activButton = button;
+				activButton.setHovered(true);
+			}
+		}
+		if(!activGame.running){
+			start.pressAt(x, y);
+			if (start.isPressed()) {
+				activButton = start;
 				activButton.setHovered(true);
 			}
 		}
