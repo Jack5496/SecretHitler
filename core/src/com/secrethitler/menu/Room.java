@@ -35,6 +35,9 @@ public class Room implements MenuInterface {
 	GUIButton activButton;
 
 	public GUIButton role = new GUIButton("ROLE", "test", 10, 80, 0.2f);
+	public GUIButton rolePresident = new GUIButton("President", "test", 50, 80, 0.2f);
+//	public GUIButton roleCancelor = new GUIButton("Cancelor", "test", 10, 80, 0.2f);
+	
 
 	static GUIButton faschistBoard = new GUIButton("", "spielfeldFaschist5-6", 50, 80, 0.5f);
 	static GUIButton liberalBoard = new GUIButton("", "spielfeldLiberal", 50, 50, 0.5f);
@@ -42,9 +45,13 @@ public class Room implements MenuInterface {
 	GUIButton start = new GUIButton("START", "test", 50, 50, 0.4f).setOnHoverBigger(true);
 
 	GUIButton chat = new GUIButton("Chat", "test", 70, 15, 0.2f).setOnHoverBigger(true);
-	GUIButton president = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
+	GUIButton presidentChooseCancelor = new GUIButton("Select Cancelor", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
 			.setOnHoverBigger(true);
-	GUIButton cancelor = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
+	GUIButton voteForCancelor = new GUIButton("Vote for Cancelor", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
+			.setOnHoverBigger(true);
+	GUIButton presidentStart = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
+			.setOnHoverBigger(true);
+	GUIButton cancelorStart = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
 			.setOnHoverBigger(true);
 	GUIButton back = new GUIButton("Back", "test", 30, 15, 0.2f).setOnHoverBigger(true);
 
@@ -123,21 +130,37 @@ public class Room implements MenuInterface {
 
 		activGame = new Game();
 	}
+	
+	public void enablePresidentChooseCancelorButton(){
+		buttons.add(presidentChooseCancelor);
+	}
+	
+	public void disablePresidentChooseCancelorButton(){
+		buttons.remove(presidentChooseCancelor);
+	}
+	
+	public void enableVoteForCancelorButton(){
+		buttons.add(voteForCancelor);
+	}
+	
+	public void disableVoteForCancelorButton(){
+		buttons.remove(voteForCancelor);
+	}
 
 	public void enablePresidentButton() {
-		buttons.add(president);
+		buttons.add(presidentStart);
 	}
 
 	public void disablePresidentButton() {
-		buttons.remove(president);
+		buttons.remove(presidentStart);
 	}
 
 	public void enableCancelorButton() {
-		buttons.add(cancelor);
+		buttons.add(cancelorStart);
 	}
 
 	public void disableCancelorButton() {
-		buttons.remove(cancelor);
+		buttons.remove(cancelorStart);
 	}
 
 	public int getPlayerAmount() {
@@ -170,6 +193,7 @@ public class Room implements MenuInterface {
 		}
 
 		role.render(batch);
+		rolePresident.render(batch);
 
 		renderMessages(batch);
 
@@ -300,10 +324,16 @@ public class Room implements MenuInterface {
 				MenuHandler.setActivMenu(new RoomListning());
 				Multiplayer.leaveRoom();
 			}
-			if (activButton == president) {
+			if (activButton == presidentChooseCancelor) {
+				MenuHandler.setActivMenu(new ChooseCancelor());
+			}
+			if (activButton == voteForCancelor) {
+				MenuHandler.setActivMenu(new ChooseCancelorYESNO(activGame.cancelor));
+			}
+			if (activButton == presidentStart) {
 				activGame.startAsPresident();
 			}
-			if (activButton == cancelor) {
+			if (activButton == cancelorStart) {
 				activGame.startAsCancelor();
 			}
 			if (players.keySet().contains(activButton)) {

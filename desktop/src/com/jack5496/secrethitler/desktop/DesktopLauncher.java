@@ -14,7 +14,7 @@ public class DesktopLauncher {
 
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "SecretPeter";
+		config.title = "Secret Pirat";
 		String model = samsung;
 
 		if (model.equals(iphone5)) {

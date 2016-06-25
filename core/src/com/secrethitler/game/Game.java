@@ -1,8 +1,6 @@
 package com.secrethitler.game;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,28 +17,28 @@ public class Game {
 	public LocalPlayer hitler;
 	List<LocalPlayer> fasists;
 	List<LocalPlayer> liberals;
-	
-	List<LocalPlayer> alive;
 
-	
-	public LocalPlayer cancelor = LocalPlayerHandler.localPlayer;
-	public LocalPlayer president = LocalPlayerHandler.localPlayer;
+	public List<LocalPlayer> presidentOrder;
+
+	public LocalPlayer cancelor;
+	public LocalPlayer president;
 
 	final int fasictCardsTotal = 7;
 	final int liberalCardsTotal = 11;
-
 
 	List<String> boardcards;
 	List<String> drawcards;
 	List<String> discard;
 
 	static Random random = new Random();
+	
+	public static int votesForCancelor = 0;
+	public static int totalVotesCancelor = 0;
 
 	public boolean running;
 
 	public Game() {
 		running = false;
-		alive = new LinkedList<LocalPlayer>();
 
 		boardcards = new ArrayList<String>();
 		discard = new ArrayList<String>();
@@ -55,39 +53,55 @@ public class Game {
 
 	public void startGame() {
 		ArrayList<LocalPlayer> toChoose = new ArrayList<LocalPlayer>(Multiplayer.activRoom.players.values());
+		List<LocalPlayer> all = new ArrayList<LocalPlayer>(toChoose);
+
 		int totalAmount = toChoose.size();
-		
+
 		LocalPlayer hitler = toChoose.remove(random.nextInt(toChoose.size()));
-		
+
 		List<LocalPlayer> liberals = new ArrayList<LocalPlayer>();
 		for (int i = 0; i < getLiberalsAmount(totalAmount); i++) {
 			liberals.add(toChoose.remove(random.nextInt(toChoose.size())));
 		}
-		
+
 		List<LocalPlayer> fasists = new ArrayList<LocalPlayer>(toChoose);
-		
-		Multiplayer.sendRoles(hitler, liberals, fasists);
+
+		List<LocalPlayer> presidentOrder = new ArrayList<LocalPlayer>();
+
+		int size = all.size();
+		for (int i = 0; i < size; i++) {
+			LocalPlayer nextPresident = all.remove(random.nextInt(all.size()));
+			presidentOrder.add(nextPresident);
+		}
+
+		Multiplayer.sendRoles(hitler, liberals, fasists, presidentOrder);
 	}
-	
-	public void recievePlayerRoles(LocalPlayer hitler, List<LocalPlayer> liberals, List<LocalPlayer> fasists){
+
+	public void recievePlayerRoles(LocalPlayer hitler, List<LocalPlayer> liberals, List<LocalPlayer> fasists,
+			List<LocalPlayer> presidentOrder) {
 		running = true;
-		
-		alive = new ArrayList<LocalPlayer>();
-		
-		alive.add(hitler);
+
+		Main.log(getClass(), "RecievedAmount : "+presidentOrder.size());
+		this.presidentOrder = new ArrayList<LocalPlayer>(presidentOrder);
+
+		this.hitler = hitler;
 		this.liberals = new ArrayList<LocalPlayer>(liberals);
 		this.fasists = new ArrayList<LocalPlayer>(fasists);
-		
+		this.president = this.presidentOrder.get(0);
+		Multiplayer.activRoom.rolePresident.text = this.president.name;
+
 		LocalPlayer me = LocalPlayerHandler.localPlayer;
-		if(me.equals(hitler)) {
-			Multiplayer.activRoom.role.text ="Hitler";
+		if (me.equals(hitler)) {
+			Multiplayer.activRoom.role.text = "Hitler";
 		}
-		if(this.liberals.contains(me)) {
-			Multiplayer.activRoom.role.text ="Liberal";
+		if (this.liberals.contains(me)) {
+			Multiplayer.activRoom.role.text = "Liberal";
 		}
-		if(this.fasists.contains(me)) {
-			Multiplayer.activRoom.role.text ="Fasist";
+		if (this.fasists.contains(me)) {
+			Multiplayer.activRoom.role.text = "Fasist";
 		}
+
+		enablePresitent();
 	}
 
 	public int getLiberalsAmount(int playerAmount) {
@@ -99,19 +113,7 @@ public class Game {
 	}
 
 	public boolean isPlayerAlive(LocalPlayer p) {
-		return alive.contains(p);
-	}
-
-	public void addAlivePlayer(LocalPlayer p) {
-		alive.add(p);
-	}
-
-	public void setPresident(LocalPlayer p) {
-		president = p;
-	}
-
-	public void setCancelor(LocalPlayer p) {
-		cancelor = p;
+		return presidentOrder.contains(p);
 	}
 
 	public void startAsPresident() {
@@ -129,11 +131,13 @@ public class Game {
 	}
 
 	public void enablePresitent() {
-		card1 = drawCard();
-		card2 = drawCard();
-		card3 = drawCard();
-		updateCardsAndDiscards();
-		Multiplayer.activRoom.enablePresidentButton();
+		if (Multiplayer.activRoom.activGame.president.equals(LocalPlayerHandler.localPlayer)) {
+			presidentChoosesCancelor();
+		}
+	}
+
+	public void presidentChoosesCancelor() {
+		Multiplayer.activRoom.enablePresidentChooseCancelorButton();
 	}
 
 	public void startAsCancelor() {
@@ -146,7 +150,11 @@ public class Game {
 		card3 = null;
 	}
 
-	public void updateCardsAndDiscards() {
+	public void endRound() {
+
+	}
+
+	public void updateCardsAndDiscards(boolean nextPresident) {
 		int liberalBoard = 0;
 		int fasictBoard = 0;
 		int liberalCards = 0;
@@ -173,7 +181,7 @@ public class Game {
 				liberalDiscards++;
 		}
 
-		Multiplayer.updateCards(liberalBoard, fasictBoard, liberalCards, fasictCards, liberalDiscards, fasictDiscards);
+		Multiplayer.updateCards(nextPresident, liberalBoard, fasictBoard, liberalCards, fasictCards, liberalDiscards, fasictDiscards);
 	}
 
 	public void setCardsAndDiscards(int liberalBoard, int fasictBoard, int liberalCards, int fasictCards,
@@ -206,6 +214,16 @@ public class Game {
 		Multiplayer.activRoom.liberalCards = liberalBoard;
 	}
 
+	public void setNextPresident() {
+		Main.log(getClass(), "Alive Before: "+presidentOrder.size());
+		LocalPlayer atBack = presidentOrder.remove(0);
+		president = presidentOrder.get(0);
+		presidentOrder.add(atBack);
+		Main.log(getClass(), "Alive After: "+presidentOrder.size());
+		Multiplayer.activRoom.rolePresident.text = president.name;
+		enablePresitent();
+	}
+
 	public String drawCard() {
 		if (drawcards.size() == 0) {
 			drawcards.addAll(discard);
@@ -223,7 +241,26 @@ public class Game {
 		if (card.equals(ResourceLoader.liberalCard)) {
 			boardcards.add(ResourceLoader.liberalCard);
 		}
-		updateCardsAndDiscards();
+		updateCardsAndDiscards(true);
+	}
+
+	public void checkIfVoteEnded() {
+		if(totalVotesCancelor>=presidentOrder.size()){
+			if(votesForCancelor>=totalVotesCancelor/2.0){
+				Main.log(getClass(), "Wahl erfolgreich");
+				if (Multiplayer.activRoom.activGame.president.equals(LocalPlayerHandler.localPlayer)) {
+					card1 = drawCard();
+					 card2 = drawCard();
+					 card3 = drawCard();
+					 updateCardsAndDiscards(false);
+					 Multiplayer.activRoom.enablePresidentButton();
+				}
+			}
+			else{
+				Main.log(getClass(), "Wahl gescheitert");
+				setNextPresident();
+			}
+		}
 	}
 
 }

@@ -82,20 +82,19 @@ public class Multiplayer {
 		warpClient.sendPrivateChat(p.name, "PRIVAT: " + message);
 	}
 
-	public static void updateCards(int liberalBoard, int fasictBoard, int liberalCards, int fasictCards,
+	public static void updateCards(boolean nextPresident, int liberalBoard, int fasictBoard, int liberalCards, int fasictCards,
 			int liberalDiscards, int fasictDiscards) {
-		warpClient.sendChat(Notifications.SYSTEM + Notifications.REGEX + Notifications.UPDATECARDS + Notifications.REGEX
+		warpClient.sendChat(Notifications.SYSTEM + Notifications.REGEX + Notifications.UPDATECARDS + Notifications.REGEX + nextPresident + Notifications.REGEX
 				+ liberalBoard + Notifications.REGEX + fasictBoard + Notifications.REGEX + liberalCards
 				+ Notifications.REGEX + fasictCards + Notifications.REGEX + liberalDiscards + Notifications.REGEX
 				+ fasictDiscards);
 	}
 
 	public static void startPresident(LocalPlayer p) {
-		warpClient.sendPrivateChat(p.name,
-				Notifications.SYSTEM + Notifications.REGEX + Notifications.PRESIDENT + Notifications.REGEX + p.name);
+		warpClient.sendChat(Notifications.SYSTEM + Notifications.REGEX + Notifications.PRESIDENT + Notifications.REGEX + p.name);
 	}
 
-	public static void sendRoles(LocalPlayer hitler, List<LocalPlayer> liberals, List<LocalPlayer> fasicts) {
+	public static void sendRoles(LocalPlayer hitler, List<LocalPlayer> liberals, List<LocalPlayer> fasicts,List<LocalPlayer> presidentOrder) {
 		String message = "";
 		message += Notifications.SYSTEM + Notifications.REGEX;
 		message += Notifications.ROLES + Notifications.REGEX;
@@ -103,19 +102,38 @@ public class Multiplayer {
 		message += liberals.size() + Notifications.REGEX;
 		Main.log(Multiplayer.class,"Hitler ist:"+ hitler.name);
 		for (LocalPlayer liberal : liberals) {
-			Main.log(Multiplayer.class,"Liberale sind :"+ liberal.name);
 			message += liberal.name + Notifications.REGEX;
 		}
 		message += fasicts.size() + Notifications.REGEX;
 		for (LocalPlayer fasict : fasicts) {
-			Main.log(Multiplayer.class,"Fasict sind:"+ fasict.name);
 			message += fasict.name + Notifications.REGEX;
 		}
+		for (LocalPlayer player : presidentOrder) {
+			Main.log(Multiplayer.class,"Presidentenfolge:"+ player.name);
+			message += player.name + Notifications.REGEX;
+		}
+		
 		message = message.substring(0, message.length()-Notifications.REGEX.length());
 
 		Main.log(Multiplayer.class, message);
 		warpClient.sendChat(message);
 
+	}
+	
+	public static void presidentChoosedCancelor(LocalPlayer p){
+		String message = "";
+		message += Notifications.SYSTEM + Notifications.REGEX;
+		message += Notifications.NEXTCANCELOR + Notifications.REGEX;
+		message += p.name;
+		warpClient.sendChat(message);
+	}
+	
+	public static void wantsCancelor(boolean want){
+		String message = "";
+		message += Notifications.SYSTEM + Notifications.REGEX;
+		message += Notifications.WANTSCANCELOR + Notifications.REGEX;
+		message += want;
+		warpClient.sendChat(message);
 	}
 
 	public static void startCancelor(LocalPlayer p, String card1, String card2) {

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
+import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.helper.Message;
 import com.secrethitler.menu.Room;
 import com.shephertz.app42.gaming.multiplayer.client.events.ChatEvent;
@@ -26,6 +27,8 @@ public class Notifications implements NotifyListener {
 	public static String PRESIDENT = "PRESIDENT";
 	public static String ROLES = "ROLES";
 	public static String CANCELOR = "CANCELOR";
+	public static String NEXTCANCELOR = "NEXTCANCELOR";
+	public static String WANTSCANCELOR = "WANTSCANCELOR";
 	public static String REGEX = " ";
 
 	public Notifications() {
@@ -52,40 +55,55 @@ public class Notifications implements NotifyListener {
 
 		String what = functions[1];
 		if (what.equals(UPDATECARDS)) {
-			int liberalBoard = Integer.parseInt(functions[2]);
-			int fasictBoard = Integer.parseInt(functions[3]);
-			int liberalCards = Integer.parseInt(functions[4]);
-			int fasictCards = Integer.parseInt(functions[5]);
-			int liberalDiscards = Integer.parseInt(functions[6]);
-			int fasictDiscards = Integer.parseInt(functions[7]);
-			Multiplayer.activRoom.activGame.setCardsAndDiscards(liberalBoard, fasictBoard, liberalCards, fasictCards, liberalDiscards, fasictDiscards);
+			int pos  = 2;
+			
+			boolean nextPresident = functions[pos++].equals(""+true);
+			int liberalBoard = Integer.parseInt(functions[pos++]);
+			int fasictBoard = Integer.parseInt(functions[pos++]);
+			int liberalCards = Integer.parseInt(functions[pos++]);
+			int fasictCards = Integer.parseInt(functions[pos++]);
+			int liberalDiscards = Integer.parseInt(functions[pos++]);
+			int fasictDiscards = Integer.parseInt(functions[pos++]);
+			Multiplayer.activRoom.activGame.setCardsAndDiscards(liberalBoard, fasictBoard, liberalCards, fasictCards,
+					liberalDiscards, fasictDiscards);
+			
+			if(nextPresident){
+				Multiplayer.activRoom.activGame.setNextPresident();
+			}
 		}
-		if (what.equals(ROLES)) {			
+		if (what.equals(ROLES)) {
 			LocalPlayer hitler = new LocalPlayer(functions[2]);
 			int pos = 3;
-			
+
 			int liberalSize = Integer.parseInt(functions[3]);
 			pos++;
-			
+
 			List<LocalPlayer> liberals = new ArrayList<LocalPlayer>();
-			for(int i = 0; i<liberalSize; i++){
+			for (int i = 0; i < liberalSize; i++) {
 				liberals.add(new LocalPlayer(functions[pos]));
 				pos++;
 			}
-			
+
 			int fasictSize = Integer.parseInt(functions[pos]);
 			pos++;
-			
+
 			List<LocalPlayer> fasists = new ArrayList<LocalPlayer>();
-			for(int i = 0; i<fasictSize; i++){
+			for (int i = 0; i < fasictSize; i++) {
 				fasists.add(new LocalPlayer(functions[pos]));
 				pos++;
 			}
-			
-			Multiplayer.activRoom.activGame.recievePlayerRoles(hitler, liberals, fasists);
+
+			List<LocalPlayer> presidentOrder = new ArrayList<LocalPlayer>();
+			for (int i = 0; i < fasictSize + liberalSize+1; i++) {
+				presidentOrder.add(new LocalPlayer(functions[pos]));
+				pos++;
+			}
+
+			Multiplayer.activRoom.activGame.recievePlayerRoles(hitler, liberals, fasists, presidentOrder);
 		}
 		if (what.equals(PRESIDENT)) {
-			// Main.log(getClass(), "Im the president");
+			LocalPlayer president = new LocalPlayer(functions[2]);
+			Multiplayer.activRoom.activGame.president = president;
 			Multiplayer.activRoom.activGame.enablePresitent();
 		}
 		if (what.equals(CANCELOR)) {
@@ -93,6 +111,20 @@ public class Notifications implements NotifyListener {
 			String card2 = functions[3];
 			// Main.log(getClass(), "Cancelor "+card1+" and "+card2);
 			Multiplayer.activRoom.activGame.enableCancelor(card1, card2);
+		}
+		if (what.equals(NEXTCANCELOR)) {
+			LocalPlayer candidat = new LocalPlayer(functions[2]);
+			Multiplayer.activRoom.activGame.cancelor = candidat;
+			Multiplayer.activRoom.activGame.votesForCancelor =0;
+			Multiplayer.activRoom.activGame.totalVotesCancelor =0;
+			Multiplayer.activRoom.enableVoteForCancelorButton();
+		}
+		if (what.equals(WANTSCANCELOR)) {
+			Multiplayer.activRoom.activGame.totalVotesCancelor++;
+			if(functions[2].equals("true")){
+				Multiplayer.activRoom.activGame.votesForCancelor++;
+			}
+			Multiplayer.activRoom.activGame.checkIfVoteEnded();
 		}
 
 	}
