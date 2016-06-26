@@ -109,14 +109,17 @@ public class ChooseCards implements MenuInterface {
 
 			discards.remove(choosed.get(1));
 			String card2 = cardTypes.get(choosed.get(1));
+			
+			String discardCard = cardTypes.get(discards.get(0));
 
 			Multiplayer.activRoom.activGame.resetDrawCards();
 			Multiplayer.activRoom.disablePresidentButton();
-			Multiplayer.startCancelor(Multiplayer.activRoom.activGame.cancelor, card1, card2);
+			Multiplayer.startCancelor(Multiplayer.activRoom.activGame.cancelor, card1, card2,discardCard);
 		} else if (choosed.size() == 1) {
 			discards.remove(choosed.get(0));
 			String card1 = cardTypes.get(choosed.get(0));
-
+			String discardedCard = cardTypes.get(discards.get(0));
+			Multiplayer.activRoom.activGame.addDiscardCard(discardedCard);
 			Multiplayer.activRoom.activGame.resetDrawCards();
 			Multiplayer.activRoom.disableCancelorButton();
 			Multiplayer.activRoom.activGame.playCard(card1);

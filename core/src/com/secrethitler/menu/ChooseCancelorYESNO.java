@@ -25,11 +25,11 @@ public class ChooseCancelorYESNO implements MenuInterface {
 
 	GUIButton ok = new GUIButton("OK", "test", 90, 25, 0.2f).setOnHoverBigger(true);
 	GUIButton back = new GUIButton("Back", "test", 90, 75, 0.2f).setOnHoverBigger(true);
-
-	static GUIButton yes;
-	static GUIButton no;
 	
-	static boolean wants;
+	GUIButton yes = new GUIButton("YES", "test", 25, 50, 0.2f).setOnHoverBigger(true);
+	GUIButton no = new GUIButton("NO", "test", 75, 50, 0.2f).setOnHoverBigger(true);
+	GUIButton notWant = new GUIButton("", "gesetztVerdeckt", no.xper, no.yper, no.scale);
+	GUIButton wants = yes;
 	
 
 	private void initLists() {
@@ -37,15 +37,10 @@ public class ChooseCancelorYESNO implements MenuInterface {
 	}
 
 	public ChooseCancelorYESNO(LocalPlayer p) {
-
 		initLists();
 
 		buttons.add(ok);
 		buttons.add(back);
-
-		yes = new GUIButton("YES", "test", 25, 50, 0.2f).setOnHoverBigger(true);
-		no = new GUIButton("NO", "test", 75, 50, 0.2f).setOnHoverBigger(true);
-		wants = true;
 
 		ok.setNeighbors(back, ok, ok, ok);
 		back.setNeighbors(back, ok, back, back);
@@ -60,6 +55,7 @@ public class ChooseCancelorYESNO implements MenuInterface {
 		for (GUIButton button : buttons) {
 			button.render(batch);
 		}
+		notWant.render(batch);
 		yes.render(batch);
 		no.render(batch);
 	}
@@ -70,16 +66,18 @@ public class ChooseCancelorYESNO implements MenuInterface {
 			if (activButton == ok) {
 				Multiplayer.activRoom.disableVoteForCancelorButton();
 				MenuHandler.setActivMenu(Multiplayer.activRoom);
-				Multiplayer.wantsCancelor(wants);
+				Multiplayer.wantsCancelor(wants==yes);
 			}
 			if (activButton == back) {
 				MenuHandler.setActivMenu(Multiplayer.activRoom);
 			}
 			if (activButton == yes) {
-				wants = true;
+				wants = yes;
+				notWant = new GUIButton("", "gesetztVerdeckt", no.xper, no.yper, no.scale);
 			}
 			if (activButton == no) {
-				wants = false;
+				wants = no;
+				notWant = new GUIButton("", "gesetztVerdeckt", yes.xper, yes.yper, yes.scale);
 			}
 
 		}
@@ -174,8 +172,6 @@ public class ChooseCancelorYESNO implements MenuInterface {
 			activButton = no;
 			activButton.setHovered(true);
 		}
-		
-
 	}
 
 }

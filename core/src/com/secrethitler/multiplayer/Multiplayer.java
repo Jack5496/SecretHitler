@@ -82,9 +82,10 @@ public class Multiplayer {
 		warpClient.sendPrivateChat(p.name, "PRIVAT: " + message);
 	}
 
-	public static void updateCards(boolean nextPresident, int liberalBoard, int fasictBoard, int liberalCards, int fasictCards,
+	public static void updateCards(boolean nextPresident, String playedCard, int liberalBoard, int fasictBoard, int liberalCards, int fasictCards,
 			int liberalDiscards, int fasictDiscards) {
 		warpClient.sendChat(Notifications.SYSTEM + Notifications.REGEX + Notifications.UPDATECARDS + Notifications.REGEX + nextPresident + Notifications.REGEX
+				+ playedCard+ Notifications.REGEX
 				+ liberalBoard + Notifications.REGEX + fasictBoard + Notifications.REGEX + liberalCards
 				+ Notifications.REGEX + fasictCards + Notifications.REGEX + liberalDiscards + Notifications.REGEX
 				+ fasictDiscards);
@@ -136,9 +137,17 @@ public class Multiplayer {
 		warpClient.sendChat(message);
 	}
 
-	public static void startCancelor(LocalPlayer p, String card1, String card2) {
+	public static void startCancelor(LocalPlayer p, String card1, String card2, String discardCard) {
 		warpClient.sendPrivateChat(p.name, Notifications.SYSTEM + Notifications.REGEX + Notifications.CANCELOR
-				+ Notifications.REGEX + card1 + Notifications.REGEX + card2);
+				+ Notifications.REGEX + card1 + Notifications.REGEX + card2 + Notifications.REGEX + discardCard);
+	}
+	
+	public static void killPlayer(LocalPlayer player){
+		String message = "";
+		message += Notifications.SYSTEM + Notifications.REGEX;
+		message += Notifications.KILLPLAYER + Notifications.REGEX;
+		message += player.name;
+		warpClient.sendChat(message);
 	}
 
 	public static void chatInRoom() {

@@ -18,7 +18,7 @@ import com.secrethitler.multiplayer.Notifications;
 import com.secrethitler.uiElements.GUIButton;
 import com.shephertz.app42.gaming.multiplayer.client.events.RoomData;
 
-public class ChooseCancelor implements MenuInterface {
+public class KillPlayer implements MenuInterface {
 
 	List<GUIButton> buttons;
 	GUIButton activButton;
@@ -31,7 +31,7 @@ public class ChooseCancelor implements MenuInterface {
 
 	GUIButton no = new GUIButton("", "gesetztVerdeckt", 0, 0, 0);
 
-	GUIButton nextCancelor;
+	GUIButton personToKill;
 
 	private void initLists() {
 		buttons = new ArrayList<GUIButton>();
@@ -39,45 +39,24 @@ public class ChooseCancelor implements MenuInterface {
 		notChoosed = new ArrayList<GUIButton>();
 	}
 
-	public ChooseCancelor() {
+	public KillPlayer() {
 		initLists();
 
 		List<LocalPlayer> alivePlayers = new ArrayList<LocalPlayer>(Multiplayer.activRoom.activGame.presidentOrder);
 
 		for (int i = 0; i < alivePlayers.size(); i++) {
 			LocalPlayer player = alivePlayers.get(i);
-			if (Multiplayer.activRoom.activGame.cancelor != null) {
-				if (!player.equals(LocalPlayerHandler.localPlayer)
-						|| !player.equals(Multiplayer.activRoom.activGame.cancelor)) {
-					int xpos = i * 10 + 10;
-					int ypos = 75;
-					if (i > 5) {
-						xpos -= 50;
-						ypos -= 50;
-					}
-
-					GUIButton playerButton = new GUIButton(player.name, "test", xpos, ypos, 0.1f)
-							.setOnHoverBigger(true);
-
-					choosed.put(playerButton, player);
-					nextCancelor = playerButton;
-				}
-			} else {
-				if (!player.equals(LocalPlayerHandler.localPlayer)) {
-					int xpos = i * 10 + 10;
-					int ypos = 75;
-					if (i > 5) {
-						xpos -= 50;
-						ypos -= 50;
-					}
-
-					GUIButton playerButton = new GUIButton(player.name, "test", xpos, ypos, 0.1f)
-							.setOnHoverBigger(true);
-
-					choosed.put(playerButton, player);
-					nextCancelor = playerButton;
-				}
+			int xpos = i * 10 + 10;
+			int ypos = 75;
+			if (i > 5) {
+				xpos -= 50;
+				ypos -= 50;
 			}
+
+			GUIButton playerButton = new GUIButton(player.name, "test", xpos, ypos, 0.1f).setOnHoverBigger(true);
+
+			choosed.put(playerButton, player);
+			personToKill = playerButton;
 		}
 
 		buttons.add(ok);
@@ -99,7 +78,7 @@ public class ChooseCancelor implements MenuInterface {
 		// button.render(batch);
 		// }
 		for (GUIButton button : choosed.keySet()) {
-			if (button != nextCancelor) {
+			if (button != personToKill) {
 				no.xper = button.xper;
 				no.yper = button.yper;
 				no.scale = button.scale;
@@ -115,8 +94,8 @@ public class ChooseCancelor implements MenuInterface {
 		if (activButton != null) {
 			if (activButton == ok) {
 				MenuHandler.setActivMenu(Multiplayer.activRoom);
-				Multiplayer.activRoom.disablePresidentChooseCancelorButton();
-				Multiplayer.presidentChoosedCancelor(choosed.get(nextCancelor));
+				Multiplayer.activRoom.disablePresidentKillPlayerButton();
+				Multiplayer.killPlayer(choosed.get(personToKill));
 			}
 			if (activButton == back) {
 				MenuHandler.setActivMenu(Multiplayer.activRoom);
@@ -128,7 +107,7 @@ public class ChooseCancelor implements MenuInterface {
 						notChoosed.add(new GUIButton("", "gesetztVerdeckt", button.xper, button.yper, button.scale));
 					}
 				}
-				nextCancelor = activButton;
+				personToKill = activButton;
 			}
 
 		}

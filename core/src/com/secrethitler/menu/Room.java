@@ -47,6 +47,8 @@ public class Room implements MenuInterface {
 	GUIButton chat = new GUIButton("Chat", "test", 70, 15, 0.2f).setOnHoverBigger(true);
 	GUIButton presidentChooseCancelor = new GUIButton("Select Cancelor", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
 			.setOnHoverBigger(true);
+	GUIButton presidentKillPlayer = new GUIButton("Kill Player", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
+			.setOnHoverBigger(true);
 	GUIButton voteForCancelor = new GUIButton("Vote for Cancelor", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
 			.setOnHoverBigger(true);
 	GUIButton presidentStart = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
@@ -139,7 +141,16 @@ public class Room implements MenuInterface {
 		buttons.remove(presidentChooseCancelor);
 	}
 	
+	public void enablePresidentKillPlayerButton(){
+		buttons.add(presidentKillPlayer);
+	}
+	
+	public void disablePresidentKillPlayerButton(){
+		buttons.remove(presidentKillPlayer);
+	}
+	
 	public void enableVoteForCancelorButton(){
+		voteForCancelor.text = activGame.cancelor.name+" Cancelor?";
 		buttons.add(voteForCancelor);
 	}
 	
@@ -335,6 +346,9 @@ public class Room implements MenuInterface {
 			}
 			if (activButton == cancelorStart) {
 				activGame.startAsCancelor();
+			}
+			if (activButton == presidentKillPlayer) {
+				MenuHandler.setActivMenu(new KillPlayer());
 			}
 			if (players.keySet().contains(activButton)) {
 				Main.log(getClass(), "Send private Message");
