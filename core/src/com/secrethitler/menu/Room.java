@@ -124,9 +124,6 @@ public class Room implements MenuInterface {
 		// buttons.add(coin3);
 		// buttons.add(coin4);
 
-		chat.setNeighbors(back, chat, chat, chat);
-		back.setNeighbors(back, chat, back, back);
-
 		activButton = chat;
 		activButton.setHovered(true);
 
@@ -243,15 +240,6 @@ public class Room implements MenuInterface {
 
 	public void playerJoined(LocalPlayer p) {
 		GUIButton playerButton = new GUIButton(p.name, null, 80, 80, 0.2f);
-
-		if (lastAdded == null) {
-			playerButton.setNeighbors(chat, playerButton, playerButton, playerButton);
-			chat.setNeighbors(chat.left, playerButton, chat, chat);
-
-		} else {
-			playerButton.setNeighbors(chat, playerButton, lastAdded, playerButton);
-			lastAdded.setNeighbors(lastAdded.left, lastAdded.right, lastAdded.abouve, playerButton);
-		}
 		players.put(playerButton, p);
 
 		lastAdded = playerButton;
@@ -279,13 +267,6 @@ public class Room implements MenuInterface {
 						next = previous;
 					}
 				}
-			}
-		}
-
-		if (previous != null) {
-			if (next != null) {
-				previous.down = next;
-				next.abouve = previous;
 			}
 		}
 	}
@@ -316,7 +297,6 @@ public class Room implements MenuInterface {
 		return activButton;
 	}
 
-	@Override
 	public void enter() {
 		if (activButton != null) {
 			if (spectate == false) {
@@ -355,67 +335,6 @@ public class Room implements MenuInterface {
 				Multiplayer.chatToPlayer(players.get(activButton));
 			}
 
-		}
-	}
-
-	@Override
-	public void up() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.abouve;
-			activButton.setHovered(true);
-			// Main.log(getClass(), "" + position);
-		}
-	}
-
-	@Override
-	public void down() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.down;
-			activButton.setHovered(true);
-			// Main.log(getClass(), "" + position);
-		}
-	}
-
-	@Override
-	public void left() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.left;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void right() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.right;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void keyTyped(final int keycode) {
-		switch (keycode) {
-		case Keys.UP:
-			up();
-			break;
-		case Keys.DOWN:
-			down();
-			break;
-		case Keys.LEFT:
-			left();
-			break;
-		case Keys.RIGHT:
-			right();
-			break;
-		case Keys.ENTER:
-			enter();
-			break;
 		}
 	}
 

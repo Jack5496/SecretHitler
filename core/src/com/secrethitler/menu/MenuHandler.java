@@ -36,29 +36,9 @@ public class MenuHandler {
 		user.render(batch);
 	}
 
-	public static void enter() {
-		activMenu.enter();
-	}
-
-	public static void up() {
-		activMenu.up();
-	}
-
-	public static void down() {
-		activMenu.down();
-	}
-
-	public static void left() {
-		activMenu.left();
-	}
-
-	public static void right() {
-		activMenu.right();
-	}
-
-	public static void keyTyped(int keycode) {
-		activMenu.keyTyped(keycode);
-	}
+//	public static void enter() {
+//		activMenu.enter();
+//	}
 
 	public static void mouseMoved(int x, int y) {
 		activMenu.mouseMoved(x, y);

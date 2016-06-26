@@ -23,7 +23,6 @@ public class RoomListning implements MenuInterface {
 	GUIButton loadRooms = new GUIButton("Load Rooms", "test", 25, 20,0.2f);
 
 	HashMap<GUIButton,Room> roomsListed;
-	GUIButton lastAdded;
 
 	public static RoomListning instance;
 
@@ -34,9 +33,6 @@ public class RoomListning implements MenuInterface {
 
 		buttons.add(back);
 		buttons.add(loadRooms);
-
-		back.setNeighbors(back, back, loadRooms, loadRooms);
-		loadRooms.setNeighbors(loadRooms, loadRooms, back, back);
 
 		activButton = back;
 		activButton.setHovered(true);
@@ -59,7 +55,6 @@ public class RoomListning implements MenuInterface {
 		return activButton;
 	}
 
-	@Override
 	public void enter() {
 		if (activButton != null) {
 			if (activButton == back) {
@@ -90,8 +85,6 @@ public class RoomListning implements MenuInterface {
 
 		List<String> roomIDs = new ArrayList<String>(ZoneListener.instance.rooms);
 
-		updateMenuButtonsToRight();
-
 		Main.log(getClass(), "Updating room Informations of all");
 		for(String roomID : roomIDs){
 			Multiplayer.updateRoomInformations(roomID);
@@ -104,80 +97,12 @@ public class RoomListning implements MenuInterface {
 		int ypos = roomsListed.size()*-10;
 		GUIButton roomButton = new GUIButton(text,null,80,80+ypos,0.2f);
 		roomsListed.put(roomButton, room);
-		
-		if(lastAdded==null){
-			for (GUIButton button : buttons) {
-				button.right = roomButton;
-			}
-			roomButton.setNeighbors(loadRooms, roomButton, roomButton, roomButton);
-			lastAdded = roomButton;
-		}
-		else{
-			roomButton.setNeighbors(loadRooms, roomButton, lastAdded, roomButton);
-			lastAdded.setNeighbors(loadRooms, lastAdded, lastAdded.abouve, roomButton);
-			lastAdded = roomButton;
-		}
-	}
-
-	public void updateMenuButtonsToRight() {
-		for (GUIButton button : buttons) {
-			button.right = button;
-		}
 	}
 
 	public void changeActivButton(GUIButton button) {
 		activButton.setHovered(false);
 		activButton = button;
 		activButton.setHovered(true);
-	}
-
-	@Override
-	public void up() {
-		if (activButton != null) {
-			changeActivButton(activButton.abouve);
-		}
-	}
-
-	@Override
-	public void down() {
-		if (activButton != null) {
-			changeActivButton(activButton.down);
-		}
-	}
-
-	@Override
-	public void left() {
-		if (activButton != null) {
-			changeActivButton(activButton.left);
-		}
-	}
-
-	@Override
-	public void right() {
-		if (activButton != null) {
-			changeActivButton(activButton.right);
-		}
-	}
-
-	@Override
-	public void keyTyped(final int keycode) {
-		switch (keycode) {
-		case Keys.UP:
-			up();
-			break;
-		case Keys.DOWN:
-			down();
-			break;
-		case Keys.LEFT:
-			left();
-			break;
-		case Keys.RIGHT:
-			right();
-			break;
-		case Keys.ENTER:
-			enter();
-			break;
-		}
 	}
 
 	@Override

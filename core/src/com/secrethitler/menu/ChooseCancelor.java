@@ -46,24 +46,9 @@ public class ChooseCancelor implements MenuInterface {
 
 		for (int i = 0; i < alivePlayers.size(); i++) {
 			LocalPlayer player = alivePlayers.get(i);
-			if (Multiplayer.activRoom.activGame.cancelor != null) {
-				if (!player.equals(LocalPlayerHandler.localPlayer)
-						|| !player.equals(Multiplayer.activRoom.activGame.cancelor)) {
-					int xpos = i * 10 + 10;
-					int ypos = 75;
-					if (i > 5) {
-						xpos -= 50;
-						ypos -= 50;
-					}
 
-					GUIButton playerButton = new GUIButton(player.name, "test", xpos, ypos, 0.1f)
-							.setOnHoverBigger(true);
-
-					choosed.put(playerButton, player);
-					nextCancelor = playerButton;
-				}
-			} else {
-				if (!player.equals(LocalPlayerHandler.localPlayer)) {
+			if (!player.equals(LocalPlayerHandler.localPlayer)) {
+				if (!player.equals(Multiplayer.activRoom.activGame.cancelor)) {
 					int xpos = i * 10 + 10;
 					int ypos = 75;
 					if (i > 5) {
@@ -82,9 +67,6 @@ public class ChooseCancelor implements MenuInterface {
 
 		buttons.add(ok);
 		buttons.add(back);
-
-		ok.setNeighbors(back, ok, ok, ok);
-		back.setNeighbors(back, ok, back, back);
 
 		activButton = ok;
 		activButton.setHovered(true);
@@ -110,7 +92,6 @@ public class ChooseCancelor implements MenuInterface {
 
 	}
 
-	@Override
 	public void enter() {
 		if (activButton != null) {
 			if (activButton == ok) {
@@ -131,65 +112,6 @@ public class ChooseCancelor implements MenuInterface {
 				nextCancelor = activButton;
 			}
 
-		}
-	}
-
-	@Override
-	public void up() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.abouve;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void down() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.down;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void left() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.left;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void right() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.right;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void keyTyped(final int keycode) {
-		switch (keycode) {
-		case Keys.UP:
-			up();
-			break;
-		case Keys.DOWN:
-			down();
-			break;
-		case Keys.LEFT:
-			left();
-			break;
-		case Keys.RIGHT:
-			right();
-			break;
-		case Keys.ENTER:
-			enter();
-			break;
 		}
 	}
 

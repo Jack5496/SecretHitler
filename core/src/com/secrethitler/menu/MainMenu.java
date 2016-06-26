@@ -26,10 +26,6 @@ public class MainMenu implements MenuInterface {
 		buttons.add(create);
 		buttons.add(options);
 
-		listRooms.setNeighbors(listRooms, listRooms, options, create);
-		create.setNeighbors(create, create, listRooms, options);
-		options.setNeighbors(options, options, create, listRooms);
-
 		activButton = listRooms;
 		activButton.setHovered(true);
 	}
@@ -47,7 +43,6 @@ public class MainMenu implements MenuInterface {
 		return activButton;
 	}
 
-	@Override
 	public void enter() {
 		if (activButton != null) {
 			if (activButton == listRooms) {
@@ -65,61 +60,6 @@ public class MainMenu implements MenuInterface {
 				Main.log(getClass(), "Switching to Options");
 				MenuHandler.setActivMenu(new OptionMenu());
 			}
-		}
-	}
-
-	@Override
-	public void up() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.abouve;
-			activButton.setHovered(true);
-		}
-		// Main.log(getClass(), "" + position);
-	}
-
-	@Override
-	public void down() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.down;
-			activButton.setHovered(true);
-			// Main.log(getClass(), "" + position);
-		}
-	}
-
-	@Override
-	public void left() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.left;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void right() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.right;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void keyTyped(final int keycode) {
-		switch (keycode) {
-		case Keys.UP:
-			up();
-			break;
-		case Keys.DOWN:
-			down();
-			break;
-		case Keys.ENTER:
-			enter();
-			break;
 		}
 	}
 

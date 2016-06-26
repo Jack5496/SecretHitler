@@ -108,16 +108,4 @@ public class GUIButton extends Button {
 		font.setColor(Color.BLACK);
 	}
 
-	public GUIButton left;
-	public GUIButton right;
-	public GUIButton abouve;
-	public GUIButton down;
-
-	public void setNeighbors(GUIButton left, GUIButton right, GUIButton abouve, GUIButton down) {
-		this.left = left;
-		this.right = right;
-		this.abouve = abouve;
-		this.down = down;
-	}
-
 }

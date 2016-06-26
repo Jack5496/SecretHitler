@@ -77,9 +77,6 @@ public class ChooseCards implements MenuInterface {
 			cardTypes.put(gesetzt3, third);
 		}
 
-		ok.setNeighbors(back, ok, ok, ok);
-		back.setNeighbors(back, ok, back, back);
-
 		activButton = ok;
 		activButton.setHovered(true);
 	}
@@ -126,7 +123,6 @@ public class ChooseCards implements MenuInterface {
 		}
 	}
 
-	@Override
 	public void enter() {
 		if (activButton != null) {
 			if (activButton == ok) {
@@ -154,65 +150,6 @@ public class ChooseCards implements MenuInterface {
 						new GUIButton("", "gesetztVerdeckt", activButton.xper, activButton.yper, cardSize));
 			}
 
-		}
-	}
-
-	@Override
-	public void up() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.abouve;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void down() {
-		if (activButton != null) {
-			activButton.setHovered(false);
-			activButton = activButton.down;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void left() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.left;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void right() {
-		if (activButton != null) {
-			// TODO Auto-generated method stub
-			activButton.setHovered(false);
-			activButton = activButton.right;
-			activButton.setHovered(true);
-		}
-	}
-
-	@Override
-	public void keyTyped(final int keycode) {
-		switch (keycode) {
-		case Keys.UP:
-			up();
-			break;
-		case Keys.DOWN:
-			down();
-			break;
-		case Keys.LEFT:
-			left();
-			break;
-		case Keys.RIGHT:
-			right();
-			break;
-		case Keys.ENTER:
-			enter();
-			break;
 		}
 	}
 
