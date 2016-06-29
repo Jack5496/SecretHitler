@@ -12,7 +12,7 @@ public class MainActivity extends AndroidApplication {
         super.onCreate(savedInstanceState);
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        cfg.useGL30 = false;
+        cfg.useGL20 = false;
         
         initialize(new Main(), cfg);
     }

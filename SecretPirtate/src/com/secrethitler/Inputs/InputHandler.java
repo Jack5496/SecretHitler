@@ -23,8 +23,8 @@ public class InputHandler implements InputProcessor, GestureListener {
 	public void updateInputLogic() {
 		updateHandlerInputs();
 	}
-
-	private void updateHandlerInputs() {
+	
+	private void updateHandlerInputs(){
 		keyboardHandler.updateInputLogic();
 	}
 
@@ -62,10 +62,16 @@ public class InputHandler implements InputProcessor, GestureListener {
 		return keyboardHandler.touchDragged(screenX, screenY, pointer);
 	}
 
+	
+
 	@Override
 	public boolean scrolled(int amount) {
 		return keyboardHandler.scrolled(amount);
 	}
+
+	
+
+	
 
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
@@ -78,51 +84,41 @@ public class InputHandler implements InputProcessor, GestureListener {
 	}
 
 	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
+	public boolean touchDown(int x, int y, int pointer) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean tap(float x, float y, int count, int button) {
+	public boolean tap(int x, int y, int count) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean longPress(float x, float y) {
+	public boolean longPress(int x, int y) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {
+	public boolean fling(float velocityX, float velocityY) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean pan(float x, float y, float deltaX, float deltaY) {
+	public boolean pan(int x, int y, int deltaX, int deltaY) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean panStop(float x, float y, int pointer, int button) {
+	public boolean touchMoved(int x, int y) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public void pinchStop() {
-		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

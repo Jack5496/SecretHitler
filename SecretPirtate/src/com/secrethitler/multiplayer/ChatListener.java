@@ -31,12 +31,12 @@ public class ChatListener implements ChatRequestListener {
 	}
 	
 	public void chat() {
-		Gdx.input.getTextInput(publicListener, "Send Message", "", null);
+		Gdx.input.getTextInput(publicListener, "Send Message", "");
 	}
 	
 	public void privateChat(LocalPlayer p){
 		privateListener = new PrivateChatInput(p);
-		Gdx.input.getTextInput(privateListener, "Private Message", "", null);
+		Gdx.input.getTextInput(privateListener, "Private Message", "");
 	}
 
 	public class ChatInput implements TextInputListener {

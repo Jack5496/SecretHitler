@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "SecretPirtate";
-		cfg.useGL30 = false;
+		cfg.useGL20 = false;
 		cfg.width = 480;
 		cfg.height = 320;
 		
