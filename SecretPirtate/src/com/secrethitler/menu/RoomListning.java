@@ -19,8 +19,8 @@ public class RoomListning implements MenuInterface {
 
 	int maxRoomsShow = 8;
 
-	GUIButton back = new GUIButton("Back", "test", 25, 80,0.2f);
-	GUIButton loadRooms = new GUIButton("Load Rooms", "test", 25, 20,0.2f);
+	GUIButton back = new GUIButton("Back", "test", 25, 80,25,false);
+	GUIButton loadRooms = new GUIButton("Load Rooms", "test", 25, 20,25,false);
 
 	HashMap<GUIButton,Room> roomsListed;
 
@@ -45,7 +45,7 @@ public class RoomListning implements MenuInterface {
 			button.render(batch);
 		}
 		
-		for (GUIButton button : roomsListed.keySet()) {
+		for (GUIButton button : new ArrayList<GUIButton>(roomsListed.keySet())) {
 			button.render(batch);
 		}
 
@@ -91,11 +91,12 @@ public class RoomListning implements MenuInterface {
 		}
 	}
 	
+	int entryHeight = 20;
+	
 	public void addLoadedRoom(Room room){
-		
 		String text = room.name+" ["+room.getPlayerAmount()+"/"+room.maxUser+"]";
-		int ypos = roomsListed.size()*-10;
-		GUIButton roomButton = new GUIButton(text,"test",80,80+ypos,0.2f);
+		int ypos = roomsListed.size()*-entryHeight;
+		GUIButton roomButton = new GUIButton(text,"test",70,80+ypos,40,entryHeight);
 		roomsListed.put(roomButton, room);
 	}
 

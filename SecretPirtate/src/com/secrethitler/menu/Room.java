@@ -34,28 +34,30 @@ public class Room implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	public GUIButton role = new GUIButton("ROLE", "test", 10, 80, 0.2f);
-	public GUIButton rolePresident = new GUIButton("President", "test", 50, 80, 0.2f);
-//	public GUIButton roleCancelor = new GUIButton("Cancelor", "test", 10, 80, 0.2f);
+	public GUIButton role = new GUIButton("ROLE", "test", 10, 80, 10, true);
+	public GUIButton rolePresident = new GUIButton("President", "test", 50, 80, 10, true);
+	// public GUIButton roleCancelor = new GUIButton("Cancelor", "test", 10, 80,
+	// 0.2f);
+
+	GUIButton faschistBoard = new GUIButton("", "spielfeldFaschist5-6", 50, 80, 80, true);
+	GUIButton liberalBoard = new GUIButton("", "spielfeldLiberal", 50, 50, 80, true);
+
+	GUIButton start = new GUIButton("START", "test", 50, 50, 50, true).setOnHoverBigger(true);
+
 	
-
-	static GUIButton faschistBoard = new GUIButton("", "spielfeldFaschist5-6", 50, 80, 0.5f);
-	static GUIButton liberalBoard = new GUIButton("", "spielfeldLiberal", 50, 50, 0.5f);
-
-	GUIButton start = new GUIButton("START", "test", 50, 50, 0.4f).setOnHoverBigger(true);
-
-	GUIButton chat = new GUIButton("Chat", "test", 70, 15, 0.2f).setOnHoverBigger(true);
-	GUIButton presidentChooseCancelor = new GUIButton("Select Cancelor", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
-			.setOnHoverBigger(true);
-	GUIButton presidentKillPlayer = new GUIButton("Kill Player", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
-			.setOnHoverBigger(true);
-	GUIButton voteForCancelor = new GUIButton("Vote for Cancelor", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
-			.setOnHoverBigger(true);
-	GUIButton presidentStart = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
-			.setOnHoverBigger(true);
-	GUIButton cancelorStart = new GUIButton("Choose", "test", 50, (faschistBoard.yper + liberalBoard.yper) / 2, 0.4f)
-			.setOnHoverBigger(true);
-	GUIButton back = new GUIButton("Back", "test", 30, 15, 0.2f).setOnHoverBigger(true);
+	GUIButton presidentChooseCancelor = new GUIButton("Select Cancelor", "test", 50,
+			(faschistBoard.centerPercentY + liberalBoard.centerPercentY) / 2, 50, true).setOnHoverBigger(true);
+	GUIButton presidentKillPlayer = new GUIButton("Kill Player", "test", 50,
+			(faschistBoard.centerPercentY + liberalBoard.centerPercentY) / 2, 50, true).setOnHoverBigger(true);
+	GUIButton voteForCancelor = new GUIButton("Vote for Cancelor", "test", 50,
+			(faschistBoard.centerPercentY + liberalBoard.centerPercentY) / 2, 50, true).setOnHoverBigger(true);
+	GUIButton presidentStart = new GUIButton("Choose", "test", 50,
+			(faschistBoard.centerPercentY + liberalBoard.centerPercentY) / 2, 50, true).setOnHoverBigger(true);
+	GUIButton cancelorStart = new GUIButton("Choose", "test", 50,
+			(faschistBoard.centerPercentY + liberalBoard.centerPercentY) / 2, 50, true).setOnHoverBigger(true);
+	
+	GUIButton back = new GUIButton("Back", "test", 30, 15, 20, true).setOnHoverBigger(true);
+	GUIButton chat = new GUIButton("Chat", "test", 70, 15, 20, true).setOnHoverBigger(true);
 
 	static float fasPlatz = 6.9f;
 	static int fasStart = 33;
@@ -63,12 +65,12 @@ public class Room implements MenuInterface {
 	public int fasictCards = 0;
 	List<GUIButton> fasictCardsList;
 
-	static GUIButton fasictGesetzt1 = new GUIButton("", "gesetztFaschist", fasStart, 80, 0.06f);
-	static GUIButton fasictGesetzt2 = new GUIButton("", "gesetztFaschist", fasStart + 1 * fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt3 = new GUIButton("", "gesetztFaschist", fasStart + 2 * fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt4 = new GUIButton("", "gesetztFaschist", fasStart + 3 * fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt5 = new GUIButton("", "gesetztFaschist", fasStart + 4 * fasPlatz, 80, 0.06f);
-	static GUIButton fasictGesetzt6 = new GUIButton("", "gesetztFaschist", fasStart + 5 * fasPlatz, 80, 0.06f);
+	GUIButton fasictGesetzt1 = new GUIButton("", "gesetztFaschist", fasStart, 80, 5, true);
+	GUIButton fasictGesetzt2 = new GUIButton("", "gesetztFaschist", fasStart + 1 * fasPlatz, 80, 5, true);
+	GUIButton fasictGesetzt3 = new GUIButton("", "gesetztFaschist", fasStart + 2 * fasPlatz, 80, 5, true);
+	GUIButton fasictGesetzt4 = new GUIButton("", "gesetztFaschist", fasStart + 3 * fasPlatz, 80, 5, true);
+	GUIButton fasictGesetzt5 = new GUIButton("", "gesetztFaschist", fasStart + 4 * fasPlatz, 80, 5, true);
+	GUIButton fasictGesetzt6 = new GUIButton("", "gesetztFaschist", fasStart + 5 * fasPlatz, 80, 5, true);
 
 	static int libPlatz = 7;
 	static int libStart = 50;
@@ -76,20 +78,20 @@ public class Room implements MenuInterface {
 	public int liberalCards = 0;
 	List<GUIButton> liberalCardsList;
 
-	static GUIButton liberalGesetzt1 = new GUIButton("", "gesetztLiberal", libStart - 2 * libPlatz, 50, 0.06f);
-	static GUIButton liberalGesetzt2 = new GUIButton("", "gesetztLiberal", libStart - 1 * libPlatz, 50, 0.06f);
-	static GUIButton liberalGesetzt3 = new GUIButton("", "gesetztLiberal", libStart, 50, 0.06f);
-	static GUIButton liberalGesetzt4 = new GUIButton("", "gesetztLiberal", libStart + 1 * libPlatz, 50, 0.06f);
-	static GUIButton liberalGesetzt5 = new GUIButton("", "gesetztLiberal", libStart + 2 * libPlatz, 50, 0.06f);
+	GUIButton liberalGesetzt1 = new GUIButton("", "gesetztLiberal", libStart - 2 * libPlatz, 50, 5, true);
+	GUIButton liberalGesetzt2 = new GUIButton("", "gesetztLiberal", libStart - 1 * libPlatz, 50, 5, true);
+	GUIButton liberalGesetzt3 = new GUIButton("", "gesetztLiberal", libStart, 50, 5, true);
+	GUIButton liberalGesetzt4 = new GUIButton("", "gesetztLiberal", libStart + 1 * libPlatz, 50, 5, true);
+	GUIButton liberalGesetzt5 = new GUIButton("", "gesetztLiberal", libStart + 2 * libPlatz, 50, 5, true);
 
 	static int coinStart = 43;
 	static float coinPlatz = 4.5f;
 	static int coindHeight = 39;
 
-	static GUIButton coin1 = new GUIButton("", "coin", coinStart, coindHeight, 0.025f);
-	static GUIButton coin2 = new GUIButton("", "coin", coinStart + 1 * coinPlatz, coindHeight, 0.025f);
-	static GUIButton coin3 = new GUIButton("", "coin", coinStart + 2 * coinPlatz, coindHeight, 0.025f);
-	static GUIButton coin4 = new GUIButton("", "coin", coinStart + 3 * coinPlatz, coindHeight, 0.025f);
+	GUIButton coin1 = new GUIButton("", "coin", coinStart, coindHeight, 5, true);
+	GUIButton coin2 = new GUIButton("", "coin", coinStart + 1 * coinPlatz, coindHeight, 5, true);
+	GUIButton coin3 = new GUIButton("", "coin", coinStart + 2 * coinPlatz, coindHeight, 5, true);
+	GUIButton coin4 = new GUIButton("", "coin", coinStart + 3 * coinPlatz, coindHeight, 5, true);
 
 	public HashMap<GUIButton, LocalPlayer> players;
 
@@ -124,34 +126,31 @@ public class Room implements MenuInterface {
 		// buttons.add(coin3);
 		// buttons.add(coin4);
 
-		activButton = chat;
-		activButton.setHovered(true);
-
 		activGame = new Game();
 	}
-	
-	public void enablePresidentChooseCancelorButton(){
+
+	public void enablePresidentChooseCancelorButton() {
 		buttons.add(presidentChooseCancelor);
 	}
-	
-	public void disablePresidentChooseCancelorButton(){
+
+	public void disablePresidentChooseCancelorButton() {
 		buttons.remove(presidentChooseCancelor);
 	}
-	
-	public void enablePresidentKillPlayerButton(){
+
+	public void enablePresidentKillPlayerButton() {
 		buttons.add(presidentKillPlayer);
 	}
-	
-	public void disablePresidentKillPlayerButton(){
+
+	public void disablePresidentKillPlayerButton() {
 		buttons.remove(presidentKillPlayer);
 	}
-	
-	public void enableVoteForCancelorButton(){
-		voteForCancelor.text = activGame.cancelor.name+" Cancelor?";
+
+	public void enableVoteForCancelorButton() {
+		voteForCancelor.label = activGame.cancelor.name + " Cancelor?";
 		buttons.add(voteForCancelor);
 	}
-	
-	public void disableVoteForCancelorButton(){
+
+	public void disableVoteForCancelorButton() {
 		buttons.remove(voteForCancelor);
 	}
 
@@ -207,7 +206,7 @@ public class Room implements MenuInterface {
 
 		int ypos = 0;
 		for (GUIButton playerButton : players.keySet()) {
-			playerButton.yper = 80 - ypos * 5;
+			playerButton.centerPercentY = 80 - ypos * 5;
 			playerButton.render(batch);
 			ypos++;
 		}
@@ -224,8 +223,7 @@ public class Room implements MenuInterface {
 			for (int i = 0; i < liberalCards; i++) {
 				liberalCardsList.get(i).render(batch);
 			}
-		}
-		else{
+		} else {
 			start.render(batch);
 		}
 	}
@@ -239,7 +237,7 @@ public class Room implements MenuInterface {
 	GUIButton lastAdded = null;
 
 	public void playerJoined(LocalPlayer p) {
-		GUIButton playerButton = new GUIButton(p.name, null, 80, 80, 0.2f);
+		GUIButton playerButton = new GUIButton(p.name, null, 80, 80, 25, true);
 		players.put(playerButton, p);
 
 		lastAdded = playerButton;
@@ -288,7 +286,7 @@ public class Room implements MenuInterface {
 
 			String label = m.getTime().getTimeInHoursMinutesFormat() + " | " + m.getSender() + ": " + m.getMessage();
 
-			GUIButton guiMessage = new GUIButton(label, null, 10, 50 - ypos * 5, 0.2f);
+			GUIButton guiMessage = new GUIButton(label, null, 10, 50 - ypos * 5, 25, true);
 			guiMessage.render(batch);
 		}
 	}
@@ -303,8 +301,8 @@ public class Room implements MenuInterface {
 				if (activButton == chat) {
 					Multiplayer.chatInRoom();
 				}
-				if(!activGame.running){
-					if(activButton==start){
+				if (!activGame.running) {
+					if (activButton == start) {
 						Main.log(getClass(), "Starte Spiel");
 						activGame.startGame();
 					}
@@ -364,7 +362,7 @@ public class Room implements MenuInterface {
 				activButton.setHovered(true);
 			}
 		}
-		if(!activGame.running){
+		if (!activGame.running) {
 			start.pressAt(x, y);
 			if (start.isPressed()) {
 				activButton = start;

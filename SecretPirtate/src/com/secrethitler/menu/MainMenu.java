@@ -15,9 +15,9 @@ public class MainMenu implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton listRooms = new GUIButton("Browse", "test", 50, 80, 0.2f).setOnHoverBigger(true);
-	GUIButton create = new GUIButton("Create", "test", 50, 50, 0.2f).setOnHoverBigger(true);
-	GUIButton options = new GUIButton("Options", "test", 50, 20, 0.2f).setOnHoverBigger(true);
+	GUIButton listRooms = new GUIButton("Browse", "test", 50, 80, 25,false).setOnHoverBigger(true);
+	GUIButton create = new GUIButton("Create", "test", 50, 50, 25,false).setOnHoverBigger(true);
+	GUIButton options = new GUIButton("Options", "test", 50, 20, 25,false).setOnHoverBigger(true);
 
 	public MainMenu() {
 		buttons = new ArrayList<GUIButton>();
@@ -25,9 +25,6 @@ public class MainMenu implements MenuInterface {
 		buttons.add(listRooms);
 		buttons.add(create);
 		buttons.add(options);
-
-		activButton = listRooms;
-		activButton.setHovered(true);
 	}
 
 	@Override

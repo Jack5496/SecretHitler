@@ -94,17 +94,17 @@ public class Game {
 		this.liberals = new ArrayList<LocalPlayer>(liberals);
 		this.fasists = new ArrayList<LocalPlayer>(fasists);
 		this.president = this.presidentOrder.get(0);
-		Multiplayer.activRoom.rolePresident.text = "President: \n" + this.president.name;
+		Multiplayer.activRoom.rolePresident.label = "President: \n" + this.president.name;
 
 		LocalPlayer me = LocalPlayerHandler.localPlayer;
 		if (me.equals(hitler)) {
-			Multiplayer.activRoom.role.text = "Hitler";
+			Multiplayer.activRoom.role.label = "Hitler";
 		}
 		if (this.liberals.contains(me)) {
-			Multiplayer.activRoom.role.text = "Liberal";
+			Multiplayer.activRoom.role.label = "Liberal";
 		}
 		if (this.fasists.contains(me)) {
-			Multiplayer.activRoom.role.text = "Fasist";
+			Multiplayer.activRoom.role.label = "Fasist";
 		}
 
 		enablePresitent();
@@ -277,7 +277,7 @@ public class Game {
 		LocalPlayer atBack = presidentOrder.remove(0);
 		president = presidentOrder.get(0);
 		presidentOrder.add(atBack);
-		Multiplayer.activRoom.rolePresident.text = president.name;
+		Multiplayer.activRoom.rolePresident.label = president.name;
 		enablePresitent();
 	}
 

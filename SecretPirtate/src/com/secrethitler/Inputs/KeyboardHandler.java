@@ -29,16 +29,24 @@ public class KeyboardHandler {
 	}
 
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		int maxY = Main.getInstance().getHeight();
+		screenY = maxY - screenY;		//Maus wird invertiert angegeben -.-
+		
+		Main.log(getClass(), "TouchUp: "+pointer+" | "+button);
 		if (button == Input.Buttons.LEFT) {
-			mouse.left.release();
+			mouse.left.press();
+//			Main.log(getClass(), "Mouse Left");
+			MenuHandler.clicked(screenX, screenY);
 		}
 		if (button == Input.Buttons.RIGHT) {
-			mouse.right.release();
+			mouse.right.press();
+			Main.log(getClass(), "Mouse Right");
 		}
 		return true;
 	}
 
 	public boolean mouseMoved(int screenX, int screenY) {
+		
 		int maxY = Main.getInstance().getHeight();
 		screenY = maxY - screenY;		//Maus wird invertiert angegeben -.-
 		
@@ -52,21 +60,21 @@ public class KeyboardHandler {
 		int maxY = Main.getInstance().getHeight();
 		screenY = maxY - screenY;		//Maus wird invertiert angegeben -.-
 		
-		if (button == Input.Buttons.LEFT) {
-			mouse.left.press();
-//			Main.log(getClass(), "Mouse Left");
-			MenuHandler.clicked(screenX, screenY);
-		}
-		if (button == Input.Buttons.RIGHT) {
-			mouse.right.press();
-			Main.log(getClass(), "Mouse Right");
-		}
+//		if (button == Input.Buttons.LEFT) {
+//			mouse.left.press();
+////			Main.log(getClass(), "Mouse Left");
+//			MenuHandler.clicked(screenX, screenY);
+//		}
+//		if (button == Input.Buttons.RIGHT) {
+//			mouse.right.press();
+//			Main.log(getClass(), "Mouse Right");
+//		}
 
 		return true;
 	}
 
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-
+		mouseMoved(screenX,screenY);
 		return true;
 	}
 

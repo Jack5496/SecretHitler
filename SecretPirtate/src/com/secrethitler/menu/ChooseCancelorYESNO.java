@@ -23,12 +23,12 @@ public class ChooseCancelorYESNO implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton ok = new GUIButton("OK", "test", 90, 25, 0.2f).setOnHoverBigger(true);
-	GUIButton back = new GUIButton("Back", "test", 90, 75, 0.2f).setOnHoverBigger(true);
+	GUIButton ok = new GUIButton("OK", "test", 90, 25, 25,true).setOnHoverBigger(true);
+	GUIButton back = new GUIButton("Back", "test", 90, 75, 25,true).setOnHoverBigger(true);
 	
-	GUIButton yes = new GUIButton("YES", "test", 25, 50, 0.2f).setOnHoverBigger(true);
-	GUIButton no = new GUIButton("NO", "test", 75, 50, 0.2f).setOnHoverBigger(true);
-	GUIButton notWant = new GUIButton("", "gesetztVerdeckt", no.xper, no.yper, no.scale);
+	GUIButton yes = new GUIButton("YES", "test", 25, 50, 25,true).setOnHoverBigger(true);
+	GUIButton no = new GUIButton("NO", "test", 75, 50, 25,true).setOnHoverBigger(true);
+	GUIButton notWant = new GUIButton("", "gesetztVerdeckt", no);
 	GUIButton wants = yes;
 	
 
@@ -41,9 +41,6 @@ public class ChooseCancelorYESNO implements MenuInterface {
 
 		buttons.add(ok);
 		buttons.add(back);
-
-		activButton = ok;
-		activButton.setHovered(true);
 	}
 
 	@Override
@@ -69,11 +66,11 @@ public class ChooseCancelorYESNO implements MenuInterface {
 			}
 			if (activButton == yes) {
 				wants = yes;
-				notWant = new GUIButton("", "gesetztVerdeckt", no.xper, no.yper, no.scale);
+				notWant = new GUIButton("", "gesetztVerdeckt", no);
 			}
 			if (activButton == no) {
 				wants = no;
-				notWant = new GUIButton("", "gesetztVerdeckt", yes.xper, yes.yper, yes.scale);
+				notWant = new GUIButton("", "gesetztVerdeckt", yes);
 			}
 
 		}

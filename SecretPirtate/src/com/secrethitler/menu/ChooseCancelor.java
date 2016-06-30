@@ -23,13 +23,13 @@ public class ChooseCancelor implements MenuInterface {
 	List<GUIButton> buttons;
 	GUIButton activButton;
 
-	GUIButton ok = new GUIButton("OK", "test", 90, 25, 0.2f).setOnHoverBigger(true);
-	GUIButton back = new GUIButton("Back", "test", 90, 75, 0.2f).setOnHoverBigger(true);
+	GUIButton ok = new GUIButton("OK", "test", 90, 25, 25, true).setOnHoverBigger(true);
+	GUIButton back = new GUIButton("Back", "test", 90, 75, 25, true).setOnHoverBigger(true);
 
 	static HashMap<GUIButton, LocalPlayer> choosed;
 	static List<GUIButton> notChoosed;
 
-	GUIButton no = new GUIButton("", "gesetztVerdeckt", 0, 0, 0);
+	GUIButton no = new GUIButton("", "gesetztVerdeckt", 0, 0, 0, 0);
 
 	GUIButton nextCancelor;
 
@@ -56,7 +56,7 @@ public class ChooseCancelor implements MenuInterface {
 						ypos -= 50;
 					}
 
-					GUIButton playerButton = new GUIButton(player.name, "test", xpos, ypos, 0.1f)
+					GUIButton playerButton = new GUIButton(player.name, "test", xpos, ypos, 10, true)
 							.setOnHoverBigger(true);
 
 					choosed.put(playerButton, player);
@@ -67,9 +67,6 @@ public class ChooseCancelor implements MenuInterface {
 
 		buttons.add(ok);
 		buttons.add(back);
-
-		activButton = ok;
-		activButton.setHovered(true);
 	}
 
 	@Override
@@ -82,9 +79,10 @@ public class ChooseCancelor implements MenuInterface {
 		// }
 		for (GUIButton button : choosed.keySet()) {
 			if (button != nextCancelor) {
-				no.xper = button.xper;
-				no.yper = button.yper;
-				no.scale = button.scale;
+				no.centerPercentX = button.centerPercentX;
+				no.centerPercentY = button.centerPercentY;
+				no.percentHeight = button.percentHeight;
+				no.percentWidth = button.percentWidth;
 				no.render(batch);
 			}
 			button.render(batch);
@@ -106,7 +104,7 @@ public class ChooseCancelor implements MenuInterface {
 				notChoosed = new ArrayList<GUIButton>();
 				for (GUIButton button : choosed.keySet()) {
 					if (activButton != button) {
-						notChoosed.add(new GUIButton("", "gesetztVerdeckt", button.xper, button.yper, button.scale));
+						notChoosed.add(new GUIButton("", "gesetztVerdeckt", button));
 					}
 				}
 				nextCancelor = activButton;

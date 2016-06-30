@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.jack5496.secrethitler.Main;
 
 public class InputHandler implements InputProcessor, GestureListener {
 
@@ -62,8 +63,6 @@ public class InputHandler implements InputProcessor, GestureListener {
 		return keyboardHandler.touchDragged(screenX, screenY, pointer);
 	}
 
-	
-
 	@Override
 	public boolean scrolled(int amount) {
 		return keyboardHandler.scrolled(amount);
@@ -85,7 +84,6 @@ public class InputHandler implements InputProcessor, GestureListener {
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

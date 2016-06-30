@@ -18,34 +18,40 @@ public class MenuHandler {
 		activMenu = menu;
 	}
 
-	static GUIButton fps = new GUIButton("", null, 90, 90,0.2f);
-	static GUIButton user = new GUIButton("", null, 10, 90,0.1f);
+	static GUIButton fps = new GUIButton("", null, 90, 90, 10, false);
+	static GUIButton user = new GUIButton("", null, 10, 90, 10, false);
 
 	public static void render(SpriteBatch batch) {
 		activMenu.render(batch);
 
-		fps.text = Gdx.graphics.getFramesPerSecond() + "";
+		fps.label = Gdx.graphics.getFramesPerSecond() + "";
 		fps.render(batch);
 
 		if (LocalPlayerHandler.playerLoggedIn()) {
-			user.text = LocalPlayerHandler.localPlayer.name;
+			user.label = LocalPlayerHandler.localPlayer.name;
 		} else {
-			user.text = "Offline";
+			user.label = "Offline";
 		}
 
 		user.render(batch);
 	}
 
-//	public static void enter() {
-//		activMenu.enter();
-//	}
+	// public static void enter() {
+	// activMenu.enter();
+	// }
 
 	public static void mouseMoved(int x, int y) {
-		activMenu.mouseMoved(x, y);
+		int xpos = (int) (((float) x / (float)Main.getInstance().getWidth())*100);
+		int ypos = (int) (((float) y / (float)Main.getInstance().getHeight())*100);
+
+		activMenu.mouseMoved(xpos, ypos);
 	}
 
 	public static void clicked(int x, int y) {
-		activMenu.clicked(x, y);
+		int xpos = (int) (((float) x / (float)Main.getInstance().getWidth())*100);
+		int ypos = (int) (((float) y / (float)Main.getInstance().getHeight())*100);
+
+		activMenu.clicked(xpos, ypos);
 	}
 
 }

@@ -16,48 +16,66 @@ public class GUIButton extends Button {
 	}
 
 	boolean hoverd;
-	public float xper;
-	public float yper;
-	public int width;
-	public int height;
 
-	private int widthSRC;
-	private int heightSRC;
+	public float centerPercentX;
+	public float centerPercentY;
+	public float percentWidth;
+	public float percentHeight;
 
-	public String text;
+	public String label;
 	public String texture;
-
-	public float scale;
 
 	public boolean onHoverBigger = false;
 
-	public GUIButton(String label, String buttonName, float xpos, float ypos, float scale) {
-		this.text = label;
-		this.xper = xpos;
-		this.yper = ypos;
+	public GUIButton(String label, String buttonName, GUIButton buttonToTakeSize) {
+		this(label, buttonName, buttonToTakeSize.centerPercentX, buttonToTakeSize.centerPercentY,
+				buttonToTakeSize.percentWidth, buttonToTakeSize.percentHeight);
+	}
+
+	public GUIButton(String label, String buttonName, float centerPercentX, float centerPercentY,
+			float percentWidthOrHeight, boolean adaptHeight) {
+		this(label, buttonName, centerPercentX, centerPercentY, percentWidthOrHeight, percentWidthOrHeight);
+
+		if (texture != null) {
+			// Texture button = ResourceLoader.getInstance().getButton(texture);
+			//
+			// float width = button.getWidth();
+			// float height = button.getHeight();
+			//
+			// if (adaptHeight) {
+			// this.percentHeight = height / width * 100;
+			// } else {
+			// this.percentWidth = width / height * 100;
+			// }
+		}
+	}
+
+	public GUIButton(String label, String buttonName, float centerPercentX, float centerPercentY, float percentWidth,
+			float percentHeight) {
+		this.label = label;
+		this.centerPercentX = centerPercentX;
+		this.centerPercentY = centerPercentY;
+		this.percentWidth = percentWidth;
+		this.percentHeight = percentHeight;
+
 		this.texture = buttonName;
-		this.scale = scale;
+
 		if (buttonName != null) {
-			Texture button = ResourceLoader.getInstance().getButton(buttonName);
-			widthSRC = button.getWidth();
-			heightSRC = button.getHeight();
+			ResourceLoader.getInstance().addToLoad(buttonName);
 		}
 
 		this.hoverd = false;
 	}
-	
-	public GUIButton setOnHoverBigger(boolean bigger){
+
+	public GUIButton setOnHoverBigger(boolean bigger) {
 		this.onHoverBigger = bigger;
 		return this;
 	}
 
 	public void pressAt(int x, int y) {
-		int xpos = (int) (Main.getInstance().getWidth() * xper / 100);
-		int ypos = (int) (Main.getInstance().getHeight() * yper / 100);
-
 		this.release();
-		if (xpos - width / 2 < x && x < xpos + width / 2) {
-			if (ypos - height / 2 < y && y < ypos + height / 2) {
+		if (centerPercentX - percentWidth / 2 < x && x < centerPercentX + percentWidth / 2) {
+			if (centerPercentY - percentHeight / 2 < y && y < centerPercentY + percentHeight / 2) {
 				this.press();
 			}
 		}
@@ -67,36 +85,36 @@ public class GUIButton extends Button {
 		this.hoverd = hoverd;
 	}
 
+	public float hoverSize = 5f;
+
 	public void render(SpriteBatch batch) {
-		float drawScale = this.scale;
-
-		if (this.hoverd) {
-			if (onHoverBigger) {
-				drawScale += 0.025f;
-			}
-			font.setColor(Color.RED);
-		}
-
-		int xpos = (int) (Main.getInstance().getWidth() * xper / 100);
-		int ypos = (int) (Main.getInstance().getHeight() * yper / 100);
+		float xpos = (Main.getInstance().getWidth() * centerPercentX / 100);
+		float ypos = (Main.getInstance().getHeight() * centerPercentY / 100);
 
 		if (texture != null) {
 			Texture button = ResourceLoader.getInstance().getButton(texture);
 
-			width = (int) (Main.getInstance().getWidth() * drawScale);
-			float xscale = (float) width / (float) button.getWidth();
-			height = (int) (button.getHeight() * xscale);
+			float percentWidth = this.percentWidth;
+			float percentHeight = this.percentHeight;
 
-			batch.draw(button, xpos - (width / 2), ypos - (height / 2), width, height);
+			if (this.hoverd) {
+				if (onHoverBigger) {
+					percentWidth += hoverSize;
+					percentHeight += hoverSize;
+				}
+				font.setColor(Color.RED);
+			}
+
+			float width = ((float) Main.getInstance().getWidth() * percentWidth / 100);
+			float height = ((float) Main.getInstance().getHeight() * percentHeight / 100);
+
+			batch.draw(button, xpos - (width/2), ypos - (height / 2), width, height);
 		}
 
-	
+		float width = font.getBounds(label).width;
+		float height = font.getBounds(label).height;
 
-		float width = 50f;// contains the width of the current set text
-		float height = 50f; // contains the height of the current set
-										// text
-
-		font.draw(batch, text, xpos - (width / 2), ypos + (height / 2)); // text
+		font.draw(batch, label, xpos - (width / 2), ypos + (height / 2)); // text
 																			// wird
 																			// nach
 																			// unten
