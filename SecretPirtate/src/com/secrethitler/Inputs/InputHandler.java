@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
-import com.jack5496.secrethitler.Main;
 
 public class InputHandler implements InputProcessor, GestureListener {
 

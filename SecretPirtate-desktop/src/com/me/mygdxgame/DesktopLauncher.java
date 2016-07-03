@@ -7,7 +7,7 @@ import com.jack5496.secrethitler.Main;
 public class DesktopLauncher {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "SecretPirtate";
+		cfg.title = Main.gameTitle;
 		cfg.useGL20 = false;
 		cfg.width = 480;
 		cfg.height = 320;

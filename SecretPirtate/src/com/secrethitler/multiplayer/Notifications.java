@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
-import com.secrethitler.entitys.LocalPlayerHandler;
 import com.secrethitler.helper.Message;
 import com.secrethitler.menu.Room;
 import com.shephertz.app42.gaming.multiplayer.client.events.ChatEvent;

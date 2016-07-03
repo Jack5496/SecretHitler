@@ -3,7 +3,6 @@ package com.secrethitler.multiplayer;
 import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
 import com.secrethitler.entitys.LocalPlayerHandler;
-import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 import com.shephertz.app42.gaming.multiplayer.client.command.WarpResponseResultCode;
 import com.shephertz.app42.gaming.multiplayer.client.events.ConnectEvent;
 import com.shephertz.app42.gaming.multiplayer.client.listener.ConnectionRequestListener;

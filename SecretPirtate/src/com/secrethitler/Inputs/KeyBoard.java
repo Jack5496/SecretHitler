@@ -1,7 +1,5 @@
 package com.secrethitler.Inputs;
 
-import com.badlogic.gdx.Input.Keys;
-
 public class KeyBoard {
 
 	private Button[] keys;
@@ -14,9 +12,9 @@ public class KeyBoard {
 	}
 
 	public boolean isPressed(String... key) {
-		for(String s : key){
+//		for(String s : key){
 //			if(key(s).isPressed()) return true;
-		}
+//		}
 		return false;
 	}
 

@@ -37,16 +37,16 @@ public class GUIButton extends Button {
 		this(label, buttonName, centerPercentX, centerPercentY, percentWidthOrHeight, percentWidthOrHeight);
 
 		if (texture != null) {
-			// Texture button = ResourceLoader.getInstance().getButton(texture);
-			//
-			// float width = button.getWidth();
-			// float height = button.getHeight();
-			//
-			// if (adaptHeight) {
-			// this.percentHeight = height / width * 100;
-			// } else {
-			// this.percentWidth = width / height * 100;
-			// }
+			Texture button = ResourceLoader.getInstance().getButton(texture);
+
+			float width = button.getWidth();
+			float height = button.getHeight();
+
+			if (adaptHeight) {
+				this.percentHeight = percentWidthOrHeight * width / height;
+			} else {
+				this.percentWidth = percentWidthOrHeight * width / height;
+			}
 		}
 	}
 
@@ -85,11 +85,13 @@ public class GUIButton extends Button {
 		this.hoverd = hoverd;
 	}
 
-	public float hoverSize = 5f;
+	public static float hoverSize = 5f;
 
 	public void render(SpriteBatch batch) {
 		float xpos = (Main.getInstance().getWidth() * centerPercentX / 100);
 		float ypos = (Main.getInstance().getHeight() * centerPercentY / 100);
+		float width = ((float) Main.getInstance().getWidth() * percentWidth / 100);
+		float height = ((float) Main.getInstance().getHeight() * percentHeight / 100);
 
 		if (texture != null) {
 			Texture button = ResourceLoader.getInstance().getButton(texture);
@@ -102,25 +104,62 @@ public class GUIButton extends Button {
 					percentWidth += hoverSize;
 					percentHeight += hoverSize;
 				}
-				font.setColor(Color.RED);
 			}
 
-			float width = ((float) Main.getInstance().getWidth() * percentWidth / 100);
-			float height = ((float) Main.getInstance().getHeight() * percentHeight / 100);
+			width = ((float) Main.getInstance().getWidth() * percentWidth / 100);
+			height = ((float) Main.getInstance().getHeight() * percentHeight / 100);
 
-			batch.draw(button, xpos - (width/2), ypos - (height / 2), width, height);
+			batch.draw(button, xpos - (width / 2), ypos - (height / 2), width, height);
 		}
 
-		float width = font.getBounds(label).width;
-		float height = font.getBounds(label).height;
+		drawLabel(batch);
 
-		font.draw(batch, label, xpos - (width / 2), ypos + (height / 2)); // text
-																			// wird
-																			// nach
-																			// unten
-																			// rechts
-																			// gezeichnet
+	}
+
+	public void drawLabel(SpriteBatch batch) {
+		float xpos = (Main.getInstance().getWidth() * centerPercentX / 100);
+		float ypos = (Main.getInstance().getHeight() * centerPercentY / 100);
+
+		String label = recalcLabelIfTooLong();
+		float labelWidth = font.getBounds(label).width;
+		float labelHeight = font.getBounds(label).height;
+
+		if (this.hoverd) {
+			font.setColor(Color.RED);
+		}
+
+		font.draw(batch, label, xpos - (labelWidth / 2), ypos + (labelHeight / 2)); // text
+		// wird
+		// nach
+		// unten
+		// rechts
+		// gezeichnet
 		font.setColor(Color.BLACK);
+	}
+
+	private String recalcLabelIfTooLong() {
+		String label = this.label;
+		float width = ((float) Main.getInstance().getWidth() * percentWidth / 100);
+		float height = ((float) Main.getInstance().getHeight() * percentHeight / 100);
+
+		float labelWidth = font.getBounds(label).width;
+		float labelHeight = font.getBounds(label).height;
+
+		String tooLong = "...";
+		boolean toLong = labelWidth > width;
+
+		if (toLong) {
+			label = label + tooLong;
+		}
+		while (labelWidth > width) {
+			label = label.substring(0, label.length() - 1 - (tooLong.length()));
+			label = label + tooLong;
+
+			labelWidth = font.getBounds(label).width;
+			labelHeight = font.getBounds(label).height;
+		}
+
+		return label;
 	}
 
 }

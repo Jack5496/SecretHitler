@@ -1,10 +1,7 @@
 package com.secrethitler.Inputs;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
 import com.jack5496.secrethitler.Main;
-import com.secrethitler.entitys.LocalPlayer;
 import com.secrethitler.menu.MenuHandler;
 
 public class KeyboardHandler {
@@ -25,7 +22,7 @@ public class KeyboardHandler {
 	}
 
 	public void updateLeftStick() {
-		Vector2 dir = new Vector2(0, 0);
+//		Vector2 dir = new Vector2(0, 0);
 	}
 
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {

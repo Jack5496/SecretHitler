@@ -1,22 +1,11 @@
 package com.secrethitler.menu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
-
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.jack5496.secrethitler.Main;
 import com.secrethitler.entitys.LocalPlayer;
-import com.secrethitler.entitys.LocalPlayerHandler;
-import com.secrethitler.game.Game;
-import com.secrethitler.helper.Message;
 import com.secrethitler.multiplayer.Multiplayer;
-import com.secrethitler.multiplayer.Notifications;
 import com.secrethitler.uiElements.GUIButton;
-import com.shephertz.app42.gaming.multiplayer.client.events.RoomData;
 
 public class ChooseCancelorYESNO implements MenuInterface {
 

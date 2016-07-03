@@ -3,7 +3,6 @@ package com.secrethitler.multiplayer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.jack5496.secrethitler.Main;
-import com.secrethitler.Inputs.InputListener;
 import com.secrethitler.entitys.LocalPlayer;
 import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 import com.shephertz.app42.gaming.multiplayer.client.listener.ChatRequestListener;

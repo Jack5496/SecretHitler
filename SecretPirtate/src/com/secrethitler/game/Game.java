@@ -135,6 +135,7 @@ public class Game {
 
 	public void startAsPresident() {
 		MenuHandler.setActivMenu(new ChooseCards(card1, card2, card3));
+		resetDrawCards();
 	}
 
 	String card1;
@@ -263,7 +264,7 @@ public class Game {
 			if (nextPresident) {
 				if (getFasictAmountOnBoard() == 4
 						|| getFasictAmountOnBoard() == 5 && playedCard.equals(ResourceLoader.fasictCard)) {
-					if(this.president.equals(LocalPlayerHandler.localPlayer)){
+					if (this.president.equals(LocalPlayerHandler.localPlayer)) {
 						Multiplayer.activRoom.enablePresidentKillPlayerButton();
 					}
 				} else {
@@ -387,11 +388,15 @@ public class Game {
 					fasictWon();
 				} else {
 					if (Multiplayer.activRoom.activGame.president.equals(LocalPlayerHandler.localPlayer)) {
-						card1 = drawCard();
-						card2 = drawCard();
-						card3 = drawCard();
+						if (card1 == null && card2 == null && card3 == null) {
+							card1 = drawCard();
+							card2 = drawCard();
+							card3 = drawCard();
+						}
 						updateCardsAndDiscards(false, null);
 						Multiplayer.activRoom.enablePresidentButton();
+					} else {
+						resetDrawCards();
 					}
 				}
 			} else {

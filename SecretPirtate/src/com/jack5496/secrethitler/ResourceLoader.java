@@ -1,11 +1,10 @@
 package com.jack5496.secrethitler;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-
-import sun.net.www.content.image.png;
 
 public class ResourceLoader {
 
@@ -13,10 +12,13 @@ public class ResourceLoader {
 
 	public static ResourceLoader instance;
 
+	public static HashMap<String, Texture> textures;
+
 	public ResourceLoader() {
 		instance = this;
 		assets = new AssetManager();
 		Texture.setEnforcePotImages(false); // Ignore Power of 2 Limitations
+		textures = new HashMap<String, Texture>();
 	}
 
 	public static ResourceLoader getInstance() {
@@ -55,10 +57,19 @@ public class ResourceLoader {
 	}
 
 	public Texture getButton(String name) {
-//		Texture texture = getTexture(buttons + name + ".png");
-		 Texture texture = new Texture(Gdx.files.internal(buttons + name +
-		 ".png"));
-		return texture;
+		// Texture texture = getTexture(buttons + name + ".png");
+		
+		
+		if (!textures.containsKey(name)) {
+			Main.log(getClass(), name);
+			Texture texture = new Texture(Gdx.files.internal(buttons + name + ".png"));
+			textures.put(name, texture);
+		}
+
+		return textures.get(name);
+
+		//Böse jedes mal eine neue Texture zu erstellen
+//		return new Texture(Gdx.files.internal(buttons + name + ".png"));	
 	}
 
 }

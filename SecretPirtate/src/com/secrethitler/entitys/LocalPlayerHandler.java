@@ -26,7 +26,7 @@ public class LocalPlayerHandler {
 			extraMessage = "We need a Username";
 		}
 		
-		Gdx.input.getTextInput(listener, "Player Name", "");
+		Gdx.input.getTextInput(listener, extraMessage, "");
 	}
 
 	public static void openPlayerNameInput() {
